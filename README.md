@@ -3,7 +3,7 @@ CAB302 Fun and more.
 
 # Book Club Organizer
 
-## Project Overview
+## [Project Overview](https://docs.google.com/document/d/1Ls_yoGWLoRUlNkhaGPD8qo73fY2QtFzXepvobcM5MFw/edit)
 
 **Intended Audience:** Book club members and organizers  
 **Project Goal:** To streamline the process of organizing and managing book club meetings.  
