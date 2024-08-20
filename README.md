@@ -124,3 +124,5 @@ CAB302 Fun and more.
   1. Package the application for deployment.
   2. Write user documentation for key features.
   3. Write technical documentation covering the architecture, database schema, and code structure.
+
+### Extras if needed
