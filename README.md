@@ -1,7 +1,7 @@
 # Organizer
 CAB302 Fun and more.
 
-# Book Club Organizer (GPT Spew)
+# Book Club Organizer
 
 ## Project Overview
 
