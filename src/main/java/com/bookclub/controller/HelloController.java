@@ -1,4 +1,4 @@
-package com.example.organizer;
+package com.bookclub.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

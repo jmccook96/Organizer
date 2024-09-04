@@ -1,128 +1,101 @@
-# Organizer
-CAB302 Fun and more.
+# BookClubApp
 
-# Book Club Organizer
+## Overview
+This is a JavaFX-based desktop application for organizing and managing book clubs. The application is built using the Model-View-Controller (MVC) pattern, with the backend logic written in Java and the UI defined using FXML. The project structure is organized to promote modularity and ease of maintenance.
 
-## [Project Overview](https://docs.google.com/document/d/1Ls_yoGWLoRUlNkhaGPD8qo73fY2QtFzXepvobcM5MFw/edit)
+## Directory Layout
 
-**Intended Audience:** Book club members and organizers  
-**Project Goal:** To streamline the process of organizing and managing book club meetings.  
-**Broader Stakeholders:** Libraries, bookstores, and literary societies.
+The following describes the planned directory layout of the project:
 
-## Key Features
+```plaintext
+BookClubApp/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── bookclub/
+│   │   │           ├── Main.java
+│   │   │           ├── controller/
+│   │   │           │   ├── MainController.java
+│   │   │           │   ├── HomeController.java
+│   │   │           │   ├── BookClubsController.java
+│   │   │           │   ├── BooksController.java
+│   │   │           │   ├── EventsController.java
+│   │   │           │   ├── ProfileController.java
+│   │   │           │   └── ChatController.java
+│   │   │           ├── model/
+│   │   │           │   ├── User.java
+│   │   │           │   ├── BookClub.java
+│   │   │           │   ├── Book.java
+│   │   │           │   ├── Event.java
+│   │   │           │   └── Review.java
+│   │   │           ├── dao/
+│   │   │           │   ├── UserDAO.java
+│   │   │           │   ├── BookClubDAO.java
+│   │   │           │   ├── BookDAO.java
+│   │   │           │   ├── EventDAO.java
+│   │   │           │   └── ReviewDAO.java
+│   │   │           ├── util/
+│   │   │           │   └── DatabaseManager.java
+│   │   │           └── service/
+│   │   │               ├── UserService.java
+│   │   │               ├── BookClubService.java
+│   │   │               ├── BookService.java
+│   │   │               ├── EventService.java
+│   │   │               └── ReviewService.java
+│   │   └── resources/
+│   │       └── com/
+│   │           └── bookclub/
+│   │               ├── main.fxml
+│   │               ├── home.fxml
+│   │               ├── book_clubs.fxml
+│   │               ├── books.fxml
+│   │               ├── events.fxml
+│   │               ├── profile.fxml
+│   │               └── chat.fxml
+└── pom.xml
+```
+------------------------------------------
+## Directory Breakdown
 
-- User authentication (Sign-Up/Sign-In)
-- Event creation and management
-- Reading progress tracking
-- Book recommendations and reviews
-- Collaboration and discussion tools
-- Data persistence with a database
+### `src/main/java/com/bookclub/`
+- **`Main.java`**: The entry point of the application. It initializes the JavaFX application and loads the primary FXML layout.
 
-## Components Breakdown
+### `src/main/java/com/bookclub/controller/`
+- **Purpose**: Contains all controller classes that handle user interactions and update the UI.
+- **Files**:
+  - `MainController.java`: Manages the main layout and handles navigation between different screens.
+  - `HomeController.java`, `BookClubsController.java`, etc.: Controllers for individual screens.
 
-### 1. Authentication System
-- **Components:**
-  - Sign-Up Window: Allows new users to create an account.
-  - Sign-In Window: Allows existing users to log in.
-  - User Model: Stores user information like username, password (hashed), and profile details.
-  - Persistency: Store user data in a database (e.g., SQLite, MySQL).
+### `src/main/java/com/bookclub/model/`
+- **Purpose**: Contains data classes representing the core entities of the application.
+- **Files**:
+  - `User.java`: Represents a user with attributes like username, password, email, etc.
+  - `BookClub.java`: Represents a book club with attributes like club name, members, current book, etc.
+  - `Book.java`: Represents a book with attributes like title, author, rating, etc.
+  - `Event.java`: Represents an event with attributes like date, time, location, etc.
+  - `Review.java`: Represents a book review with attributes like rating, comment, reviewer, etc.
 
-- **Tickets:**
-  1. Create User Model and DAO (Data Access Object) for user-related database operations.
-  2. Implement Sign-Up Window with form validation and database integration.
-  3. Implement Sign-In Window with authentication logic and error handling.
-  4. Encrypt passwords before storing them in the database.
-  5. Implement password recovery feature (optional).
+### `src/main/java/com/bookclub/dao/`
+- **Purpose**: Contains classes responsible for interacting with the SQLite database. They perform CRUD (Create, Read, Update, Delete) operations for each model.
+- **Files**:
+  - `UserDAO.java`, `BookClubDAO.java`, `BookDAO.java`, etc.: DAO classes for managing database operations for their corresponding models.
 
-### 2. Main Dashboard
-- **Components:**
-  - Dashboard Window: Central hub where users can access different features.
-  - Navigation Menu: Links to different sections like Events, Progress Tracker, Recommendations, etc.
+### `src/main/java/com/bookclub/util/`
+- **Purpose**: Contains utility classes that provide common functionalities used across the application.
+- **Files**:
+  - `DatabaseManager.java`: Manages the SQLite database connection, initializes the database schema, and provides utility methods for database interactions.
 
-- **Tickets:**
-  1. Design the Dashboard Window with navigation menus.
-  2. Implement the navigation logic to switch between different sections.
-  3. Add user profile information to the dashboard.
+### `src/main/java/com/bookclub/service/`
+- **Purpose**: Contains service classes that encapsulate the business logic of the application. They interact with DAOs and perform operations required by the controllers.
+- **Files**:
+  - `UserService.java`, `BookClubService.java`, `BookService.java`, etc.: Service classes that handle business logic for their respective domains.
 
-### 3. Event Management
-- **Components:**
-  - Event Creation Window: Allows users to create new book club events.
-  - Event List Window: Displays upcoming and past events.
-  - Event Model: Stores event details like date, time, location, and participants.
-  - Event Notifications: Notify users about upcoming events.
+### `src/main/resources/com/bookclub/`
+- **Purpose**: Contains all FXML files that define the UI layouts for different screens.
+- **Files**:
+  - `main.fxml`: The main layout containing the quick access menu bar and the placeholder for dynamic content.
+  - `home.fxml`, `book_clubs.fxml`, `books.fxml`, etc.: FXML files for each screen layout.
 
-- **Tickets:**
-  1. Create Event Model and DAO for event-related database operations.
-  2. Implement Event Creation Window with form validation.
-  3. Design and implement Event List Window to show all events.
-  4. Implement event notification logic (email or in-app notifications).
-  5. Implement event editing and deletion functionalities.
-
-### 4. Reading Progress Tracker
-- **Components:**
-  - Progress Tracker Window: Allows users to log and track their reading progress.
-  - Book Model: Stores book information like title, author, and current progress.
-  - Progress Model: Stores progress details like pages read, last read date, etc.
-
-- **Tickets:**
-  1. Create Book and Progress Models and corresponding DAOs.
-  2. Implement Progress Tracker Window with options to add/update/delete progress entries.
-  3. Link progress entries to specific events (optional).
-  4. Implement a feature to visualize progress (e.g., progress bars or charts).
-
-### 5. Book Recommendations and Reviews
-- **Components:**
-  - Recommendation Window: Allows users to recommend books to others.
-  - Review Window: Allows users to write and view reviews for books.
-  - Review Model: Stores reviews and ratings for books.
-
-- **Tickets:**
-  1. Create Review Model and DAO for storing book reviews.
-  2. Implement Recommendation Window with book search and recommendation options.
-  3. Design and implement Review Window for writing/viewing reviews.
-  4. Implement a feature to like/dislike or comment on reviews.
-
-### 6. Collaboration Features
-- **Components:**
-  - Discussion Forum: Allows users to discuss books and events.
-  - Chat Window: Real-time chat for book club members.
-  - File Sharing: Allows sharing files (e.g., PDFs, images) related to book discussions.
-
-- **Tickets:**
-  1. Implement a basic discussion forum using a database to store threads and comments.
-  2. Integrate a third-party library or API for real-time chat (e.g., WebSocket).
-  3. Implement file upload/download functionality with proper validation.
-
-### 7. Persistency and Database Setup
-- **Components:**
-  - Database Schema: Design the database schema to store users, events, books, progress, reviews, etc.
-  - Database Connection: Implement the logic for connecting to the database.
-
-- **Tickets:**
-  1. Design and create the database schema.
-  2. Implement database connection logic in Java.
-  3. Ensure that all models have corresponding DAOs for database operations.
-  4. Implement unit tests for database interactions.
-
-### 8. Final Integration and Testing
-- **Components:**
-  - Integration: Ensure all components work together seamlessly.
-  - Testing: Write unit tests, integration tests, and perform user acceptance testing (UAT).
-
-- **Tickets:**
-  1. Integrate all components into a cohesive application.
-  2. Write unit and integration tests for each component.
-  3. Perform UAT with sample users to identify any issues.
-  4. Fix bugs and optimize performance based on feedback.
-
-### 9. Deployment and Documentation
-- **Components:**
-  - Deployment: Package the application for distribution (e.g., JAR file, installer).
-  - Documentation: Write user guides and technical documentation.
-
-- **Tickets:**
-  1. Package the application for deployment.
-  2. Write user documentation for key features.
-  3. Write technical documentation covering the architecture, database schema, and code structure.
-
-### Extras if needed
+### `pom.xml`
+- The Maven Project Object Model file, which manages project dependencies, build configurations, and other settings.
