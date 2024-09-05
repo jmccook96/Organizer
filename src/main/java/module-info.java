@@ -2,7 +2,11 @@ module com.example.organizer {
     requires javafx.controls;
     requires javafx.fxml;
 
+    opens com.bookclub.controller to javafx.fxml;
+    exports com.bookclub.controller;
 
-    opens com.example.organizer to javafx.fxml;
-    exports com.example.organizer;
+    exports com.bookclub;
+    opens com.bookclub to javafx.fxml;
+    exports com.bookclub.model;
+    opens com.bookclub.model to javafx.fxml;
 }
