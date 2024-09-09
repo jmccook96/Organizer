@@ -18,7 +18,6 @@ BookClubApp/
 │   │   │           ├── controller/
 │   │   │           │   ├── MainController.java
 │   │   │           │   ├── HomeController.java
-│   │   │           │   ├── BookClubsController.java
 │   │   │           │   ├── BooksController.java
 │   │   │           │   ├── EventsController.java
 │   │   │           │   ├── ProfileController.java
@@ -31,10 +30,19 @@ BookClubApp/
 │   │   │           │   └── Review.java
 │   │   │           ├── dao/
 │   │   │           │   ├── UserDAO.java
-│   │   │           │   ├── BookClubDAO.java
 │   │   │           │   ├── BookDAO.java
 │   │   │           │   ├── EventDAO.java
 │   │   │           │   └── ReviewDAO.java
+│   │   │           ├── mao/
+│   │   │           │   ├── UserMAO.java
+│   │   │           │   ├── BookMAO.java
+│   │   │           │   ├── EventMAO.java
+│   │   │           │   └── ReviewMAO.java
+│   │   │           ├── iao/
+│   │   │           │   ├── IUserAO.java
+│   │   │           │   ├── IBookAO.java
+│   │   │           │   ├── IEventAO.java
+│   │   │           │   └── IReviewAO.java
 │   │   │           ├── util/
 │   │   │           │   └── DatabaseManager.java
 │   │   │           └── service/
@@ -65,21 +73,30 @@ BookClubApp/
 - **Purpose**: Contains all controller classes that handle user interactions and update the UI.
 - **Files**:
   - `MainController.java`: Manages the main layout and handles navigation between different screens.
-  - `HomeController.java`, `BookClubsController.java`, etc.: Controllers for individual screens.
+  - `HomeController.java`, etc.: Controllers for individual screens.
 
 ### `src/main/java/com/bookclub/model/`
 - **Purpose**: Contains data classes representing the core entities of the application.
 - **Files**:
   - `User.java`: Represents a user with attributes like username, password, email, etc.
-  - `BookClub.java`: Represents a book club with attributes like club name, members, current book, etc.
   - `Book.java`: Represents a book with attributes like title, author, rating, etc.
   - `Event.java`: Represents an event with attributes like date, time, location, etc.
   - `Review.java`: Represents a book review with attributes like rating, comment, reviewer, etc.
 
+### `src/main/java/com/bookclub/iao/`
+- **Purpose**: Contains interfaces for classes responsible for database interaction.
+- **Files**:
+  - `IUserAO.java`, `IBookDAO.java`, etc.: Interface for database operations for their corresponding models.
+
 ### `src/main/java/com/bookclub/dao/`
 - **Purpose**: Contains classes responsible for interacting with the SQLite database. They perform CRUD (Create, Read, Update, Delete) operations for each model.
 - **Files**:
-  - `UserDAO.java`, `BookClubDAO.java`, `BookDAO.java`, etc.: DAO classes for managing database operations for their corresponding models.
+  - `UserDAO.java`, `BookDAO.java`, etc.: DAO classes for managing database operations for their corresponding models.
+
+### `src/main/java/com/bookclub/mao/`
+- **Purpose**: Contains classes responsible for mocking the interaction with the SQLite database. They perform CRUD (Create, Read, Update, Delete) operations for each model.
+- **Files**:
+  - `UserMAO.java`, `BookMAO.java`, etc.: MAO classes for managing mock database operations for their corresponding models.
 
 ### `src/main/java/com/bookclub/util/`
 - **Purpose**: Contains utility classes that provide common functionalities used across the application.
@@ -95,7 +112,7 @@ BookClubApp/
 - **Purpose**: Contains all FXML files that define the UI layouts for different screens.
 - **Files**:
   - `main.fxml`: The main layout containing the quick access menu bar and the placeholder for dynamic content.
-  - `home.fxml`, `book_clubs.fxml`, `books.fxml`, etc.: FXML files for each screen layout.
+  - `home.fxml`, `books.fxml`, etc.: FXML files for each screen layout.
 
 ### `pom.xml`
 - The Maven Project Object Model file, which manages project dependencies, build configurations, and other settings.
