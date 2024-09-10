@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bookclub.controller.LoginController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <Label text="Username: " layoutX="50" layoutY="100" />
+        <TextField fx:id="usernameField" layoutX="150" layoutY="100" />
+
+        <Label text="Password:" layoutX="50" layoutY="150" />
+        <PasswordField fx:id="passwordField" layoutX="150" layoutY="150" />
+
+        <Button text="Login" layoutX="150" layoutY="200" onAction="#handleLogin" />
+        
+        <!--// TODO: Migrate Register to open a different screen. -->
+        <Button text="Register" layoutX="250" layoutY="200" onAction="#handleRegister" />
+    </children> 
+    
+</AnchorPane>
