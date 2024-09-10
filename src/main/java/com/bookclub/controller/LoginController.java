@@ -2,6 +2,8 @@ package com.bookclub.controller;
 
 import com.bookclub.mao.UserMAO;
 import com.bookclub.service.LoginService;
+import com.bookclub.util.SceneHelper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -21,22 +23,23 @@ public class LoginController {
     }
     
     @FXML
-    public void handleLogin() {
+    public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
         
         if (loginService.authenticate(username, password)) {
             // Successful login
             showAlert("Login successfufl.", "Welcome " + username + "!");
-            // TODO: Navigate to home screen.
+            SceneHelper.getInstance().switchScene(event, "/com/bookclub/main.fxml");
         } else {
             showAlert("Login Failed.", "Incorrect username or password.");
-            // TODO: Offer password reset or something.
+           // TODO: Offer password reset or something?
         }
     }
     
     @FXML
     public void handleRegister() {
+        // TODO: Transition to a register screen.
         String username = usernameField.getText();
         String password = passwordField.getText();
         // TODO: Additional mandated data on sign up here.
