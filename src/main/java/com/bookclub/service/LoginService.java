@@ -12,11 +12,11 @@ public class LoginService {
     
     public boolean authenticate(String username, String password) {
         User user = userAO.findUserByUsername(username);
-        return user != null; // && user.getPassword().equals(password);
+        return user != null && user.getPassword().equals(password);
     }
     
     public boolean register(String username, String password) {
-        User newUser = new User(); // TODO: Populate when constructor is done.
+        User newUser = new User("testUser", "testPassword");
         return userAO.addUser(newUser) || userAO.updateUser(newUser);
     }
 }

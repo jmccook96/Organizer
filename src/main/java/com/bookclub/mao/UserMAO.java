@@ -15,7 +15,7 @@ public class UserMAO implements IUserAO {
     }
     
     private void addTestData() {
-        users.put("testUser", new User());
+        users.put("testUser", new User("testUser", "testPassword"));
     }
     
     @Override
