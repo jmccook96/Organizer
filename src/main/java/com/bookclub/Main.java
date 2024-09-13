@@ -13,7 +13,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
-        
         // Get screen size to default application to a quarter of the screen
         // Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
         

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
+<?import org.controlsfx.control.Rating?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bookclub.controller.ReviewController"
+            prefHeight="400.0" prefWidth="600.0">
+
+        <children>
+            <VBox>
+                <Label text="Submit a new rating:"/>
+                <!-- 5 stars selection -->
+                <HBox spacing="5">
+                    <Rating fx:id="ratingControl" max="5" updateOnHover="true"/>
+                </HBox>
+                <Button text="Submit" onAction="#handleSubmitReview"/>
+                <ListView fx:id="ratingsList" prefHeight="150" />
+            </VBox>
+
+        </children>
+
+</AnchorPane>
