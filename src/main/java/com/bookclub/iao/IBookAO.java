@@ -7,6 +7,12 @@ import java.util.List;
 public interface IBookAO {
 
     /**
+     * Retrieves a list of all books from the database
+     * @return All books found in the database, or null if not found.
+     */
+    List<Book> findAllBooks();
+
+    /**
      * Retrieves a book from the database based on the title and author
      * @param title The title of the book to retrieve
      * @param author The author of the book to retrieve

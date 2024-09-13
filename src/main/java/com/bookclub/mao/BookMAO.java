@@ -25,6 +25,10 @@ public class BookMAO implements IBookAO {
         books.add(new Book("testTitle", "George Orwell"));
     }
 
+    public List<Book> findAllBooks() {
+        return books;
+    }
+
     public Book findBookByTitleAndAuthor(String title, String author) {
         for (Book book : books) {
             if (book.getTitle().equals(title) && book.getAuthor().equals(author)) {

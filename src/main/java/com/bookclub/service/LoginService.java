@@ -5,6 +5,7 @@ import com.bookclub.model.User;
 
 public class LoginService {
     private IUserAO userAO;
+    private static User currentUser;
     
     public LoginService(IUserAO userAO) {
         this.userAO = userAO;
@@ -12,11 +13,19 @@ public class LoginService {
     
     public boolean authenticate(String username, String password) {
         User user = userAO.findUserByUsername(username);
-        return user != null && user.getPassword().equals(password);
+        if (user != null && user.getPassword().equals(password)) {
+            currentUser = user;
+            return true;
+        }
+        return false;
     }
     
     public boolean register(String username, String password) {
         User newUser = new User("testUser", "testPassword");
         return userAO.addUser(newUser) || userAO.updateUser(newUser);
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 }

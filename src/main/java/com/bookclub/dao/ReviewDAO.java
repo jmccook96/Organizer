@@ -1,49 +1,46 @@
 package com.bookclub.dao;
 
-import com.bookclub.iao.IBookAO;
+import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
+import com.bookclub.model.Review;
+import com.bookclub.model.User;
 import com.bookclub.util.DatabaseManager;
 import java.util.List;
 
-public class BookDAO implements IBookAO {
+public class ReviewDAO implements IReviewAO {
 
     private DatabaseManager dbManager;
 
-    public BookDAO() {
+    public ReviewDAO() {
         dbManager = DatabaseManager.getInstance();
     }
 
-    public List<Book> findAllBooks() {
+    public Review findReviewByUserAndBook(User user, Book book) {
         // TODO: Add query
         return null;
     }
 
-    public Book findBookByTitleAndAuthor(String title, String author) {
+    public List<Review> findReviewsByUser(User user) {
         // TODO: Add query
         return null;
     }
 
-    public List<Book> findBooksByTitle(String title) {
+    public List<Review> findReviewsByBook(Book book) {
         // TODO: Add query
         return null;
     }
 
-    public List<Book> findBooksByAuthor(String author) {
-        // TODO: Add query
-        return null;
-    }
-
-    public boolean addBook(Book book) {
+    public boolean addReview(Review review) {
         // TODO: Add query
         return true;
     }
 
-    public boolean updateBook(Book book) {
+    public boolean updateReview(Review review) {
         // TODO: Add query
         return true;
     }
 
-    public boolean deleteBook(Book book) {
+    public boolean deleteReview(Review review) {
         // TODO: Add query
         return true;
     }
