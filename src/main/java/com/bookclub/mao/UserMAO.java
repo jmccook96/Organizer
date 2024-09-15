@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserMAO implements IUserAO {
-    private Map<String, User> users;
+    private final Map<String, User> users;
     
     public UserMAO() {
         users = new HashMap<>();
-        addTestData();
+        // addTestData();
     }
     
     private void addTestData() {
@@ -25,22 +25,23 @@ public class UserMAO implements IUserAO {
 
     @Override
     public boolean addUser(User user) {
-        // return users.put(user.getUsername(), user);
-        return true;
+        return users.put(user.getUsername(), user) != null;
     }
 
     @Override
     public boolean updateUser(User user) {
-        User oldUser = null; // findUserByUsername(user.getUsername()));
+        User oldUser = findUserByUsername(user.getUsername());
         if (oldUser == null)
             return false;
         
-        // return users.replace(user.getUsername(), oldUser, user);
-        return true;
+        return users.replace(user.getUsername(), oldUser, user);
     }
+    
+    @Override
+    public boolean hasUser(User user) { return users.containsKey(user.getUsername()); }
 
     @Override
     public boolean deleteUser(User user) {
-        return users.remove(user) != null;
+        return user != null && users.remove(user) != null;
     }
 }
