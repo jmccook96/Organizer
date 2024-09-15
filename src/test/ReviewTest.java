@@ -46,33 +46,28 @@ public class ReviewTest {
     // Edge cases
     @Test
     public void testSetRatingInvalidLowValue() {
-        // Test negative rating value (assuming rating should be positive)
         assertThrows(IllegalArgumentException.class, () -> review.setRating(-1));
     }
 
     @Test
     public void testSetRatingInvalidHighValue() {
-        // Test an extremely high rating value (assuming rating should be within a specific range)
         assertThrows(IllegalArgumentException.class, () -> review.setRating(11));
     }
 
     @Test
     public void testNullUser() {
-        // Test behavior when the user is null
         Review nullUserReview = new Review(null, book, 3);
         assertNull(nullUserReview.getUser());
     }
 
     @Test
     public void testNullBook() {
-        // Test behavior when the book is null
         Review nullBookReview = new Review(user, null, 3);
         assertNull(nullBookReview.getBook());
     }
 
     @Test
     public void testZeroRating() {
-        // Test rating set to zero
         review.setRating(0);
         assertEquals(0, review.getRating());
     }
