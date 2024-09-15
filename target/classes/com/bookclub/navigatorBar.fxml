@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/fxml"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bookclub.controller.NavigatorBarController"
+      alignment="CENTER_LEFT" prefHeight="-Infinity">
+<VBox xmlns="http://javafx.com/fxml"
+      spacing="1" alignment="CENTER" prefWidth="55">
+    <Button text="Account" onAction="#navigateAccount" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button text="Books" onAction="#navigateBooks" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button text="Home" onAction="#navigateHome" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button text="Events" onAction="#navigateEvents" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button text="Chat" onAction="#navigateChat" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+</VBox>
+    <Separator orientation="VERTICAL" HBox.hgrow="NEVER"/>
+</HBox>
