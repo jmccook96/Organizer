@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/fxml"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bookclub.controller.HeaderController"
+      alignment="CENTER" prefHeight="-Infinity"
+      spacing="10"
+      style="-fx-background-color: lightblue;">
+    <Label fx:id="headerTitle" text="Default Title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+</HBox>
