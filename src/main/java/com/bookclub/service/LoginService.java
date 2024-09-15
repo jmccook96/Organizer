@@ -21,8 +21,8 @@ public class LoginService {
     }
     
     public boolean register(String username, String password) {
-        User newUser = new User("testUser", "testPassword");
-        return userAO.addUser(newUser) || userAO.updateUser(newUser);
+        User newUser = new User(username, password);
+        return userAO.addUser(newUser);
     }
 
     public static User getCurrentUser() {

@@ -26,6 +26,13 @@ public interface IUserAO {
     boolean updateUser(User user);
 
     /**
+     * Checks if a user is contained.
+     * @param user to find.
+     * @return If a user with the given username is found.
+     */
+    boolean hasUser(User user);
+
+    /**
      * Removes a user from the database.
      * @param user
      * @return If operation succeeded
