@@ -2,7 +2,8 @@ package com.bookclub.controller;
 
 import com.bookclub.mao.UserMAO;
 import com.bookclub.service.LoginService;
-import com.bookclub.util.SceneHelper;
+import com.bookclub.util.StageFactory;
+import com.bookclub.util.StageView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -30,7 +31,7 @@ public class LoginController {
         if (loginService.authenticate(username, password)) {
             // Successful login
             showAlert("Login successfufl.", "Welcome " + username + "!");
-            SceneHelper.getInstance().switchScene(event, "/com/bookclub/main.fxml");
+            StageFactory.getInstance().switchScene(StageView.MAIN);
         } else {
             showAlert("Login Failed.", "Incorrect username or password.");
            // TODO: Offer password reset or something?
