@@ -1,6 +1,6 @@
 package com.bookclub.controller;
 
-import com.bookclub.mao.UserMAO;
+import com.bookclub.dao.UserDAO; // Use UserDAO instead of UserMAO
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
@@ -12,47 +12,51 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
     private LoginService loginService;
-    
-    @FXML 
-    private PasswordField passwordField;
+
     @FXML
-    private TextField usernameField;
-    
+    private TextField usernameField;  // Add @FXML annotation
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private TextField emailField;  // Add the email field
+
     public LoginController() {
-        // TODO: Swap to UserDAO.
-        loginService = new LoginService(new UserMAO());
+        // Use UserDAO instead of UserMAO for real database operations
+        loginService = new LoginService(new UserDAO()); // Replaced UserMAO with UserDAO
     }
-    
+
     @FXML
     public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        
+
         if (loginService.authenticate(username, password)) {
             // Successful login
-            showAlert("Login successfufl.", "Welcome " + username + "!");
+            showAlert("Login Successful", "Welcome " + username + "!");
             StageFactory.getInstance().switchScene(StageView.MAIN);
         } else {
-            showAlert("Login Failed.", "Incorrect username or password.");
-           // TODO: Offer password reset or something?
+            showAlert("Login Failed", "Incorrect username or password.");
+            // TODO: Offer password reset or additional actions
         }
     }
-    
+
     @FXML
     public void handleRegister() {
         // TODO: Transition to a register screen.
         String username = usernameField.getText();
         String password = passwordField.getText();
-        // TODO: Additional mandated data on sign up here.
-        
-        if (loginService.register(username, password)) {
-            showAlert("Registration Successful", "User registered: " + username + ".\nPlease login to continue.");
+        String email = emailField.getText();  // Capture email
+        // TODO: Additional data required for sign-up
+
+        if (loginService.register(username, password, email)) {
+            showAlert("Registration Successful", "User registered: " + username + ". Please login.");
         } else {
-            showAlert("Registration Failed!", "Reason goes here.");
+            showAlert("Registration Failed", "Registration failed. Please try again.");
         }
-            
     }
-    
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

@@ -3,6 +3,13 @@ package com.bookclub.mao;
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import com.bookclub.util.DatabaseManager;
+
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +22,25 @@ public class UserMAO implements IUserAO {
     
     @Override
     public User findUserByUsername(String username) {
-        return users.get(username);
+        String sql = "SELECT * FROM Users WHERE Username = ?";
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new User(
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("Name"),
+                        rs.getString("Email"),
+                        rs.getString("Settings")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

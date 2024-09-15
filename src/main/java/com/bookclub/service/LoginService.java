@@ -19,11 +19,15 @@ public class LoginService {
         }
         return false;
     }
-    
-    public boolean register(String username, String password) {
-        User newUser = new User(username, password);
+
+    public boolean register(String username, String password, String email) {
+        if (userAO.findUserByUsername(username) != null) {
+            return false; // Username already exists
+        }
+        User newUser = new User(username, password, email);  // Pass email
         return userAO.addUser(newUser);
     }
+
 
     public static User getCurrentUser() {
         return currentUser;
