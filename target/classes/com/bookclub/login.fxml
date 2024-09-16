@@ -8,20 +8,23 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bookclub.controller.LoginController"
-            prefHeight="400.0" prefWidth="600.0">
-
+            fx:controller="com.bookclub.controller.LoginController">
     <children>
-        <Label text="Username: " layoutX="50" layoutY="100" />
+        <!-- Username Field -->
+        <Label text="Username:" layoutX="50" layoutY="100" />
         <TextField fx:id="usernameField" layoutX="150" layoutY="100" />
 
+        <!-- Password Field -->
         <Label text="Password:" layoutX="50" layoutY="150" />
         <PasswordField fx:id="passwordField" layoutX="150" layoutY="150" />
 
-        <Button text="Login" layoutX="150" layoutY="200" onAction="#handleLogin" />
-        
-        <!--// TODO: Migrate Register to open a different screen. -->
-        <Button text="Register" layoutX="250" layoutY="200" onAction="#handleRegister" />
-    </children> 
-    
+        <!-- Email Field -->
+        <Label text="Email:" layoutX="50" layoutY="200" />
+        <TextField fx:id="emailField" layoutX="150" layoutY="200" /> <!-- New email field -->
+
+        <!-- Buttons -->
+        <Button text="Login" layoutX="150" layoutY="250" onAction="#handleLogin" />
+        <Button text="Register" layoutX="250" layoutY="250" onAction="#handleRegister" />
+    </children>
 </AnchorPane>
+

@@ -14,17 +14,17 @@ public class LoginController {
     private LoginService loginService;
 
     @FXML
-    private TextField usernameField;  // Add @FXML annotation
+    private TextField usernameField;
 
     @FXML
     private PasswordField passwordField;
 
     @FXML
-    private TextField emailField;  // Add the email field
+    private TextField emailField;
 
     public LoginController() {
-        // Use UserDAO instead of UserMAO for real database operations
-        loginService = new LoginService(new UserDAO()); // Replaced UserMAO with UserDAO
+
+        loginService = new LoginService(new UserDAO());
     }
 
     @FXML
