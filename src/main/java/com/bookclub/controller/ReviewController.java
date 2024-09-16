@@ -5,6 +5,8 @@ import com.bookclub.mao.ReviewMAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.service.LoginService;
+import com.bookclub.util.StageFactory;
+import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -15,6 +17,7 @@ import java.util.List;
 public class ReviewController {
 
     private IReviewAO reviewAO;
+    private Book selectedBook;
     @FXML
     private Rating ratingControl;
     @FXML
@@ -27,12 +30,8 @@ public class ReviewController {
 
     @FXML
     public void initialize() {
-        List<Review> reviews = reviewAO.findReviewsByUser(LoginService.getCurrentUser());
-        if (reviews != null) {
-            for (Review review : reviews) {
-                ratingsList.getItems().add(new Rating(5, review.getRating()));
-            }
-        }
+        selectedBook = BooksController.getSelectedBook();
+        updateRatings();
     }
 
     @FXML
@@ -42,10 +41,29 @@ public class ReviewController {
             showAlert("Review submit failed", "A rating must be selected!");
         }
         else {
-            showAlert("Review submitted", "You rated: " + rating + " stars");
-            // TODO: Change to non hard coded Book object
-            Review review = new Review(LoginService.getCurrentUser(), new Book("testTitle", "testAuthor"), rating);
+            showAlert("Review submitted", "You rated " + selectedBook + ": " + rating + " stars");
+            Review review = new Review(LoginService.getCurrentUser(), selectedBook, rating);
             reviewAO.addReview(review);
+            updateRatings();
+        }
+    }
+
+    @FXML
+    private void handleBackButton() {
+        // Switch back to the book list view
+        StageFactory.getInstance().switchScene(StageView.BOOKS);
+    }
+
+    private void updateRatings() {
+        List<Review> reviews = reviewAO.findReviewsByBook(selectedBook);
+        if (reviews != null) {
+            ratingsList.getItems().clear(); // Clear current ratings
+            for (Review review : reviews) {
+                ratingsList.getItems().add(new Rating(5, review.getRating()));
+            }
+        }
+        else {
+            showAlert("No Book Selected", "No book was selected to show reviews for.");
         }
     }
 
