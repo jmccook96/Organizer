@@ -9,7 +9,7 @@ public interface IEventAO {
      * Retrieves a list of all events from the database
      * @return All events found in the database, or null if not found.
      */
-    public List<Event> findAllEvents() 
+    public List<Event> findAllEvents();
 
     /**
      * Retrieves a event from the database based on the title and organiser
