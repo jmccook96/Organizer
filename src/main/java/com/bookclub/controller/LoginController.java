@@ -31,7 +31,7 @@ public class LoginController {
         if (loginService.authenticate(username, password)) {
             // Successful login
             showAlert("Login successfufl.", "Welcome " + username + "!");
-            StageFactory.getInstance().switchScene(StageView.MAIN);
+            StageFactory.getInstance().switchScene(StageView.HOME);
         } else {
             showAlert("Login Failed.", "Incorrect username or password.");
            // TODO: Offer password reset or something?
@@ -43,12 +43,11 @@ public class LoginController {
         // TODO: Transition to a register screen.
         String username = usernameField.getText();
         String password = passwordField.getText();
-        // TODO: Additional mandated data on sign up here.
         
         if (loginService.register(username, password)) {
             showAlert("Registration Successful", "User registered: " + username + ".\nPlease login to continue.");
         } else {
-            showAlert("Registration Failed!", "Reason goes here.");
+            showAlert("Registration Failed!", "TODO: EXPLAIN WHY");
         }
             
     }
