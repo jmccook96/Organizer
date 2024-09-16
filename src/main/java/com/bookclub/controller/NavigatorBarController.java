@@ -20,7 +20,7 @@ public class NavigatorBarController {
         }
         
         public void navigateAccount() {
-            navigateTest();
+            StageFactory.getInstance().switchScene(StageView.ACCOUNT_SETTINGS);
         }
         
         public void navigateEvents() {
