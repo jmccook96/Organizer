@@ -18,14 +18,14 @@ public interface IReviewAO {
     /**
      * Retrieves a list of reviews from the database based on the user
      * @param user The user to retrieve reviews for
-     * @return The reviews by the given user, or null if not found.
+     * @return A list of reviews by the given user.
      */
     List<Review> findReviewsByUser(User user);
 
     /**
      * Retrieves a list of reviews from the database based on the book
      * @param book The book to retrieve reviews for
-     * @return The reviews for the given book, or null if not found.
+     * @return A list of reviews for the given book.
      */
     List<Review> findReviewsByBook(Book book);
 
