@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bookclub.controller.EventsController"
+            prefHeight="400.0" prefWidth="600.0">
+    <!-- Left Mounted Quick Access Menu -->
+    <left>
+        <fx:include source="navigatorBar.fxml"/>
+    </left>
+    <center>
+        <Label text="Select an event to view or edit." />
+        <HBox VBox.vgrow="ALWAYS" spacing="20.0">
+            <VBox spacing="10.0">
+                <ListView fx:id="eventList"  />
+                <HBox spacing="10.0">
+                    <Button text="New" onAction="#handleAdd" maxWidth="Infinity"/>
+                </HBox>
+            </VBox>
+            <VBox spacing="10.0" prefWidth="400">
+                <Label text="Enter event details below." />
+                <GridPane hgap="5.0" vgap="5.0" >
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="70" />
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <Label text="Event Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label text="Event Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label text="Event Time:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label text="Event Location" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <TextField fx:id="eventNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="true"/>
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label text="Hour:"/>
+                        <Spinner fx:id="hourSpinner" maxWidth="80" editable="true"/>
+                        <Label text="Minute:"/>
+                        <Spinner fx:id="minuteSpinner" maxWidth="80" editable="true"/>
+                    </HBox>
+                    <TextField fx:id="eventLocationField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                </GridPane>
+                <HBox spacing="10.0" alignment="CENTER">
+                    <Button text="Confirm" onAction="#handleConfirm"/>
+                    <Button text="Cancel" onAction="#handleCancel"/>
+                    <Button text="Delete" onAction="#handleDelete"/>
+                </HBox>
+            </VBox>
+        </HBox>
+    </center>
+
+</BorderPane>

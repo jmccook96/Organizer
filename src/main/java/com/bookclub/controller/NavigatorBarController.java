@@ -24,7 +24,7 @@ public class NavigatorBarController {
         }
         
         public void navigateEvents() {
-            navigateTest();
+            StageFactory.getInstance().switchScene(StageView.EVENTS);
         }
         
         public void navigateChat() {

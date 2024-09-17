@@ -1,25 +1,44 @@
 package com.bookclub.model;
 
+import java.time.LocalDateTime;
+
 public class Event {
 
-    private String event;
+    private int id;
+    private String name;
     private String organizer;
-    private String date;
+    private LocalDateTime dateTime;
     private String location;
 
-    public Event(String title, String organizer, String date, String location) {
-        this.event = title;
+    public Event(int id, String name, String organizer, LocalDateTime dateTime, String location) {
+        this.id = id;
+        this.name = name;
         this.organizer = organizer;
-        this.date = date;
+        this.dateTime = dateTime;
         this.location = location;
     }
 
-    public String getEvent() {
-        return event;
+    public Event(String name, String organizer, LocalDateTime dateTime, String location) {
+        this.name = name;
+        this.organizer = organizer;
+        this.dateTime = dateTime;
+        this.location = location;
     }
 
-    public void setEvent(String event) {
-        this.event = event;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getOrganizer() {
@@ -30,12 +49,12 @@ public class Event {
         this.organizer = organizer;
     }
 
-    public String getDate() {
-        return date;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getLocation() {
@@ -48,6 +67,14 @@ public class Event {
 
     @Override
     public String toString() {
-        return event + " created by " + organizer + " Date " + date + " at " + location;
+        return name + " created by " + organizer + " Date " + dateTime + " at " + location;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Event) {
+            return ((Event) obj).name.equals(this.name) && ((Event) obj).organizer.equals(this.organizer) && ((Event) obj).dateTime.equals(this.dateTime) && ((Event) obj).location.equals(this.location);
+        }
+        return false;
     }
 }

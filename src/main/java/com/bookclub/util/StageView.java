@@ -5,7 +5,7 @@ public enum StageView {
     HOME("/com/bookclub/home.fxml"),
     //BOOK_CLUBS("/com/bookclub/book_clubs.fxml"),
     BOOKS("/com/bookclub/books.fxml"),
-    //EVENTS("/com/bookclub/events.fxml"),
+    EVENTS("/com/bookclub/events.fxml"),
     ACCOUNT_SETTINGS("/com/bookclub/accountSettings.fxml"),
     //CHAT("/com/bookclub/chat.fxml")
     REVIEWS("/com/bookclub/review.fxml")

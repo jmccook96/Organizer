@@ -1,11 +1,13 @@
 package com.bookclub.mao;
 
+import com.bookclub.iao.IEventAO;
 import com.bookclub.model.Event;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventMAO {
+public class EventMAO  implements IEventAO {
     private List<Event> events;
 
     public EventMAO() {
@@ -14,37 +16,41 @@ public class EventMAO {
     }
 
     private void addTestData() {
-        events.add(new Event("It bookclub meeting", "Bob Jane", "02/10/2024","1234 library court"));
-        events.add(new Event("The Shining bookclub meeting", "Bob Jane", "03/10/2024","1234 library court"));
-        events.add(new Event("testTitle bookclub meeting", "Bob Jane", "04/10/2024","1234 library court"));
-        events.add(new Event("1994 bookclub meeting", "Bob Jane", "05/10/2024","1234 library court"));
-        events.add(new Event("Animal Farm bookclub meeting", "Bob Jane", "06/010/2024","1234 library court"));
-        events.add(new Event("testTitle bookclub meeting", "Bob Jane", "07/10/2024","1234 library court"));
+        events.add(new Event("It bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 1, 30),"1234 library court"));
+        events.add(new Event("The Shining bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 3, 2, 30),"1234 library court"));
+        events.add(new Event("testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 4, 3, 30),"1234 library court"));
+        events.add(new Event("1994 bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 13, 30),"1234 library court"));
+        events.add(new Event("Animal Farm bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 6, 14, 30),"1234 library court"));
+        events.add(new Event("testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 7, 15, 30),"1234 library court"));
     }
 
+    @Override
     public List<Event> findAllEvents() {
         return events;
     }
 
-    public Event findEventByTitleAndOrganizer(String title, String organizer) {
+    @Override
+    public Event findEventByNameOrganizerDateTimeAndLocation(String name, String organizer, LocalDateTime dateTime, String location) {
         for (Event event : events) {
-            if (event.getEvent().equals(title) && event.getOrganizer().equals(organizer)) {
+            if (event.getName().equals(name) && event.getOrganizer().equals(organizer) && event.getDateTime().equals(dateTime) && event.getLocation().equals(location)) {
                 return event;
             }
         }
         return null;
     }
 
-    public List<Event> findEventsByTitle(String title) {
-        List<Event> eventsByTitle = new ArrayList<>();
+    @Override
+    public List<Event> findEventsByName(String name) {
+        List<Event> eventsByName = new ArrayList<>();
         for (Event event : events) {
-            if (event.getEvent().equals(title)) {
-                eventsByTitle.add(event);
+            if (event.getName().equals(name)) {
+                eventsByName.add(event);
             }
         }
-        return eventsByTitle.isEmpty() ? null : eventsByTitle;
+        return eventsByName;
     }
 
+    @Override
     public List<Event> findEventsByOrganizer(String organizer) {
         List<Event> eventsByOrganizer = new ArrayList<>();
         for (Event event : events) {
@@ -52,9 +58,10 @@ public class EventMAO {
                 eventsByOrganizer.add(event);
             }
         }
-        return eventsByOrganizer.isEmpty() ? null : eventsByOrganizer;
+        return eventsByOrganizer;
     }
 
+    @Override
     public List<Event> findEventsByLocation(String location) {
         List<Event> eventsByLocation = new ArrayList<>();
         for (Event event : events) {
@@ -62,27 +69,31 @@ public class EventMAO {
                 eventsByLocation.add(event);
             }
         }
-        return eventsByLocation.isEmpty() ? null : eventsByLocation;
+        return eventsByLocation;
     }
 
-    public List<Event> findEventsByDate(String date) {
-        List<Event> eventsByDate = new ArrayList<>();
+    @Override
+    public List<Event> findEventsByDateTime(LocalDateTime dateTime) {
+        List<Event> eventsByDateTime = new ArrayList<>();
         for (Event event : events) {
-            if (event.getDate().equals(date)) {
-                eventsByDate.add(event);
+            if (event.getDateTime().equals(dateTime)) {
+                eventsByDateTime.add(event);
             }
         }
-        return eventsByDate.isEmpty() ? null : eventsByDate;
+        return eventsByDateTime;
     }
 
+    @Override
     public boolean addEvent(Event event) {
         return events.add(event);
     }
 
-    public boolean updateBook(Event event) {
-        return events.set(events.indexOf(findEventByTitleAndOrganizer(event.getEvent(), event.getOrganizer())), event) != null;
+    @Override
+    public boolean updateEvent(Event event) {
+        return events.set(events.indexOf(findEventByNameOrganizerDateTimeAndLocation(event.getName(), event.getOrganizer(), event.getDateTime(), event.getLocation())), event) != null;
     }
 
+    @Override
     public boolean deleteEvent(Event event) {
         return events.remove(event);
     }
