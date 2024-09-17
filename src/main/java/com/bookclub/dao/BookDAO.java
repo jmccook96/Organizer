@@ -23,6 +23,16 @@ public class BookDAO implements IBookAO {
         return null;
     }
 
+    public List<Book> findBooksByBookID(Integer bookid){
+        // TODO: Add query
+        return null;
+    }
+
+    public List<Book> findBooksByGenre(String genre){
+        // TODO: Add query
+        return null;
+    }
+
     public List<Book> findBooksByTitle(String title) {
         // TODO: Add query
         return null;
