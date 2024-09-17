@@ -73,4 +73,12 @@ public class Book {
     public String toString() {
         return title + " by " + author;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Book) {
+            return ((Book) obj).getTitle().equals(this.getTitle()) && ((Book) obj).getAuthor().equals(this.getAuthor());
+        }
+        return false;
+    }
 }
