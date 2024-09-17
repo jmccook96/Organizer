@@ -43,7 +43,7 @@ public class EventsController {
 
     private ListCell<Event> renderCell(ListView<Event> eventList) {
         return new ListCell<>() {
-            private void onContactSelected(MouseEvent mouseEvent) {
+            private void onEventSelected(MouseEvent mouseEvent) {
                 ListCell<Event> clickedCell = (ListCell<Event>) mouseEvent.getSource();
                 Event selectedEvent = clickedCell.getItem();
                 if (selectedEvent != null) selectEvent(selectedEvent);
@@ -55,7 +55,7 @@ public class EventsController {
                 // If the cell is empty, set the text to null, otherwise set it to the event's name
                 if (empty || event == null || event.getName() == null) {
                     setText(null);
-                    super.setOnMouseClicked(this::onContactSelected);
+                    super.setOnMouseClicked(this::onEventSelected);
                 }
                 else {
                     setText(event.getName());
