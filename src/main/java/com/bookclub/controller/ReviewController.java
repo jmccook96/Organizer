@@ -24,7 +24,6 @@ public class ReviewController {
     private ListView<Rating> ratingsList;
 
     public ReviewController() {
-        // TODO: Swap to ReviewDAO
         reviewAO = new ReviewDAO();
     }
 
