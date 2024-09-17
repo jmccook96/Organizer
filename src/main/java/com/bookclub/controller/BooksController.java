@@ -57,6 +57,7 @@ public class BooksController {
             updateBooks();
             titleField.clear();
             authorField.clear();
+            System.out.println("Book added successfully.");
         }
         else {
             showAlert("Failed", "Book must have a title and author.");
