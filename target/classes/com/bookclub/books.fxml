@@ -6,15 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bookclub.controller.BooksController"
             prefHeight="400.0" prefWidth="600.0">
+
     <!-- Left Mounted Quick Access Menu -->
     <left>
         <fx:include source="navigatorBar.fxml"/>
     </left>
     <center>
-        <ListView fx:id="booksList" prefHeight="150" />
+        <VBox spacing="20" alignment="CENTER">
+            <VBox spacing="10">
+                <Label text="Add a new book:"/>
+                <TextField fx:id="titleField" promptText="Enter title"/>
+                <TextField fx:id="authorField" promptText="Enter author"/>
+                <Button text="Add" onAction="#handleAddBook" />
+            </VBox>
+            <VBox>
+                <ListView fx:id="booksList" prefHeight="150" />
+            </VBox>
+        </VBox>
     </center>
 </BorderPane>

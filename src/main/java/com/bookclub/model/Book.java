@@ -7,6 +7,7 @@ package com.bookclub.model;
  */
 public class Book {
 
+    private int id;
     private String title;
     private String author;
 
@@ -21,6 +22,44 @@ public class Book {
     public Book(String title, String author) {
         setTitle(title);
         setAuthor(author);
+    }
+
+    /**
+     * Constructs a {@code Book} object with the specified id, title and author.
+     * id must be greater than or equal to 1, and title and author must be non-null and non-empty.
+     *
+     * @param id the id of the book
+     * @param title  the title of the book
+     * @param author the author of the book
+     * @throws IllegalArgumentException if the id is less than 1, or title or author is null or empty
+     */
+    public Book(int id, String title, String author) {
+        setId(id);
+        setTitle(title);
+        setAuthor(author);
+    }
+
+    /**
+     * Returns the id of the book.
+     *
+     * @return the id of the book
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id of the book.
+     * The id must be greater than or equal to 1.
+     *
+     * @param id the new id of the book
+     * @throws IllegalArgumentException if the id is less than 1
+     */
+    public void setId(int id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Id cannot be less than 1");
+        }
+        this.id = id;
     }
 
     /**

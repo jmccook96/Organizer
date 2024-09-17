@@ -20,15 +20,17 @@ public class BookMAO implements IBookAO {
         books.add(new Book("It", "Stephen King"));
         books.add(new Book("The Shining", "Stephen King"));
         books.add(new Book("testTitle", "Stephen King"));
-        books.add(new Book("1994", "George Orwell"));
+        books.add(new Book("1984", "George Orwell"));
         books.add(new Book("Animal Farm", "George Orwell"));
         books.add(new Book("testTitle", "George Orwell"));
     }
 
+    @Override
     public List<Book> findAllBooks() {
         return books;
     }
 
+    @Override
     public Book findBookByTitleAndAuthor(String title, String author) {
         for (Book book : books) {
             if (book.getTitle().equals(title) && book.getAuthor().equals(author)) {
@@ -38,6 +40,7 @@ public class BookMAO implements IBookAO {
         return null;
     }
 
+    @Override
     public List<Book> findBooksByTitle(String title) {
         List<Book> booksByTitle = new ArrayList<>();
         for (Book book : books) {
@@ -45,9 +48,10 @@ public class BookMAO implements IBookAO {
                 booksByTitle.add(book);
             }
         }
-        return booksByTitle.isEmpty() ? null : booksByTitle;
+        return booksByTitle;
     }
 
+    @Override
     public List<Book> findBooksByAuthor(String author) {
         List<Book> booksByAuthor = new ArrayList<>();
         for (Book book : books) {
@@ -55,17 +59,20 @@ public class BookMAO implements IBookAO {
                 booksByAuthor.add(book);
             }
         }
-        return booksByAuthor.isEmpty() ? null : booksByAuthor;
+        return booksByAuthor;
     }
 
+    @Override
     public boolean addBook(Book book) {
         return books.add(book);
     }
 
+    @Override
     public boolean updateBook(Book book) {
         return books.set(books.indexOf(findBookByTitleAndAuthor(book.getTitle(), book.getAuthor())), book) != null;
     }
 
+    @Override
     public boolean deleteBook(Book book) {
         return books.remove(book);
     }
