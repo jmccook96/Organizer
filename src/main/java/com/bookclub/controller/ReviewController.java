@@ -1,7 +1,7 @@
 package com.bookclub.controller;
 
+import com.bookclub.dao.ReviewDAO;
 import com.bookclub.iao.IReviewAO;
-import com.bookclub.mao.ReviewMAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.service.LoginService;
@@ -25,7 +25,7 @@ public class ReviewController {
 
     public ReviewController() {
         // TODO: Swap to ReviewDAO
-        reviewAO = new ReviewMAO();
+        reviewAO = new ReviewDAO();
     }
 
     @FXML
@@ -57,7 +57,7 @@ public class ReviewController {
     private void updateRatings() {
         if (selectedBook != null) {
             List<Review> reviews = reviewAO.findReviewsByBook(selectedBook);
-            if (reviews != null) {
+            if (!reviews.isEmpty()) {
                 ratingsList.getItems().clear(); // Clear current ratings
                 for (Review review : reviews) {
                     ratingsList.getItems().add(new Rating(5, review.getRating()));

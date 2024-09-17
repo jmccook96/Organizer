@@ -48,7 +48,7 @@ public class ReviewMAO implements IReviewAO {
                 reviewsByUser.add(review);
             }
         }
-        return reviewsByUser.isEmpty() ? null : reviewsByUser;
+        return reviewsByUser;
     }
 
     public List<Review> findReviewsByBook(Book book) {
@@ -58,7 +58,7 @@ public class ReviewMAO implements IReviewAO {
                 reviewsByBook.add(review);
             }
         }
-        return reviewsByBook.isEmpty() ? null : reviewsByBook;
+        return reviewsByBook;
     }
 
     public boolean addReview(Review review) {
