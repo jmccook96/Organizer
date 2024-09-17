@@ -12,11 +12,11 @@
       alignment="CENTER_LEFT" prefHeight="-Infinity">
 <VBox xmlns="http://javafx.com/fxml"
       spacing="1" alignment="CENTER" prefWidth="55">
-    <Button text="Account" onAction="#navigateAccount" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="Books" onAction="#navigateBooks" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="Home" onAction="#navigateHome" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="Events" onAction="#navigateEvents" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="Chat" onAction="#navigateChat" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button fx:id="accountButton" text="Account" onAction="#navigateAccount" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button fx:id="booksButton" text="Books" onAction="#navigateBooks" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button fx:id="homeButton" text="Home" onAction="#navigateHome" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button fx:id="eventsButton" text="Events" onAction="#navigateEvents" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button fx:id="chatButton" text="Chat" onAction="#navigateChat" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>    
 </VBox>
     <Separator orientation="VERTICAL" HBox.hgrow="NEVER"/>
 </HBox>
