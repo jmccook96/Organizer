@@ -8,7 +8,7 @@ public interface IBookAO {
 
     /**
      * Retrieves a list of all books from the database
-     * @return All books found in the database, or null if not found.
+     * @return A list of all books found in the database.
      */
     List<Book> findAllBooks();
 
@@ -23,14 +23,14 @@ public interface IBookAO {
     /**
      * Retrieves a list of books from the database based on the title
      * @param title The title of the books to retrieve
-     * @return The books with the given title, or null if not found.
+     * @return A list of books with the given title.
      */
     List<Book> findBooksByTitle(String title);
 
     /**
      * Retrieves a list of books from the database based on the author
      * @param author The author of the books to retrieve
-     * @return The books with the given author, or null if not found.
+     * @return A list of books by the given author.
      */
     List<Book> findBooksByAuthor(String author);
 

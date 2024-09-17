@@ -55,11 +55,13 @@ public class ReviewController {
     }
 
     private void updateRatings() {
-        List<Review> reviews = reviewAO.findReviewsByBook(selectedBook);
-        if (reviews != null) {
-            ratingsList.getItems().clear(); // Clear current ratings
-            for (Review review : reviews) {
-                ratingsList.getItems().add(new Rating(5, review.getRating()));
+        if (selectedBook != null) {
+            List<Review> reviews = reviewAO.findReviewsByBook(selectedBook);
+            if (reviews != null) {
+                ratingsList.getItems().clear(); // Clear current ratings
+                for (Review review : reviews) {
+                    ratingsList.getItems().add(new Rating(5, review.getRating()));
+                }
             }
         }
         else {
@@ -70,6 +72,7 @@ public class ReviewController {
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
