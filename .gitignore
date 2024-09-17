@@ -76,3 +76,8 @@ encodings.xml
 jarRepositories.xml
 misc.xml
 modules.xml
+
+# Ignore database files
+*.db
+*.sqlite
+*.sqlite3
