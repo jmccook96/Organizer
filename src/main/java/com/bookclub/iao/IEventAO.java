@@ -20,11 +20,26 @@ public interface IEventAO {
     public Event findEventByTitleAndOrganizer(String title, String organizer);
 
     /**
+
      * Retrieves a event from the database based on the description
      * @param description The title of the event to retrieve
      * @return The event with the given description, or null if not found.
      */
     List<Event> findEventsByDescription(String description);
+
+     * Retrieves an event from the database based on the ecentid
+     * @param eventid The eventid of the event to retrieve
+     * @return The event with the given eventid, or null if not found.
+     */
+    public List<Event> findEventsByEventID(Integer eventid);
+
+    /**
+     * Retrieves an event from the database based on the description
+     * @param description The description of the event to retrieve
+     * @return The event with the given description, or null if not found.
+     */
+    public List<Event> findEventsByDescription(String description);
+
 
     /**
      * Retrieves a event from the database based on the title
@@ -66,7 +81,7 @@ public interface IEventAO {
      * @param event The event with information to update.
      * @return If operation succeeded
      */
-    public boolean updateBook(Event event);
+    public boolean updateEvent(Event event);
 
     /**
      * Removes a event from the database.

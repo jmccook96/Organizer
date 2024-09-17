@@ -6,9 +6,17 @@ public class Event {
     private String organizer;
     private String date;
     private String location;
+
     private String description;
 
     public Event(String title, String organizer, String date, String location, String Description) {
+
+    private Integer eventid;
+    private String description;
+
+    public Event(String title, String organizer, String date, String location) {
+        this.eventid = eventid;
+
         this.event = title;
         this.organizer = organizer;
         this.date = date;
@@ -18,6 +26,14 @@ public class Event {
 
     public String getEvent() {
         return event;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getEventID() {
+        return eventid;
     }
 
     public void setEvent(String event) {

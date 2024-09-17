@@ -61,7 +61,16 @@ public class BookDAO implements IBookAO {
         return null;
     }
 
-    @Override
+    public List<Book> findBooksByBookID(Integer bookid){
+        // TODO: Add query
+        return null;
+    }
+
+    public List<Book> findBooksByGenre(String genre){
+        // TODO: Add query
+        return null;
+    }
+
     public List<Book> findBooksByTitle(String title) {
         List<Book> books = new ArrayList<>();
         try {

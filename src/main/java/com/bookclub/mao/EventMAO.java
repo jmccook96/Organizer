@@ -14,12 +14,14 @@ public class EventMAO {
     }
 
     private void addTestData() {
+
         events.add(new Event("It bookclub meeting", "Bob Jane", "02/10/2024","1234 library court","description"));
         events.add(new Event("The Shining bookclub meeting", "Bob Jane", "03/10/2024","1234 library court","description"));
         events.add(new Event("testTitle bookclub meeting", "Bob Jane", "04/10/2024","1234 library court","description"));
         events.add(new Event("1994 bookclub meeting", "Bob Jane", "05/10/2024","1234 library court","description"));
         events.add(new Event("Animal Farm bookclub meeting", "Bob Jane", "06/010/2024","1234 library court","description"));
         events.add(new Event("testTitle bookclub meeting", "Bob Jane", "07/10/2024","1234 library court","description"));
+
     }
 
     public List<Event> findAllEvents() {
@@ -34,7 +36,6 @@ public class EventMAO {
         }
         return null;
     }
-
     public List<Event> findEventsByDescription(String description) {
         List<Event> eventsByDescription = new ArrayList<>();
         for (Event event : events) {
@@ -43,6 +44,7 @@ public class EventMAO {
             }
         }
         return eventsByDescription.isEmpty() ? null : eventsByDescription;
+
     }
 
     public List<Event> findEventsByTitle(String title) {
@@ -53,6 +55,16 @@ public class EventMAO {
             }
         }
         return eventsByTitle.isEmpty() ? null : eventsByTitle;
+    }
+
+    public List<Event> findEventsByDescription(String description) {
+        List<Event> eventsByDescription = new ArrayList<>();
+        for (Event event : events) {
+            if (event.getDescription().equals(description)) {
+                eventsByDescription.add(event);
+            }
+        }
+        return eventsByDescription.isEmpty() ? null : eventsByDescription;
     }
 
     public List<Event> findEventsByOrganizer(String organizer) {
@@ -89,7 +101,7 @@ public class EventMAO {
         return events.add(event);
     }
 
-    public boolean updateBook(Event event) {
+    public boolean updateEvent(Event event) {
         return events.set(events.indexOf(findEventByTitleAndOrganizer(event.getEvent(), event.getOrganizer())), event) != null;
     }
 

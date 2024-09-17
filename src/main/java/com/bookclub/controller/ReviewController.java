@@ -5,8 +5,6 @@ import com.bookclub.mao.ReviewMAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.service.LoginService;
-import com.bookclub.util.StageFactory;
-import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -17,7 +15,6 @@ import java.util.List;
 public class ReviewController {
 
     private IReviewAO reviewAO;
-    private Book selectedBook;
     @FXML
     private Rating ratingControl;
     @FXML
@@ -30,8 +27,12 @@ public class ReviewController {
 
     @FXML
     public void initialize() {
-        selectedBook = BooksController.getSelectedBook();
-        updateRatings();
+        List<Review> reviews = reviewAO.findReviewsByUser(LoginService.getCurrentUser());
+        if (reviews != null) {
+            for (Review review : reviews) {
+                ratingsList.getItems().add(new Rating(5, review.getRating()));
+            }
+        }
     }
 
     @FXML
@@ -41,8 +42,9 @@ public class ReviewController {
             showAlert("Review submit failed", "A rating must be selected!");
         }
         else {
-            showAlert("Review submitted", "You rated " + selectedBook + ": " + rating + " stars");
-            Review review = new Review(LoginService.getCurrentUser(), selectedBook, rating);
+            showAlert("Review submitted", "You rated: " + rating + " stars");
+            // TODO: Change to non hard coded Book object
+            Review review = new Review(LoginService.getCurrentUser(), new Book(1,"testTitle", "testAuthor","testgenre"), rating);
             reviewAO.addReview(review);
             updateRatings();
         }
@@ -66,6 +68,7 @@ public class ReviewController {
         }
         else {
             showAlert("No Book Selected", "No book was selected to show reviews for.");
+
         }
     }
 

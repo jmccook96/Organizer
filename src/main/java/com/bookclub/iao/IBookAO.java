@@ -21,9 +21,18 @@ public interface IBookAO {
     Book findBookByTitleAndAuthor(String title, String author);
 
     /**
+
+     * Retrieves a list of books from the database based on the bookid
+     * @param bookid The bookid of the books to retrieve
+     * @return The books with the given bookid, or null if not found.
+     */
+    List<Book> findBooksByBookID(Integer bookid);
+
+    /**
      * Retrieves a list of books from the database based on the genre
-     * @param genre The title of the books to retrieve
-     * @return A list of books with the given genre.
+     * @param genre The genre of the books to retrieve
+     * @return The books with the given genre, or null if not found.
+
      */
     List<Book> findBooksByGenre(String genre);
 
