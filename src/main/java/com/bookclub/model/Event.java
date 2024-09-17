@@ -45,7 +45,7 @@ public class Event {
         return organizer;
     }
 
-    public void setOrganizer(String author) {
+    public void setOrganizer(String organizer) {
         this.organizer = organizer;
     }
 
