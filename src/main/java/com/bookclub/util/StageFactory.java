@@ -18,7 +18,6 @@ import java.util.Map;
 public class StageFactory {
     private static StageFactory instance;
     private Stage primaryStage;
-    private final Map<StageView, Parent> loadedViews = new HashMap<>();
 
     /**
      * Empty private constructor for singleton.
@@ -37,7 +36,6 @@ public class StageFactory {
             instance = new StageFactory();
         }
         instance.primaryStage = stage;
-        instance.preloadViews();
     }
 
     /**
@@ -56,22 +54,6 @@ public class StageFactory {
     }
 
     /**
-     * Preloads all FXML views and stores them in the loadedViews map.
-     * If a view fails to load, an exception is thrown to prevent further execution.
-     */
-    private void preloadViews() {
-        for (StageView view : StageView.values()) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource(view.getFxmlPath()));
-                loadedViews.put(view, root);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.err.println("Failed to load FXML for view: " + view.name());
-            }
-        }
-    }
-
-    /**
      * Switches the current scene of the primary stage to the specified view.
      * If the view has not been preloaded, an exception is thrown to prevent runtime errors.
      *
@@ -79,13 +61,15 @@ public class StageFactory {
      * @throws IllegalStateException If the specified view is not found in the preloaded views.
      */
     public void switchScene(StageView view) {
-        if (!loadedViews.containsKey(view)) {
-            throw new IllegalStateException("View not preloaded: " + view.name());
+        System.out.println("Switching scene to " + view.name());
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(view.getFxmlPath()));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Failed to load FXML for view: " + view.name());
         }
-        primaryStage.setScene(new Scene(loadedViews.get(view)));
-
-
-        // fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
-        // Scene scene = new Scene(fxmlLoader.load(), 320, 240);
     }
 }

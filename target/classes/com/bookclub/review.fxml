@@ -12,6 +12,7 @@
 
         <children>
             <VBox>
+                <Button fx:id="backButton" text="Back" onAction="#handleBackButton"/>
                 <Label text="Submit a new rating:"/>
                 <!-- 5 stars selection -->
                 <HBox spacing="5">

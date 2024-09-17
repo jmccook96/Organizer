@@ -10,9 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController {
-    private LoginService loginService;
-    
+public class LoginController {    
     @FXML 
     private PasswordField passwordField;
     @FXML
@@ -20,7 +18,7 @@ public class LoginController {
     
     public LoginController() {
         // TODO: Swap to UserDAO.
-        loginService = new LoginService(new UserMAO());
+        LoginService.initialize(new UserMAO());
     }
     
     @FXML
@@ -28,10 +26,9 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
         
-        if (loginService.authenticate(username, password)) {
-            // Successful login
-            showAlert("Login successfufl.", "Welcome " + username + "!");
-            StageFactory.getInstance().switchScene(StageView.MAIN);
+        if (LoginService.getInstance().attemptLogin(username, password)) {
+            showAlert("Login successful.", "Welcome " + username + "!");
+            StageFactory.getInstance().switchScene(StageView.HOME);
         } else {
             showAlert("Login Failed.", "Incorrect username or password.");
            // TODO: Offer password reset or something?
@@ -43,12 +40,11 @@ public class LoginController {
         // TODO: Transition to a register screen.
         String username = usernameField.getText();
         String password = passwordField.getText();
-        // TODO: Additional mandated data on sign up here.
         
-        if (loginService.register(username, password)) {
+        if (LoginService.getInstance().register(username, password)) {
             showAlert("Registration Successful", "User registered: " + username + ".\nPlease login to continue.");
         } else {
-            showAlert("Registration Failed!", "Reason goes here.");
+            showAlert("Registration Failed!", "TODO: EXPLAIN WHY");
         }
             
     }
