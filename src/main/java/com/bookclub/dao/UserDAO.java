@@ -21,7 +21,7 @@ public class UserDAO implements IUserAO {
             if (resultSet.next()) {
                 return mapResultSetToUser(resultSet);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Exception met for Finding User By Username.");
         }

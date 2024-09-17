@@ -68,7 +68,7 @@ public class LoginService {
             return false;
         
         User newUser = new User(username, password);
-        return userAO.addUser(newUser);
+        return !userAO.hasUser(newUser) && userAO.addUser(newUser);
     }
 
     /**
