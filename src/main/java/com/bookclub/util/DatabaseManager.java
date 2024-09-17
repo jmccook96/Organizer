@@ -20,7 +20,7 @@ public class DatabaseManager {
     
     public static DatabaseManager getInstance() {
         if (instance == null) {
-            instance = new DatabaseManager(); // I personally hate this approach.
+            instance = new DatabaseManager();
         }
         return instance;
     }

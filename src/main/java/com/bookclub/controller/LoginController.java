@@ -1,6 +1,6 @@
 package com.bookclub.controller;
 
-import com.bookclub.mao.UserMAO;
+import com.bookclub.dao.UserDAO;
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
@@ -17,8 +17,7 @@ public class LoginController {
     private TextField usernameField;
     
     public LoginController() {
-        // TODO: Swap to UserDAO.
-        LoginService.initialize(new UserMAO());
+        LoginService.initialize(new UserDAO());
     }
     
     @FXML

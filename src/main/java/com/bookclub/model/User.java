@@ -7,6 +7,7 @@ package com.bookclub.model;
  */
 public class User {
 
+    // IF FIELDS GROW ENSURE USERDAO IS UPDATED TO MATCH.
     private String username;
     private String password;
 
