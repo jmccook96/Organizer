@@ -20,6 +20,13 @@ public interface IEventAO {
     public Event findEventByTitleAndOrganizer(String title, String organizer);
 
     /**
+     * Retrieves a event from the database based on the description
+     * @param description The title of the event to retrieve
+     * @return The event with the given description, or null if not found.
+     */
+    List<Event> findEventsByDescription(String description);
+
+    /**
      * Retrieves a event from the database based on the title
      * @param title The title of the event to retrieve
      * @return The event with the given title, or null if not found.

@@ -2,7 +2,7 @@ package com.bookclub.model;
 
 /**
  * The {@code Book} class represents a book in the book club application.
- * Each book has a title and an author. This class provides getter and setter methods for these attributes.
+ * Each book has a title, a genre and an author. This class provides getter and setter methods for these attributes.
  * Both title and author must be non-null and non-empty.
  */
 public class Book {
@@ -10,6 +10,7 @@ public class Book {
     private int id;
     private String title;
     private String author;
+    private String genre;
 
     /**
      * Constructs a {@code Book} object with the specified title and author.
@@ -17,11 +18,13 @@ public class Book {
      *
      * @param title  the title of the book
      * @param author the author of the book
+     * @param genre the genre of the book
      * @throws IllegalArgumentException if the title or author is null or empty
      */
-    public Book(String title, String author) {
+    public Book(String title, String author, String genre) {
         setTitle(title);
         setAuthor(author);
+        setGenre(genre);
     }
 
     /**
@@ -33,10 +36,11 @@ public class Book {
      * @param author the author of the book
      * @throws IllegalArgumentException if the id is less than 1, or title or author is null or empty
      */
-    public Book(int id, String title, String author) {
+    public Book(int id, String title, String author, String genre) {
         setId(id);
         setTitle(title);
         setAuthor(author);
+        setGenre(genre);
     }
 
     /**
@@ -106,6 +110,29 @@ public class Book {
             throw new IllegalArgumentException("Author can not be null or empty");
         }
         this.author = author;
+    }
+
+    /**
+     * Returns the genre of the book.
+     *
+     * @return the genre of the book
+     */
+    public String getGenre() {
+        return genre;
+    }
+
+    /**
+     * Sets the genre of the book.
+     * The genre must be non-null and non-empty.
+     *
+     * @param genre the new genre of the book
+     * @throws IllegalArgumentException if the author is null or empty
+     */
+    public void setGenre(String genre) {
+        if (genre == null || genre.isEmpty()) {
+            throw new IllegalArgumentException("Genre can not be null or empty");
+        }
+        this.genre = genre;
     }
 
     @Override

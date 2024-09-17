@@ -17,12 +17,12 @@ public class BookMAO implements IBookAO {
     }
 
     private void addTestData() {
-        books.add(new Book("It", "Stephen King"));
-        books.add(new Book("The Shining", "Stephen King"));
-        books.add(new Book("testTitle", "Stephen King"));
-        books.add(new Book("1984", "George Orwell"));
-        books.add(new Book("Animal Farm", "George Orwell"));
-        books.add(new Book("testTitle", "George Orwell"));
+        books.add(new Book("It", "Stephen King","Horror"));
+        books.add(new Book("The Shining", "Stephen King","Horror"));
+        books.add(new Book("testTitle", "Stephen King", "Horror"));
+        books.add(new Book("1994", "George Orwell", "Historical Fiction"));
+        books.add(new Book("Animal Farm", "George Orwell", "Political Satire"));
+        books.add(new Book("testTitle", "George Orwell", "Test Genre"));
     }
 
     @Override
@@ -38,6 +38,16 @@ public class BookMAO implements IBookAO {
             }
         }
         return null;
+    }
+
+    public List<Book> findBooksByGenre(String genre) {
+        List<Book> booksByGenre = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getGenre().equals(genre)) {
+                booksByGenre.add(book);
+            }
+        }
+        return booksByGenre.isEmpty() ? null : booksByGenre;
     }
 
     @Override
