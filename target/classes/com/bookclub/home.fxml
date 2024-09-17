@@ -8,13 +8,13 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bookclub.controller.BooksController"
+            fx:controller="com.bookclub.controller.HomeController"
             prefHeight="400.0" prefWidth="600.0">
     <!-- Left Mounted Quick Access Menu -->
     <left>
         <fx:include source="navigatorBar.fxml"/>
     </left>
     <center>
-        <ListView fx:id="booksList" prefHeight="150" />
+        <Label fx:id="welcomeText" text="Welcome to the Home Page!"/>
     </center>
 </BorderPane>

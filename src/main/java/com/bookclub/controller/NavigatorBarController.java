@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 
 public class NavigatorBarController {
         public void navigateTest() {
-            StageFactory.getInstance().switchScene(StageView.MAIN);
-            System.out.println("YET TO BE IMPLEMENTED. GOING MAIN.");
+            StageFactory.getInstance().switchScene(StageView.HOME);
+            System.out.println("YET TO BE IMPLEMENTED. GOING HOME.");
         }
     
         public void navigateHome() {
-            navigateTest();
+            StageFactory.getInstance().switchScene(StageView.HOME);
         }
         
         public void navigateBooks() {
@@ -20,7 +20,7 @@ public class NavigatorBarController {
         }
         
         public void navigateAccount() {
-            navigateTest();
+            StageFactory.getInstance().switchScene(StageView.ACCOUNT_SETTINGS);
         }
         
         public void navigateEvents() {

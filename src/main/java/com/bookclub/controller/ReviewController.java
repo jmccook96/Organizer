@@ -44,7 +44,7 @@ public class ReviewController {
         else {
             showAlert("Review submitted", "You rated: " + rating + " stars");
             // TODO: Change to non hard coded Book object
-            Review review = new Review(LoginService.getCurrentUser(), new Book(1,"testTitle", "testAuthor","testgenre"), rating);
+            Review review = new Review(LoginService.getCurrentUser(), new Book("testTitle", "testAuthor"), rating);
             reviewAO.addReview(review);
         }
     }
