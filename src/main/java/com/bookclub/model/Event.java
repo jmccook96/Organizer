@@ -9,7 +9,7 @@ public class Event {
     private Integer eventid;
     private String description;
 
-    public Event(Integer eventid, String title, String organizer, String date, String location, String description) {
+    public Event(String title, String organizer, String date, String location) {
         this.eventid = eventid;
         this.event = title;
         this.organizer = organizer;
