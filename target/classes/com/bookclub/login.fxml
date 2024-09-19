@@ -12,16 +12,20 @@
             prefHeight="400.0" prefWidth="600.0">
 
     <children>
-        <Label text="Username: " layoutX="50" layoutY="100" />
-        <TextField fx:id="usernameField" layoutX="150" layoutY="100" />
+        <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+            <Label text="Login" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-        <Label text="Password:" layoutX="50" layoutY="150" />
-        <PasswordField fx:id="passwordField" layoutX="150" layoutY="150" />
+            <Label text="Username:"/>
+            <TextField fx:id="usernameField"/>
 
-        <Button text="Login" layoutX="150" layoutY="200" onAction="#handleLogin" />
-        
-        <!--// TODO: Migrate Register to open a different screen. -->
-        <Button text="Register" layoutX="250" layoutY="200" onAction="#handleRegister" />
-    </children> 
-    
+            <Label text="Password:"/>
+            <PasswordField fx:id="passwordField"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Login" onAction="#handleLogin"/>
+                <Button text="Register" onAction="#handleNavigateToRegister"/>
+            </HBox>
+        </VBox>
+    </children>
+
 </AnchorPane>
