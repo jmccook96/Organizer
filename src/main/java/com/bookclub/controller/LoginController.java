@@ -38,7 +38,7 @@ public class LoginController {
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         Platform.runLater(() -> loginLabel.requestFocus());
         logoVBox.prefWidthProperty().bind(loginBorderPane.widthProperty().multiply(0.45));
         loginVBox.prefWidthProperty().bind(logoVBox.widthProperty());

@@ -10,8 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bookclub.controller.LoginController"
             fx:id="loginBorderPane"
-            style="-fx-background-color: aliceblue"
-            prefHeight="1080" prefWidth="1920">
+            style="-fx-background-color: aliceblue">
     <center>
         <HBox alignment="CENTER">
             <VBox fx:id="logoVBox" alignment="CENTER_RIGHT">
@@ -27,10 +26,12 @@
                 </VBox>
                 <VBox spacing="10" alignment="CENTER">
                     <Button fx:id="loginButton" text="Login" onAction="#handleLogin" style="-fx-background-color: lightsteelblue; -fx-border-color: black"/>
-                    <Button fx:id="registerButton" text="Register" onAction="#handleRegister" style="-fx-background-color: lightgray; -fx-border-color: black"/>
+                    <Button fx:id="registerButton" text="Register" onAction="#handleNavigateToRegister" style="-fx-background-color: lightgray; -fx-border-color: black"/>
                 </VBox>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
         </HBox>
     </center>
 </BorderPane>
+
+

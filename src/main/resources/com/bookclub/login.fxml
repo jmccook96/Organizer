@@ -10,8 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bookclub.controller.LoginController"
             fx:id="loginBorderPane"
-            style="-fx-background-color: aliceblue"
-            prefHeight="1080" prefWidth="1920">
+            style="-fx-background-color: aliceblue">
     <center>
         <HBox alignment="CENTER">
             <VBox fx:id="logoVBox" alignment="CENTER_RIGHT">
@@ -34,3 +33,5 @@
         </HBox>
     </center>
 </BorderPane>
+
+

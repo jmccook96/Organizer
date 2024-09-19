@@ -15,9 +15,8 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bookclub.controller.RegisterController"
-            fx:id="loginBorderPane"
-            style="-fx-background-color: aliceblue"
-            prefHeight="1080" prefWidth="1920">
+            fx:id="registerBorderPane"
+            style="-fx-background-color: aliceblue">
     <center>
         <HBox alignment="CENTER">
             <VBox fx:id="logoVBox" alignment="CENTER_RIGHT">
@@ -27,19 +26,18 @@
             </VBox>
             <VBox fx:id="loginVBox" alignment="CENTER_LEFT" spacing="40">
                 <VBox spacing="20" alignment="CENTER">
-                    <Label fx:id="loginLabel" text="Login" style="-fx-font-size: 50"/>
+                    <Label fx:id="registerLabel" text="Register" style="-fx-font-size: 50"/>
                     <TextField fx:id="usernameField" promptText="Username" style="-fx-padding: 10"/>
                     <PasswordField fx:id="passwordField" promptText="Password" style="-fx-padding: 10"/>
-                    <PasswordField fx:id="confirmPasswordField" promptText="Password" style="-fx-padding: 10"/>
+                    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" style="-fx-padding: 10"/>
                 </VBox>
                 <VBox spacing="10" alignment="CENTER">
-                    <Button fx:id="loginButton" text="Register" onAction="#handleRegister" style="-fx-background-color: lightsteelblue; -fx-border-color: black"/>
-                    <Button fx:id="registerButton" text="Back to Login" onAction="#handleBackToLogin" style="-fx-background-color: lightgray; -fx-border-color: black"/>
+                    <Button fx:id="registerButton" text="Register" onAction="#handleRegister" style="-fx-background-color: lightsteelblue; -fx-border-color: black"/>
+                    <Button fx:id="backToLoginButton" text="Back to Login" onAction="#handleBackToLogin" style="-fx-background-color: lightgray; -fx-border-color: black"/>
+                    <Label fx:id="messageLabel" style="-fx-text-fill: red;" alignment="CENTER"/>
                 </VBox>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
         </HBox>
     </center>
 </BorderPane>
-
-

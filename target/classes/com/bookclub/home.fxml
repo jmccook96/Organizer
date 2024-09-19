@@ -8,8 +8,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bookclub.controller.HomeController"
-            prefHeight="1080" prefWidth="1920">
+            fx:controller="com.bookclub.controller.HomeController">
     <!-- Left Mounted Quick Access Menu -->
     <left>
         <fx:include source="navigatorBar.fxml"/>

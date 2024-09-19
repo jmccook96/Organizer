@@ -68,6 +68,8 @@ public class StageFactory {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/com/bookclub/styles/styles.css").toString());
             primaryStage.setScene(scene);
+            primaryStage.setWidth(1920);
+            primaryStage.setHeight(1080);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

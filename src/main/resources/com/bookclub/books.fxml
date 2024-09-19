@@ -9,8 +9,7 @@
 <?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bookclub.controller.BooksController"
-            prefHeight="1080" prefWidth="1920">
+            fx:controller="com.bookclub.controller.BooksController">
 
     <!-- Left Mounted Quick Access Menu -->
     <left>
