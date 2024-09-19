@@ -2,6 +2,8 @@ package com.bookclub.service;
 
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
+import com.bookclub.util.PasswordHasher;
+
 
 /**
  * Service class responsible for managing user login, registration, 
@@ -49,9 +51,9 @@ public class LoginService {
      */
     public boolean attemptLogin(String username, String password) {
         User user = userAO.findUserByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            currentUser = user;
-            return true;
+        if (user != null) {
+            String hashedInputPassword = PasswordHasher.hashPassword(password);
+            return user.getPassword().equals(hashedInputPassword);
         }
         return false;
     }
@@ -66,7 +68,7 @@ public class LoginService {
     public boolean register(String username, String password) {
         if (username == null || username.isEmpty() || password == null || password.isEmpty())
             return false;
-        
+
         User newUser = new User(username, password);
         return !userAO.hasUser(newUser) && userAO.addUser(newUser);
     }

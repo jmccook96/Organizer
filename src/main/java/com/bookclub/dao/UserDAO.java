@@ -3,6 +3,7 @@ package com.bookclub.dao;
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
 import com.bookclub.util.DatabaseManager;
+import com.bookclub.util.PasswordHasher;
 
 import java.sql.*;
 
@@ -13,22 +14,22 @@ public class UserDAO implements IUserAO {
     
     @Override
     public User findUserByUsername(String username) {
-        String sqlQuery = "SELECT * FROM USERS WHERE USERNAME = ?";
+        String sqlQuery = "SELECT Username, Password FROM USERS WHERE USERNAME = ?";
         try {
             PreparedStatement stmt = getConnection().prepareStatement(sqlQuery);
             stmt.setString(1, username);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                return mapResultSetToUser(resultSet);
+                return new User(resultSet.getString("Username"), resultSet.getString("Password"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Exception met for Finding User By Username.");
         }
-        
+
         return null;
     }
-
+    /*
     @Override
     public boolean addUser(User user) { // TODO: , Name, Email, Settings
         String sql = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
@@ -45,6 +46,23 @@ public class UserDAO implements IUserAO {
                 return true;
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    */
+    @Override
+    public boolean addUser(User user) {
+        String sql = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, PasswordHasher.hashPassword(user.getPassword()));
+
+            if (stmt.executeUpdate() > 0) {
+                System.out.println("Added user to db \"" + user.getUsername() + "\"");
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -103,7 +121,7 @@ public class UserDAO implements IUserAO {
         }
         return false;
     }
-    
+
     private void tryCreateTable() {
         String createTableSQL = """
             CREATE TABLE IF NOT EXISTS Users (
@@ -111,7 +129,7 @@ public class UserDAO implements IUserAO {
                 Password TEXT NOT NULL,
                 Name TEXT,
                 Email TEXT,
-                Settings TEXT  -- Assuming this is a JSON/CLOB field
+                Settings TEXT
             );
             """;
 

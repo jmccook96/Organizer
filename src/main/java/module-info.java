@@ -13,4 +13,5 @@ module com.example.organizer {
     opens com.bookclub to javafx.fxml;
     exports com.bookclub.model;
     opens com.bookclub.model to javafx.fxml;
+
 }

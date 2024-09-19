@@ -8,7 +8,8 @@ public enum StageView {
     EVENTS("/com/bookclub/events.fxml"),
     ACCOUNT_SETTINGS("/com/bookclub/accountSettings.fxml"),
     //CHAT("/com/bookclub/chat.fxml")
-    REVIEWS("/com/bookclub/review.fxml")
+    REVIEWS("/com/bookclub/review.fxml"),
+    REGISTER("/com/bookclub/register.fxml")
     ;
 
     private final String fxmlPath;

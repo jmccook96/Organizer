@@ -24,7 +24,7 @@ public class LoginController {
     public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        
+
         if (LoginService.getInstance().attemptLogin(username, password)) {
             showAlert("Login successful.", "Welcome " + username + "!");
             StageFactory.getInstance().switchScene(StageView.HOME);
@@ -33,21 +33,12 @@ public class LoginController {
            // TODO: Offer password reset or something?
         }
     }
-    
+
     @FXML
-    public void handleRegister() {
-        // TODO: Transition to a register screen.
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        
-        if (LoginService.getInstance().register(username, password)) {
-            showAlert("Registration Successful", "User registered: " + username + ".\nPlease login to continue.");
-        } else {
-            showAlert("Registration Failed!", "TODO: EXPLAIN WHY");
-        }
-            
+    public void handleNavigateToRegister() {
+        StageFactory.getInstance().switchScene(StageView.REGISTER);
     }
-    
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
