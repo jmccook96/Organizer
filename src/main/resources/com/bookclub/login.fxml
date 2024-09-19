@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bookclub.controller.LoginController"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <children>
-        <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-            <Label text="Login" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-
-            <Label text="Username:"/>
-            <TextField fx:id="usernameField"/>
-
-            <Label text="Password:"/>
-            <PasswordField fx:id="passwordField"/>
-
-            <HBox spacing="10" alignment="CENTER">
-                <Button text="Login" onAction="#handleLogin"/>
-                <Button text="Register" onAction="#handleNavigateToRegister"/>
-            </HBox>
-        </VBox>
-    </children>
-
-</AnchorPane>
+            fx:id="loginBorderPane"
+            style="-fx-background-color: aliceblue"
+            prefHeight="1080" prefWidth="1920">
+    <center>
+        <HBox alignment="CENTER">
+            <VBox fx:id="logoVBox" alignment="CENTER_RIGHT">
+                <ImageView fx:id="logoImageView" preserveRatio="true">
+                    <Image url="@images/logo.png"/>
+                </ImageView>
+            </VBox>
+            <VBox fx:id="loginVBox" alignment="CENTER_LEFT" spacing="40">
+                <VBox spacing="20" alignment="CENTER">
+                    <Label fx:id="loginLabel" text="Login" style="-fx-font-size: 50"/>
+                    <TextField fx:id="usernameField" promptText="Username" style="-fx-padding: 10"/>
+                    <PasswordField fx:id="passwordField" promptText="Password" style="-fx-padding: 10"/>
+                </VBox>
+                <VBox spacing="10" alignment="CENTER">
+                    <Button fx:id="loginButton" text="Login" onAction="#handleLogin" style="-fx-background-color: lightsteelblue; -fx-border-color: black"/>
+                    <Button fx:id="registerButton" text="Register" onAction="#handleNavigateToRegister" style="-fx-background-color: lightgray; -fx-border-color: black"/>
+                </VBox>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </center>
+</BorderPane>
