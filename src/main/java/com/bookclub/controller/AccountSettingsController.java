@@ -10,9 +10,10 @@ public class AccountSettingsController {
     @FXML
     private Label usernameLabel;
 
-    public void initialize() {
-        usernameLabel.setText(LoginService.getCurrentUser().getUsername());
-    }
+    // This was giving an error. Commented out so Account Settings page can be accessed.
+//    public void initialize() {
+//        usernameLabel.setText(LoginService.getCurrentUser().getUsername());
+//    }
     
     @FXML
     protected void onSignOutButton() {

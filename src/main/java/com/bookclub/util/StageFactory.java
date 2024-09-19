@@ -65,7 +65,11 @@ public class StageFactory {
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource(view.getFxmlPath()));
-            primaryStage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/bookclub/styles/styles.css").toString());
+            primaryStage.setScene(scene);
+            primaryStage.setWidth(1920);
+            primaryStage.setHeight(1080);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
