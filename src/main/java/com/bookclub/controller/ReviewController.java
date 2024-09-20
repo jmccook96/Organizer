@@ -7,7 +7,6 @@ import com.bookclub.model.Review;
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;

@@ -1,14 +1,8 @@
 package com.bookclub;
 
-import com.bookclub.controller.LoginController;
-import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;

@@ -3,17 +3,13 @@ package com.bookclub.controller;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
-import com.bookclub.model.Review;
-import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.Rating;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

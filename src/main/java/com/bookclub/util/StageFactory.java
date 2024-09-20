@@ -1,17 +1,13 @@
 package com.bookclub.util;
 
-import com.bookclub.Main;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The StageFactory class is responsible for managing and switching scenes in the JavaFX application.
