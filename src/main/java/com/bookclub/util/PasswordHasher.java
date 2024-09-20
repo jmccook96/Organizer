@@ -3,7 +3,18 @@ package com.bookclub.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The {@code PasswordHasher} class is used to hash a password using the SHA-256 algorithm.
+ */
 public class PasswordHasher {
+    /**
+     * Hashes a password using the SHA-256 algorithm.
+     * It takes a password as input and returns the hashed password as a string.
+     *
+     * @param password the password to be hashed
+     * @return the hashed password as a string
+     * @throws NoSuchAlgorithmException if an error occurs while hashing the password
+     */
     public static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -14,6 +25,12 @@ public class PasswordHasher {
         }
     }
 
+    /**
+     * Converts an array of bytes to a hexadecimal string representation.
+     *
+     * @param hash The array of bytes to be converted to hexadecimal string.
+     * @return The hexadecimal string representation of the input byte array.
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {

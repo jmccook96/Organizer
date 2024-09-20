@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        StageFactory.initalize(stage);
+        StageFactory.initialize(stage);
         StageFactory.getInstance().switchScene(StageView.LOGIN);
         
         stage.setTitle("Book Club Organizer");
