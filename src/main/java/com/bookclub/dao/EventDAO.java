@@ -27,11 +27,12 @@ public class EventDAO implements IEventAO {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 int eventId = resultSet.getInt("eventId");
+                int bookId = resultSet.getInt("bookId");
                 String eventName = resultSet.getString("eventName");
                 String eventOrganizer = resultSet.getString("eventOrganizer");
                 LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
                 String eventLocation = resultSet.getString("eventLocation");
-                Event event = new Event(eventId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                Event event = new Event(eventId, bookId, eventName, eventOrganizer, eventDateTime, eventLocation);
                 events.add(event);
             }
         }
@@ -42,21 +43,23 @@ public class EventDAO implements IEventAO {
     }
 
     @Override
-    public Event findEventByNameOrganizerDateTimeAndLocation(String name, String organizer, LocalDateTime dateTime, String location){
+    public Event findEventByBookIdNameOrganizerDateTimeAndLocation(int bookId, String name, String organizer, LocalDateTime dateTime, String location) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE eventName = ? AND eventOrganizer = ? AND eventDateTime = ? AND eventLocation = ?");
-            statement.setString(1, name);
-            statement.setString(2, organizer);
-            statement.setTimestamp(3, Timestamp.valueOf(dateTime));
-            statement.setString(4, location);
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE bookId = ? AND eventName = ? AND eventOrganizer = ? AND eventDateTime = ? AND eventLocation = ?");
+            statement.setInt(1, bookId);
+            statement.setString(2, name);
+            statement.setString(3, organizer);
+            statement.setTimestamp(4, Timestamp.valueOf(dateTime));
+            statement.setString(5, location);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 int eventId = resultSet.getInt("eventId");
+                int eventBookId = resultSet.getInt("bookId");
                 String eventName = resultSet.getString("eventName");
                 String eventOrganizer = resultSet.getString("eventOrganizer");
                 LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
                 String eventLocation = resultSet.getString("eventLocation");
-                Event event = new Event(eventId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                Event event = new Event(eventId, eventBookId, eventName, eventOrganizer, eventDateTime, eventLocation);
                 return event;
             }
         }
@@ -67,19 +70,45 @@ public class EventDAO implements IEventAO {
     }
 
     @Override
+    public List<Event> findEventsByBookId(int bookId) {
+        List<Event> events = new ArrayList<>();
+        try {
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE bookId = ?");
+            statement.setInt(1, bookId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int eventId = resultSet.getInt("eventId");
+                int eventBookId = resultSet.getInt("bookId");
+                String eventName = resultSet.getString("eventName");
+                String eventOrganizer = resultSet.getString("eventOrganizer");
+                LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
+                String eventLocation = resultSet.getString("eventLocation");
+                Event event = new Event(eventId, eventBookId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                events.add(event);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+
+    @Override
     public List<Event> findEventsByName(String name) {
         List<Event> events = new ArrayList<>();
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE eventName = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int eventId = resultSet.getInt("eventId");
+                int eventBookId = resultSet.getInt("bookId");
                 String eventName = resultSet.getString("eventName");
                 String eventOrganizer = resultSet.getString("eventOrganizer");
                 LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
                 String eventLocation = resultSet.getString("eventLocation");
-                Event event = new Event(eventId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                Event event = new Event(eventId, eventBookId, eventName, eventOrganizer, eventDateTime, eventLocation);
                 events.add(event);
             }
         }
@@ -96,13 +125,14 @@ public class EventDAO implements IEventAO {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE eventOrganizer = ?");
             statement.setString(1, organizer);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int eventId = resultSet.getInt("eventId");
+                int eventBookId = resultSet.getInt("bookId");
                 String eventName = resultSet.getString("eventName");
                 String eventOrganizer = resultSet.getString("eventOrganizer");
                 LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
                 String eventLocation = resultSet.getString("eventLocation");
-                Event event = new Event(eventId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                Event event = new Event(eventId, eventBookId, eventName, eventOrganizer, eventDateTime, eventLocation);
                 events.add(event);
             }
         }
@@ -119,13 +149,14 @@ public class EventDAO implements IEventAO {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE eventLocation = ?");
             statement.setString(1, location);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int eventId = resultSet.getInt("eventId");
+                int eventBookId = resultSet.getInt("bookId");
                 String eventName = resultSet.getString("eventName");
                 String eventOrganizer = resultSet.getString("eventOrganizer");
                 LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
                 String eventLocation = resultSet.getString("eventLocation");
-                Event event = new Event(eventId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                Event event = new Event(eventId, eventBookId, eventName, eventOrganizer, eventDateTime, eventLocation);
                 events.add(event);
             }
         }
@@ -142,13 +173,14 @@ public class EventDAO implements IEventAO {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Events WHERE eventDateTime = ?");
             statement.setTimestamp(1, Timestamp.valueOf(dateTime));
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int eventId = resultSet.getInt("eventId");
+                int eventBookId = resultSet.getInt("bookId");
                 String eventName = resultSet.getString("eventName");
                 String eventOrganizer = resultSet.getString("eventOrganizer");
                 LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
                 String eventLocation = resultSet.getString("eventLocation");
-                Event event = new Event(eventId, eventName, eventOrganizer, eventDateTime, eventLocation);
+                Event event = new Event(eventId, eventBookId, eventName, eventOrganizer, eventDateTime, eventLocation);
                 events.add(event);
             }
         }
@@ -161,11 +193,12 @@ public class EventDAO implements IEventAO {
     @Override
     public boolean addEvent(Event event) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Events (eventName, eventOrganizer, eventDateTime, eventLocation) VALUES (?, ?, ?, ?)");
-            statement.setString(1, event.getName());
-            statement.setString(2, event.getOrganizer());
-            statement.setTimestamp(3, Timestamp.valueOf(event.getDateTime()));
-            statement.setString(4, event.getLocation());
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Events (bookId, eventName, eventOrganizer, eventDateTime, eventLocation) VALUES (?, ?, ?, ?, ?)");
+            statement.setInt(1, event.getBookId());
+            statement.setString(2, event.getName());
+            statement.setString(3, event.getOrganizer());
+            statement.setTimestamp(4, Timestamp.valueOf(event.getDateTime()));
+            statement.setString(5, event.getLocation());
             statement.executeUpdate();
 
             // Set the id of the new event
@@ -184,12 +217,13 @@ public class EventDAO implements IEventAO {
     @Override
     public boolean updateEvent(Event event) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Events SET eventName = ?, eventOrganizer = ?, eventDateTime = ?, eventLocation = ? WHERE eventId = ?");
-            statement.setString(1, event.getName());
-            statement.setString(2, event.getOrganizer());
-            statement.setTimestamp(3, Timestamp.valueOf(event.getDateTime()));
-            statement.setString(4, event.getLocation());
-            statement.setInt(5, event.getId());
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Events SET bookId = ?, eventName = ?, eventOrganizer = ?, eventDateTime = ?, eventLocation = ? WHERE eventId = ?");
+            statement.setInt(1, event.getBookId());
+            statement.setString(2, event.getName());
+            statement.setString(3, event.getOrganizer());
+            statement.setTimestamp(4, Timestamp.valueOf(event.getDateTime()));
+            statement.setString(5, event.getLocation());
+            statement.setInt(6, event.getId());
             statement.executeUpdate();
         }
         catch (Exception e) {
@@ -219,6 +253,7 @@ public class EventDAO implements IEventAO {
             Statement statement = dbManager.getConnection().createStatement();
             String query = "CREATE TABLE IF NOT EXISTS Events ("
                     + "eventId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "bookId INTEGER NOT NULL,"
                     + "eventName VARCHAR NOT NULL,"
                     + "eventOrganizer VARCHAR NOT NULL,"
                     + "eventDateTime TIMESTAMP NOT NULL,"

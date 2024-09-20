@@ -53,7 +53,10 @@ public class LoginService {
         User user = userAO.findUserByUsername(username);
         if (user != null) {
             String hashedInputPassword = PasswordHasher.hashPassword(password);
-            return user.getPassword().equals(hashedInputPassword);
+            if (user.getPassword().equals(hashedInputPassword)) {
+                currentUser = user;
+                return true;
+            }
         }
         return false;
     }

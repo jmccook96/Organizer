@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.bookclub.controller.AccountSettingsController">
+            fx:controller="com.bookclub.controller.AccountSettingsController"
+            style="-fx-background-color: aliceblue">
     <!-- Left Mounted Quick Access Menu -->
     <left>
-        <fx:include source="navigatorBar.fxml"/>
+        <fx:include fx:id="navBar" source="navigatorBar.fxml"/>
     </left>
     <center>
-        <!-- Display user details -->
-        <Label fx:id="usernameLabel" text="JohnDoe86."/>
-
-        <!-- Sign Out button -->
-        <Button text="Sign Out" onAction="#onSignOutButton" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <VBox alignment="CENTER" spacing="100">
+            <Label text="User Account" alignment="TOP_CENTER" style="-fx-font-size: 50"/>
+            <!-- Display user details -->
+            <Label fx:id="usernameLabel" style="-fx-font-size: 30"/>
+            <!-- Sign Out button -->
+            <Button text="Sign Out" onAction="#onSignOutButton" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </VBox>
     </center>
 </BorderPane>

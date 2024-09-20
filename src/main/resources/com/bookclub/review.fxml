@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.Rating?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bookclub.controller.ReviewController">
-
-        <children>
-            <VBox>
-                <Button fx:id="backButton" text="Back" onAction="#handleBackButton"/>
-                <Label text="Submit a new rating:"/>
+            fx:controller="com.bookclub.controller.ReviewController"
+            stylesheets="@styles/review.css">
+    <left>
+        <Button fx:id="backButton" onAction="#handleBackButton">
+            <graphic>
+                <ImageView fx:id="backIcon" preserveRatio="true" smooth="true">
+                    <Image url="@images/back.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </left>
+    <center>
+        <VBox fx:id="reviewContainer" alignment="CENTER" spacing="40">
+            <Label fx:id="bookLabel" alignment="TOP_CENTER"/>
+            <VBox fx:id="newReviewContainer" spacing="20" alignment="CENTER">
                 <!-- 5 stars selection -->
-                <HBox spacing="5">
-                    <Rating fx:id="ratingControl" max="5" updateOnHover="true"/>
-                </HBox>
-                <Button text="Submit" onAction="#handleSubmitReview"/>
-                <ListView fx:id="ratingsList" prefHeight="150" />
+                <VBox spacing="10" alignment="CENTER">
+                    <Label text="Submit a new rating:" style="-fx-font-size: 20"/>
+                    <HBox spacing="10" alignment="CENTER">
+                        <Rating fx:id="ratingControl" max="5" updateOnHover="true"/>
+                        <Button fx:id="reviewSubmitButton" text="Submit" onAction="#handleSubmitReview" />
+                    </HBox>
+                </VBox>
+                <ListView fx:id="ratingsList"/>
             </VBox>
-        </children>
 
-</AnchorPane>
+        </VBox>
+    </center>
+
+</BorderPane>

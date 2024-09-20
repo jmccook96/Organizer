@@ -1,15 +1,13 @@
 package com.bookclub.util;
 
-import com.bookclub.Main;
-import javafx.fxml.FXML;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The StageFactory class is responsible for managing and switching scenes in the JavaFX application.
@@ -18,11 +16,15 @@ import java.util.Map;
 public class StageFactory {
     private static StageFactory instance;
     private Stage primaryStage;
+    private DoubleProperty widthProperty;
+    private DoubleProperty heightProperty;
 
     /**
      * Empty private constructor for singleton.
      */
     private StageFactory() {
+        widthProperty = new SimpleDoubleProperty();
+        heightProperty = new SimpleDoubleProperty();
     }
     
     /**
@@ -35,6 +37,9 @@ public class StageFactory {
         if (instance == null) {
             instance = new StageFactory();
         }
+        // Set default width and height
+        stage.setWidth(1920);
+        stage.setHeight(1080);
         instance.primaryStage = stage;
     }
 
@@ -68,12 +73,16 @@ public class StageFactory {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/com/bookclub/styles/styles.css").toString());
             primaryStage.setScene(scene);
-            primaryStage.setWidth(1920);
-            primaryStage.setHeight(1080);
+            primaryStage.setWidth(primaryStage.getWidth());
+            primaryStage.setHeight(primaryStage.getHeight());
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Failed to load FXML for view: " + view.name());
         }
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

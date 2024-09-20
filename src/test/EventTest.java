@@ -11,7 +11,18 @@ public class EventTest {
 
     @BeforeEach
     public void setUp() {
-        event = new Event("testName", "testOrganizer", LocalDateTime.of(2024, 10, 2, 1, 30), "testLocation");
+        event = new Event(1, "testName", "testOrganizer", LocalDateTime.of(2024, 10, 2, 1, 30), "testLocation");
+    }
+
+    @Test
+    public void testGetBookId() {
+        assertEquals(1, event.getBookId());
+    }
+
+    @Test
+    public void testSetBookId() {
+        event.setBookId(2);
+        assertEquals(2, event.getBookId());
     }
 
     @Test

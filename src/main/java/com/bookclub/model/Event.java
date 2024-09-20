@@ -5,21 +5,24 @@ import java.time.LocalDateTime;
 public class Event {
 
     private int id;
+    private int bookId;
     private String name;
     private String organizer;
     private LocalDateTime dateTime;
     private String location;
 
-    public Event(int id, String name, String organizer, LocalDateTime dateTime, String location) {
+    public Event(int id, int bookId, String name, String organizer, LocalDateTime dateTime, String location) {
         this.id = id;
+        this.bookId = bookId;
         this.name = name;
         this.organizer = organizer;
         this.dateTime = dateTime;
         this.location = location;
     }
 
-    public Event(String name, String organizer, LocalDateTime dateTime, String location) {
+    public Event(int bookId, String name, String organizer, LocalDateTime dateTime, String location) {
         this.name = name;
+        this.bookId = bookId;
         this.organizer = organizer;
         this.dateTime = dateTime;
         this.location = location;
@@ -31,6 +34,14 @@ public class Event {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public String getName() {

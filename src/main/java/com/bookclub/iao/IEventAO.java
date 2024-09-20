@@ -13,14 +13,22 @@ public interface IEventAO {
     List<Event> findAllEvents();
 
     /**
-     * Retrieves an event from the database based on the name, organizer, date and time, and location
+     * Retrieves an event from the database based on the bookId, name, organizer, date and time, and location
+     * @param bookId The bookId of the event to retrieve
      * @param name The name of the event to retrieve
      * @param organizer The organizer of the event to retrieve
      * @param dateTime The date and time of the event to retrieve
      * @param location The location of the event to retrieve
-     * @return The event with the given name, organiser, date and time, and location, or null if not found.
+     * @return The event with the given bookId, name, organiser, date and time, and location, or null if not found.
      */
-    Event findEventByNameOrganizerDateTimeAndLocation(String name, String organizer, LocalDateTime dateTime, String location);
+    Event findEventByBookIdNameOrganizerDateTimeAndLocation(int bookId, String name, String organizer, LocalDateTime dateTime, String location);
+
+    /**
+     * Retrieves a list of events from the database based on the bookId
+     * @param bookId The bookId of the events to retrieve
+     * @return A list of events with the given bookId
+     */
+    List<Event> findEventsByBookId(int bookId);
 
     /**
      * Retrieves a list of events from the database based on the name
