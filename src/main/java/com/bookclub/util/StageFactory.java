@@ -1,7 +1,5 @@
 package com.bookclub.util;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,15 +14,11 @@ import java.io.IOException;
 public class StageFactory {
     private static StageFactory instance;
     private Stage primaryStage;
-    private DoubleProperty widthProperty;
-    private DoubleProperty heightProperty;
 
     /**
      * Empty private constructor for singleton.
      */
     private StageFactory() {
-        widthProperty = new SimpleDoubleProperty();
-        heightProperty = new SimpleDoubleProperty();
     }
     
     /**
@@ -33,7 +27,7 @@ public class StageFactory {
      *
      * @param stage The primary stage of the JavaFX application.
      */
-    public static void initalize(Stage stage) {
+    public static void initialize(Stage stage) {
         if (instance == null) {
             instance = new StageFactory();
         }
@@ -49,7 +43,7 @@ public class StageFactory {
      * @return the singleton intance of StageFactory
      * @throws IllegalStateException if StageFactory has not been initialized yet.
      * 
-     * @see #initalize(Stage) 
+     * @see #initialize(Stage)
      */
     public static StageFactory getInstance() {
         if (instance == null) {
