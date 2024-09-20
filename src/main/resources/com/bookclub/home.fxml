@@ -6,14 +6,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bookclub.controller.HomeController">
+            fx:controller="com.bookclub.controller.HomeController"
+            style="-fx-background-color: aliceblue">
     <!-- Left Mounted Quick Access Menu -->
     <left>
-        <fx:include source="navigatorBar.fxml"/>
+        <fx:include fx:id="navBar" source="navigatorBar.fxml"/>
     </left>
     <center>
-        <Label fx:id="welcomeText" text="Welcome to the Home Page!"/>
+        <VBox alignment="CENTER" spacing="20">
+            <Label fx:id="welcomeText" text="Welcome to the Home Page!" alignment="TOP_CENTER" style="-fx-font-size: 50"/>
+            <ImageView VBox.vgrow="ALWAYS" smooth="true" preserveRatio="true">
+                <Image url="@images/logo.png"/>
+            </ImageView>
+
+        </VBox>
+
     </center>
 </BorderPane>

@@ -1,6 +1,7 @@
 package com.bookclub.mao;
 
 import com.bookclub.iao.IEventAO;
+import com.bookclub.model.Book;
 import com.bookclub.model.Event;
 
 import java.time.LocalDateTime;
@@ -16,12 +17,14 @@ public class EventMAO  implements IEventAO {
     }
 
     private void addTestData() {
-        events.add(new Event("It bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 1, 30),"1234 library court"));
-        events.add(new Event("The Shining bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 3, 2, 30),"1234 library court"));
-        events.add(new Event("testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 4, 3, 30),"1234 library court"));
-        events.add(new Event("1994 bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 13, 30),"1234 library court"));
-        events.add(new Event("Animal Farm bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 6, 14, 30),"1234 library court"));
-        events.add(new Event("testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 7, 15, 30),"1234 library court"));
+        Book book1 = new Book(1, "It", "Stephen King");
+        Book book2 = new Book(2, "The Shining", "Stephen King");
+        events.add(new Event(book1.getId(), "It bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 1, 30),"1234 library court"));
+        events.add(new Event(book2.getId(), "The Shining bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 3, 2, 30),"1234 library court"));
+        events.add(new Event(book1.getId(),"testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 4, 3, 30),"1234 library court"));
+        events.add(new Event(book1.getId(),"1994 bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 13, 30),"1234 library court"));
+        events.add(new Event(book2.getId(),"Animal Farm bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 6, 14, 30),"1234 library court"));
+        events.add(new Event(book2.getId(), "testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 7, 15, 30),"1234 library court"));
     }
 
     @Override
@@ -30,13 +33,24 @@ public class EventMAO  implements IEventAO {
     }
 
     @Override
-    public Event findEventByNameOrganizerDateTimeAndLocation(String name, String organizer, LocalDateTime dateTime, String location) {
+    public Event findEventByBookIdNameOrganizerDateTimeAndLocation(int bookId, String name, String organizer, LocalDateTime dateTime, String location) {
         for (Event event : events) {
-            if (event.getName().equals(name) && event.getOrganizer().equals(organizer) && event.getDateTime().equals(dateTime) && event.getLocation().equals(location)) {
+            if (event.getBookId() == bookId && event.getName().equals(name) && event.getOrganizer().equals(organizer) && event.getDateTime().equals(dateTime) && event.getLocation().equals(location)) {
                 return event;
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Event> findEventsByBookId(int bookId) {
+        List<Event> eventsByBookId = new ArrayList<>();
+        for (Event event : events) {
+            if (event.getBookId() == bookId) {
+                eventsByBookId.add(event);
+            }
+        }
+        return eventsByBookId;
     }
 
     @Override
@@ -90,7 +104,7 @@ public class EventMAO  implements IEventAO {
 
     @Override
     public boolean updateEvent(Event event) {
-        return events.set(events.indexOf(findEventByNameOrganizerDateTimeAndLocation(event.getName(), event.getOrganizer(), event.getDateTime(), event.getLocation())), event) != null;
+        return events.set(events.indexOf(findEventByBookIdNameOrganizerDateTimeAndLocation(event.getBookId(), event.getName(), event.getOrganizer(), event.getDateTime(), event.getLocation())), event) != null;
     }
 
     @Override

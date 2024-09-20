@@ -6,17 +6,48 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/fxml"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bookclub.controller.NavigatorBarController"
-      alignment="CENTER_LEFT" prefHeight="-Infinity">
-<VBox xmlns="http://javafx.com/fxml"
-      spacing="1" alignment="CENTER" prefWidth="55">
-    <Button text="👤" onAction="#navigateAccount" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="📕" onAction="#navigateBooks" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="🏠" onAction="#navigateHome" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="📅" onAction="#navigateEvents" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-    <Button text="💬" onAction="#navigateChat" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
-</VBox>
-    <Separator orientation="VERTICAL" HBox.hgrow="NEVER"/>
+      alignment="CENTER_LEFT" stylesheets="@styles/navigatorBar.css">
+    <VBox fx:id="navBarVBox" spacing="1" alignment="CENTER">
+        <Button fx:id="accountButton" onAction="#navigateAccount">
+            <graphic>
+                <ImageView fx:id="accountIcon" preserveRatio="true" smooth="true">
+                    <Image url="@images/user.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="booksButton" onAction="#navigateBooks">
+            <graphic>
+                <ImageView fx:id="booksIcon" preserveRatio="true" smooth="true">
+                    <Image url="@images/book.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="homeButton" onAction="#navigateHome">
+            <graphic>
+                <ImageView fx:id="homeIcon" preserveRatio="true" smooth="true">
+                    <Image url="@images/home.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="eventsButton" onAction="#navigateEvents">
+            <graphic>
+                <ImageView fx:id="eventsIcon" preserveRatio="true" smooth="true">
+                    <Image url="@images/calendar.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="chatButton" onAction="#navigateChat">
+            <graphic>
+                <ImageView fx:id="chatIcon" preserveRatio="true" smooth="true">
+                    <Image url="@images/chat.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </VBox>
+    <Separator orientation="VERTICAL"/>
 </HBox>

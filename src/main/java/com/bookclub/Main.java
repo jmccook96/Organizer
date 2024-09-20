@@ -1,5 +1,7 @@
 package com.bookclub;
 
+import com.bookclub.controller.LoginController;
+import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.application.Application;
