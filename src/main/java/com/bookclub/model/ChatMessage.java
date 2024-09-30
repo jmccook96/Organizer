@@ -1,5 +1,7 @@
 package com.bookclub.model;
 
+import java.util.Map;
+
 public class ChatMessage {
     private int messageId;
     private int authorId;
@@ -16,8 +18,12 @@ public class ChatMessage {
      * @param authorId   The ID of the user who authored the message.
      * @param message    The actual message content.
      * @param timestamp  The time at which the message was sent.
+     *                   
+     * @throws IllegalArgumentException If chatId or authorId is invalid.
      */
     public ChatMessage(int messageId, int chatId, int authorId, String message, String timestamp) {
+        ValidateChatId(chatId);
+        ValidateAuthorId(authorId);
         this.messageId      = messageId;
         this.chatId         = chatId;
         this.authorId       = authorId;
@@ -31,8 +37,12 @@ public class ChatMessage {
      * @param chatId     The ID of the chat to which this message belongs.
      * @param authorId   The ID of the user who authored the message.
      * @param message    The actual message content.
+     *                   
+     * @throws IllegalArgumentException If chatId or authorId is invalid.
      */
     public ChatMessage(int authorId, int chatId, String message) {
+        ValidateChatId(chatId);
+        ValidateAuthorId(authorId);
         this.authorId = authorId;
         this.chatId = chatId;
         this.messageContent = message;
@@ -59,8 +69,13 @@ public class ChatMessage {
     /**
      * Sets the ID of the chat to which this message belongs.
      * @param chatId The chat ID.
+     *               
+     * @throws IllegalArgumentException If chatId is invalid.
      */
-    public void setChatId(int chatId) { this.chatId = chatId; }
+    public void setChatId(int chatId) {
+        ValidateChatId(chatId);
+        this.chatId = chatId; 
+    }
 
     /**
      * Gets the ID of the user who authored the message.
@@ -71,8 +86,13 @@ public class ChatMessage {
     /**
      * Sets the ID of the user who authored the message.
      * @param authorId The author ID.
+     *                 
+     * @throws IllegalArgumentException If authorId is invalid.
      */
-    public void setAuthorId(int authorId) { this.authorId = authorId; }
+    public void setAuthorId(int authorId) {
+        ValidateAuthorId(authorId);
+        this.authorId = authorId; 
+    }
 
     /**
      * Gets the content of the message.
@@ -111,5 +131,27 @@ public class ChatMessage {
                 ", message='" + messageContent + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
+    }
+
+    /**
+     * Verifies the passed chat identifier is valid.
+     * 
+     * @param chatId chatID to verify.
+     * @throws IllegalArgumentException If chatId is invalid.
+     */
+    private void ValidateChatId(int chatId) {
+        if (chatId <= 0)
+            throw new IllegalArgumentException("chatId must be greater than 0.");
+    }
+
+    /**
+     * Verifies the passed author identifier is valid.
+     *
+     * @param authorId authorId to verify.
+     * @throws IllegalArgumentException If authorId is invalid.
+     */
+    private void ValidateAuthorId(int authorId) {
+        if (authorId <= 0)
+            throw new IllegalArgumentException("authorId must be greater than 0.");
     }
 }
