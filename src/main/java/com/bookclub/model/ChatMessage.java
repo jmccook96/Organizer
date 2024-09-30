@@ -22,13 +22,11 @@ public class ChatMessage {
      * @throws IllegalArgumentException If chatId or authorId is invalid.
      */
     public ChatMessage(int messageId, int chatId, int authorId, String message, String timestamp) {
-        ValidateChatId(chatId);
-        ValidateAuthorId(authorId);
-        this.messageId      = messageId;
-        this.chatId         = chatId;
-        this.authorId       = authorId;
-        this.messageContent = message;
-        this.timestamp      = timestamp;
+        setMessageId(messageId);
+        setChatId(chatId);
+        setAuthorId(authorId);
+        setMessage(message);
+        setTimestamp(timestamp);
     }
     
     /**
@@ -41,11 +39,9 @@ public class ChatMessage {
      * @throws IllegalArgumentException If chatId or authorId is invalid.
      */
     public ChatMessage(int authorId, int chatId, String message) {
-        ValidateChatId(chatId);
-        ValidateAuthorId(authorId);
-        this.authorId = authorId;
-        this.chatId = chatId;
-        this.messageContent = message;
+        setChatId(chatId);
+        setAuthorId(authorId);
+        setMessage(message);
     }
     
     /**
@@ -73,7 +69,8 @@ public class ChatMessage {
      * @throws IllegalArgumentException If chatId is invalid.
      */
     public void setChatId(int chatId) {
-        ValidateChatId(chatId);
+        if (chatId <= 0)
+            throw new IllegalArgumentException("chatId must be greater than 0.");
         this.chatId = chatId; 
     }
 
@@ -90,7 +87,8 @@ public class ChatMessage {
      * @throws IllegalArgumentException If authorId is invalid.
      */
     public void setAuthorId(int authorId) {
-        ValidateAuthorId(authorId);
+        if (authorId <= 0)
+            throw new IllegalArgumentException("authorId must be greater than 0.");
         this.authorId = authorId; 
     }
 
@@ -131,27 +129,5 @@ public class ChatMessage {
                 ", message='" + messageContent + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
-    }
-
-    /**
-     * Verifies the passed chat identifier is valid.
-     * 
-     * @param chatId chatID to verify.
-     * @throws IllegalArgumentException If chatId is invalid.
-     */
-    private void ValidateChatId(int chatId) {
-        if (chatId <= 0)
-            throw new IllegalArgumentException("chatId must be greater than 0.");
-    }
-
-    /**
-     * Verifies the passed author identifier is valid.
-     *
-     * @param authorId authorId to verify.
-     * @throws IllegalArgumentException If authorId is invalid.
-     */
-    private void ValidateAuthorId(int authorId) {
-        if (authorId <= 0)
-            throw new IllegalArgumentException("authorId must be greater than 0.");
     }
 }
