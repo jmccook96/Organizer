@@ -84,7 +84,7 @@ public class ChatMessage {
      * Sets the content of the message.
      * @param message The message content.
      */
-    public void setMessage(String message) { this.messageContent = messageContent; }
+    public void setMessage(String message) { this.messageContent = message; }
 
     /**
      * Gets the timestamp when the message was sent.
