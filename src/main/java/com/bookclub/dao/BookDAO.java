@@ -86,7 +86,7 @@ public class BookDAO implements IBookAO {
     public List<Book> findBooksByGenre(String genre) {
         List<Book> books = new ArrayList<>();
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookTitle = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookGenre = ?");
             statement.setString(1, genre);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
