@@ -8,8 +8,23 @@ package com.bookclub.model;
 public class User {
 
     // IF FIELDS GROW ENSURE USERDAO IS UPDATED TO MATCH.
+    private int id = -1;
     private String username;
     private String password;
+
+    /**
+     * Constructs a {@code User} object with the specified username and password.
+     *
+     * @param id the id of the user
+     * @param username the username of the user
+     * @param password the password of the user
+     * @throws IllegalArgumentException if the username or password is null or empty
+     */
+    public User(int id, String username, String password) {
+        this.id = id;
+        setUsername(username);
+        setPassword(password);
+    }
 
     /**
      * Constructs a {@code User} object with the specified username and password.
@@ -23,6 +38,20 @@ public class User {
         setUsername(username);
         setPassword(password);
     }
+
+    /**
+     * Returns the id of the user.
+     * 
+     * @return the id of the user
+     */
+    public int getId() { return id; }
+
+    /**
+     * Sets the id of the user.
+     * 
+     * @param id the new id of the user
+     */
+    public void setId(int id) { this.id = id; }
 
     /**
      * Returns the username of the user.

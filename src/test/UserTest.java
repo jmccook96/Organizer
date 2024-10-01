@@ -3,19 +3,21 @@ import com.bookclub.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
 
     private User user;
 
     @BeforeEach
-    public void setUp() {
-        user = new User("testUser", "testPassword");
+    public void setUp() { 
+        user = new User(0,"testUser", "testPassword");
     }
 
     // Basic functionality
+    @Test 
+    public void testGetId() { assertEquals(0, user.getId()); }
+    
     @Test
     public void testGetUsername() {
         assertEquals("testUser", user.getUsername());
@@ -26,6 +28,12 @@ public class UserTest {
         assertEquals("testPassword", user.getPassword());
     }
 
+    @Test 
+    public void testSetId() {
+        user.setId(1);
+        assertEquals(1, user.getId());
+    }
+    
     @Test
     public void testSetUsernameValid() {
         user.setUsername("newUser");
@@ -39,6 +47,12 @@ public class UserTest {
     }
 
     // Edge Cases
+    @Test
+    public void testGetIdWithoutSetting() {
+        User userTemp = new User("TestName", "TestPassword");
+        assertEquals(-1, userTemp.getId());
+    }
+    
     @Test
     public void testSetUsernameInvalidNull() {
         assertThrows(IllegalArgumentException.class, () -> user.setUsername(null));
