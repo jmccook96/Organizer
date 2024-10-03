@@ -47,7 +47,7 @@ public class UserDAO implements IUserAO {
         String sql = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setString(1, user.getUsername());
-            stmt.setString(2, PasswordHasher.hashPassword(user.getPassword()));
+            stmt.setString(2, user.getPassword());
 
             if (stmt.executeUpdate() > 0) {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
