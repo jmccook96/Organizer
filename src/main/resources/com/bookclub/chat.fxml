@@ -3,11 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.bookclub.controller.ChatController"
-      spacing="10" alignment="CENTER" style="-fx-padding: 10;">
-    <ListView fx:id="messageListView" VBox.vgrow="ALWAYS"/>
-    <HBox spacing="10">
-        <TextField fx:id="messageInputField" HBox.hgrow="ALWAYS"/>
-        <Button text="Send" onAction="#handleSendMessage"/>
-    </HBox>
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bookclub.controller.ChatController"
+            style="-fx-background-color: aliceblue">
+
+    <!-- Left Mounted Quick Access Menu -->
+    <left>
+        <fx:include fx:id="navBar" source="navigatorBar.fxml"/>
+    </left>
+    <center>
+        <VBox fx:id="chatContainer" spacing="20" alignment="CENTER">
+            <Label text="Chat" alignment="TOP_CENTER" style="-fx-font-size: 50"/>
+            <VBox VBox.vgrow="ALWAYS">
+                <ListView fx:id="messageListView" VBox.vgrow="ALWAYS"/>
+            </VBox>
+            <HBox spacing="10">
+                <TextField fx:id="messageInputField" HBox.hgrow="ALWAYS" promptText="Type your message here"/>
+                <Button text="Send" onAction="#handleSendMessage"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
