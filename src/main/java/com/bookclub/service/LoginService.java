@@ -68,12 +68,17 @@ public class LoginService {
      * @param password the desired password of the new user
      * @return true if the user is successfully registered, false otherwise
      */
-    public boolean register(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
+    public boolean register(String username, String password, String name, String email) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
+        }
 
-        User newUser = new User(username, password);
-        return !userAO.hasUser(newUser) && userAO.addUser(newUser);
+        User newUser = new User(username, PasswordHasher.hashPassword(password), name, email);
+        if (userAO.addUser(newUser)) {
+            currentUser = newUser;  // Set the current user after successful registration
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -91,5 +96,14 @@ public class LoginService {
     public void dropCurrentUser() {
         currentUser = null;
         System.out.println("Current User dropped by LoginService.");
+    }
+
+    public boolean updateUserDetails(String name, String email) {
+        if (currentUser == null) {
+            return false;
+        }
+        currentUser.setName(name);
+        currentUser.setEmail(email);
+        return userAO.updateUser(currentUser);
     }
 }

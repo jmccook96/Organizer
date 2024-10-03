@@ -25,11 +25,15 @@ public class RegisterController {
     @FXML
     private Label registerLabel;
     @FXML
+    private TextField usernameField;
+    @FXML
     private PasswordField passwordField;
     @FXML
     private PasswordField confirmPasswordField;
     @FXML
-    private TextField usernameField;
+    private TextField nameField;
+    @FXML
+    private TextField emailField;
     @FXML
     private Button registerButton;
     @FXML
@@ -43,12 +47,19 @@ public class RegisterController {
         logoVBox.prefWidthProperty().bind(registerBorderPane.widthProperty().multiply(0.45));
         loginVBox.prefWidthProperty().bind(logoVBox.widthProperty());
         logoImageView.fitWidthProperty().bind(logoVBox.prefWidthProperty().multiply(0.6));
+
         usernameField.maxWidthProperty().bind(loginVBox.widthProperty().multiply(0.8));
         passwordField.maxWidthProperty().bind(usernameField.widthProperty());
         confirmPasswordField.maxWidthProperty().bind(usernameField.widthProperty());
+        nameField.maxWidthProperty().bind(usernameField.widthProperty());
+        emailField.maxWidthProperty().bind(usernameField.widthProperty());
+
         usernameField.prefHeightProperty().bind(registerBorderPane.heightProperty().multiply(0.05));
         passwordField.prefHeightProperty().bind(usernameField.heightProperty());
         confirmPasswordField.prefHeightProperty().bind(usernameField.prefHeightProperty());
+        nameField.prefHeightProperty().bind(usernameField.prefHeightProperty());
+        emailField.prefHeightProperty().bind(usernameField.prefHeightProperty());
+
         registerButton.prefHeightProperty().bind(usernameField.heightProperty());
         registerButton.prefWidthProperty().bind(usernameField.widthProperty());
         backToLoginButton.prefHeightProperty().bind(usernameField.heightProperty());
@@ -61,9 +72,11 @@ public class RegisterController {
         String username = usernameField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        String name = nameField.getText();
+        String email = emailField.getText();
 
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            messageLabel.setText("All fields are required.");
+            messageLabel.setText("Username and password are required.");
             return;
         }
 
@@ -72,12 +85,19 @@ public class RegisterController {
             return;
         }
 
-        if (LoginService.getInstance().register(username, password)) {
-            messageLabel.setText("Registration successful. You can now log in.");
-            // Clear the fields after successful registration
-            usernameField.clear();
-            passwordField.clear();
-            confirmPasswordField.clear();
+        if (LoginService.getInstance().register(username, password, name, email)) {
+            // If registration is successful, update the user's name and email
+            if (LoginService.getInstance().updateUserDetails(name, email)) {
+                messageLabel.setText("Registration successful. You can now log in.");
+                // Clear the fields after successful registration
+                usernameField.clear();
+                passwordField.clear();
+                confirmPasswordField.clear();
+                nameField.clear();
+                emailField.clear();
+            } else {
+                messageLabel.setText("Registration successful, but failed to save additional details.");
+            }
         } else {
             messageLabel.setText("Registration failed. Username may already exist.");
         }
