@@ -73,7 +73,7 @@ public class LoginService {
             return false;
         }
 
-        User newUser = new User(username, PasswordHasher.hashPassword(password), name, email);
+        User newUser = new User( -1,username, PasswordHasher.hashPassword(password), name, email);
         if (userAO.addUser(newUser)) {
             currentUser = newUser;  // Set the current user after successful registration
             return true;

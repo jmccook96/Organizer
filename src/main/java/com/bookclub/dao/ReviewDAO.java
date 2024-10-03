@@ -74,7 +74,7 @@ public class ReviewDAO implements IReviewAO {
                 String username = resultSet.getString("username");
                 int rating = resultSet.getInt("rating");
                 // TODO: Change Review implementation so we don't have to do this
-                User user = new User(username, "somePassword", "", "");
+                User user = new User(-1,username, "somePassword", "", "");
                 Review review = new Review(user, book, rating);
                 reviews.add(review);
             }

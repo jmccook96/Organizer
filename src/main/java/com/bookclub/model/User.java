@@ -6,7 +6,7 @@ package com.bookclub.model;
  * This class provides getter and setter methods for accessing these attributes.
  */
 public class User {
-
+    private int id = -1;
     private String username;
     private String password;
     private String name;
@@ -21,7 +21,8 @@ public class User {
      * @param email    the email of the user
      * @throws IllegalArgumentException if the username or password is null or empty
      */
-    public User(String username, String password, String name, String email) {
+    public User(int id, String username, String password, String name, String email) {
+        this.id = id;
         setUsername(username);
         setPassword(password);
         this.name = name;
@@ -37,7 +38,7 @@ public class User {
      * @throws IllegalArgumentException if the username or password is null or empty
      */
     public User(String username, String password) {
-        this(username, password, "", "");
+        this(-1,username, password, "", "");
     }
 
     public String getUsername() {
@@ -50,6 +51,9 @@ public class User {
         }
         this.username = username;
     }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
 
     public String getPassword() {
         return password;
