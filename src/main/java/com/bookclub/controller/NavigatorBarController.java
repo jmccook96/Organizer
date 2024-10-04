@@ -78,6 +78,6 @@ public class NavigatorBarController {
     }
 
     public void navigateChat() {
-        navigateTest();
+        StageFactory.getInstance().switchScene(StageView.CHAT);
     }
 }
