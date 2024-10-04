@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bookclub.controller.ChatController"
+            style="-fx-background-color: aliceblue">
+    <!-- Left Mounted Quick Access Menu -->
+    <left>
+        <fx:include fx:id="navBar" source="navigatorBar.fxml"/>
+    </left>
+    
+    
+    <center>
+        <VBox fx:id="mainContainer" spacing="20">
+            <Label text="Chat Title" style="-fx-font-size: 20px; -fx-padding: 10px;" BorderPane.alignment="CENTER"/>
+        <ScrollPane fx:id="chatScrollPane" fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER">
+            <VBox fx:id="chatBox" spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+            </VBox>
+        </ScrollPane>
+        <!-- Input Field -->
+            <HBox spacing="10" prefHeight="50" alignment="CENTER" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 1px 0 0 0;">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <TextField fx:id="messageInput" promptText="Type a message..." HBox.hgrow="ALWAYS"/>
+                <Button text="Send" onAction="#sendMessage"/>
+            </HBox>
+        </VBox>
+    </center>
+    
+    
+</BorderPane>
