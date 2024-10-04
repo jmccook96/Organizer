@@ -9,12 +9,12 @@ import java.util.Map;
 public class UserMAO implements IUserAO {
     private final Map<Integer, User> users;
     private int idIndex;
-    
+
     public UserMAO() {
         idIndex = 0;
         users = new HashMap<>();
     }
-    
+
     @Override
     public User findUserByUsername(String username) {
         for (User user : users.values())
@@ -27,12 +27,12 @@ public class UserMAO implements IUserAO {
     public User findUserById(int id) {
         return users.get(id);
     }
-    
+
     @Override
     public boolean addUser(User user) {
         if (!users.containsKey(user.getId()))
             return users.put(user.getId(), user) == null;
-        
+
         return users.put(idIndex++, user) == null;
     }
 
@@ -41,10 +41,10 @@ public class UserMAO implements IUserAO {
         User oldUser = findUserById(user.getId());
         if (oldUser == null)
             return false;
-        
+
         return users.replace(user.getId(), oldUser, user);
     }
-    
+
     @Override
     public boolean hasUser(int userId) { return users.containsKey(userId); }
 
@@ -53,7 +53,7 @@ public class UserMAO implements IUserAO {
         for (User user : users.values())
             if (user.getUsername().equals(username))
                 return true;
-        
+
         return false;
     }
 

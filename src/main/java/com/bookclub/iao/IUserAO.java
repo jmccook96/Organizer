@@ -38,7 +38,7 @@ public interface IUserAO {
      * @return if a user with the given id is found.
      */
     boolean hasUser(String username);
-    
+
     /**
      * Checks if a user with the passed id is contained.
      * @param userId to find.

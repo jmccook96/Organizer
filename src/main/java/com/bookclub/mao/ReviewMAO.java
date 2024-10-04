@@ -18,9 +18,9 @@ public class ReviewMAO implements IReviewAO {
     }
 
     private void addTestData() {
-        User user1 = new User("User1", "Password1");
-        User user2 = new User("User2", "Password2");
-        User user3 = new User("User3", "Password3");
+        User user1 = new User(1,"User1", "Password1", "Shromm", "shromm@qut.edu.au");
+        User user2 = new User(2,"User2", "Password2", "James", "james@qut.edu.au");
+        User user3 = new User(3,"User3", "Password3", "Bonnie", "bonnie@qut.edu.au");
         Book book1 = new Book("It", "Stephen King");
         Book book2 = new Book("The Shining", "Stephen King");
 
