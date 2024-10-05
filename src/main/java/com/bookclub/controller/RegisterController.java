@@ -68,40 +68,39 @@ public class RegisterController {
     }
 
     @FXML
-    protected void handleRegister() {
+    public void handleRegister() {
         String username = usernameField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         String name = nameField.getText();
         String email = emailField.getText();
 
+        // Check for empty fields
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            messageLabel.setText("Username and password are required.");
+            messageLabel.setText("All fields are required.");
             return;
         }
 
+        // Check if passwords match
         if (!password.equals(confirmPassword)) {
             messageLabel.setText("Passwords do not match.");
             return;
         }
 
+        // Validate email format
+        if (!email.isEmpty()) {
+            messageLabel.setText("Please enter a valid email address.");
+            return;
+        }
+
+        // Register user
         if (LoginService.getInstance().register(username, password, name, email)) {
-            // If registration is successful, update the user's name and email
-            if (LoginService.getInstance().updateUserDetails(name, email)) {
-                messageLabel.setText("Registration successful. You can now log in.");
-                // Clear the fields after successful registration
-                usernameField.clear();
-                passwordField.clear();
-                confirmPasswordField.clear();
-                nameField.clear();
-                emailField.clear();
-            } else {
-                messageLabel.setText("Registration successful, but failed to save additional details.");
-            }
+            messageLabel.setText("Registration successful. You can now log in.");
         } else {
             messageLabel.setText("Registration failed. Username may already exist.");
         }
     }
+
 
     @FXML
     protected void handleBackToLogin() {
