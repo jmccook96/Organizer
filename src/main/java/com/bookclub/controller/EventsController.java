@@ -58,6 +58,9 @@ public class EventsController {
         Book book = getBookById(event.getBookId());
         if (book != null) {
             bookComboBox.setValue(book);
+            // Display average rating
+            eventLabel.setText(String.format("Event for: %s (Avg. Rating: %.1f/5.0)",
+                    book.toString(), book.getAverageRating()));
         }
         eventNameField.setText(event.getName());
         datePicker.setValue(event.getDateTime().toLocalDate());
@@ -77,13 +80,17 @@ public class EventsController {
             @Override
             protected void updateItem(Event event, boolean empty) {
                 super.updateItem(event, empty);
-                // If the cell is empty, set the text to null, otherwise set it to the event's name
                 if (empty || event == null || event.getName() == null) {
                     setText(null);
                     super.setOnMouseClicked(this::onEventSelected);
-                }
-                else {
-                    setText(event.getName());
+                } else {
+                    Book book = getBookById(event.getBookId());
+                    if (book != null) {
+                        setText(String.format("%s - %s (Avg. Rating: %.1f/5.0)",
+                                event.getName(), book.toString(), book.getAverageRating()));
+                    } else {
+                        setText(event.getName());
+                    }
                 }
             }
         };
@@ -134,13 +141,14 @@ public class EventsController {
             bookComboBox.setConverter(new StringConverter<>() {
                 @Override
                 public String toString(Book book) {
-                    return book == null ? null : book.toString();
+                    return book == null ? null : String.format("%s (Avg. Rating: %.1f/5.0)",
+                            book.toString(), book.getAverageRating());
                 }
 
                 @Override
                 public Book fromString(String string) {
                     for (Book book : books) {
-                        if (book.toString().equals(string)) {
+                        if (toString(book).equals(string)) {
                             return book;
                         }
                     }
@@ -179,11 +187,14 @@ public class EventsController {
 
     @FXML
     private void handleAdd() {
-        Event newEvent = new Event(bookComboBox.getItems().get(0).getId(), "New Event", LoginService.getCurrentUser().getUsername(), LocalDateTime.now(), "New Location");
+        Book defaultBook = bookComboBox.getItems().get(0);
+        Event newEvent = new Event(defaultBook.getId(), "New Event", LoginService.getCurrentUser().getUsername(), LocalDateTime.now(), "New Location");
         eventAO.addEvent(newEvent);
         updateEvents();
         selectEvent(newEvent);
         bookComboBox.requestFocus();
+        eventLabel.setText(String.format("New event for: %s (Avg. Rating: %.1f/5.0)",
+                defaultBook.toString(), defaultBook.getAverageRating()));
     }
 
     @FXML

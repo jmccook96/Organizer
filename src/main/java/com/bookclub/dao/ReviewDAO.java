@@ -133,6 +133,22 @@ public class ReviewDAO implements IReviewAO {
         return true;
     }
 
+    @Override
+    public double getAverageRatingForBook(Book book) {
+        try {
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "SELECT AVG(rating) as avgRating FROM Reviews WHERE bookId = ?");
+            statement.setInt(1, book.getId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble("avgRating");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0; // Default to 0 if no ratings or error occurs
+    }
+
     private void createTable() {
         // Create table if not exists
         try {
