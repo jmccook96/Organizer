@@ -49,4 +49,11 @@ public interface IReviewAO {
      * @return If operation succeeded
      */
     boolean deleteReview(Review review);
+
+    /**
+     * Calculates the average rating for a given book.
+     * @param book The book to calculate the average rating for
+     * @return The average rating for the book
+     */
+    double getAverageRatingForBook(Book book);
 }

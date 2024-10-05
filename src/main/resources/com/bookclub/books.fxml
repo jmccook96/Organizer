@@ -2,28 +2,43 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bookclub.controller.BooksController"
-            style="-fx-background-color: aliceblue">
+            style="-fx-background-color: aliceblue;">
 
     <!-- Left Mounted Quick Access Menu -->
     <left>
         <fx:include fx:id="navBar" source="navigatorBar.fxml"/>
     </left>
+
     <center>
-        <VBox fx:id="booksContainer" spacing="20" alignment="CENTER">
-            <Label text="Book List" alignment="TOP_CENTER" style="-fx-font-size: 50"/>
-            <VBox spacing="10">
-                <Label text="Add a new book:"/>
-                <TextField fx:id="titleField" promptText="Enter title"/>
-                <TextField fx:id="authorField" promptText="Enter author"/>
-                <Button text="Add" onAction="#handleAddBook" />
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="booksContainer" spacing="20" alignment="CENTER">
+                <!-- Header -->
+                <HBox alignment="CENTER" style="-fx-background-color: #4a69bd; -fx-padding: 20;">
+                    <Label text="Book List" style="-fx-font-size: 40; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <!-- Add new book section -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+                    <Label text="Add a new book" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                    <TextField fx:id="titleField" promptText="Enter title"/>
+                    <TextField fx:id="authorField" promptText="Enter author"/>
+                    <Button text="Add Book" onAction="#handleAddBook" style="-fx-background-color: #4a69bd; -fx-text-fill: white;"/>
+                </VBox>
+
+                <!-- Book list -->
+                <ListView fx:id="bookListView" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;"/>
             </VBox>
-            <VBox>
-                <ListView fx:id="booksList" VBox.vgrow="ALWAYS"/>
-            </VBox>
-        </VBox>
+        </ScrollPane>
     </center>
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 </BorderPane>

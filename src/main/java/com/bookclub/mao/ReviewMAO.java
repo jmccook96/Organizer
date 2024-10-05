@@ -71,4 +71,17 @@ public class ReviewMAO implements IReviewAO {
     public boolean deleteReview(Review review) {
         return reviews.remove(review);
     }
+
+    public double getAverageRatingForBook(Book book) {
+        List<Review> bookReviews = findReviewsByBook(book);
+        if (bookReviews.isEmpty()) {
+            return 0.0;
+        }
+
+        double sum = 0.0;
+        for (Review review : bookReviews) {
+            sum += review.getRating();
+        }
+        return sum / bookReviews.size();
+    }
 }
