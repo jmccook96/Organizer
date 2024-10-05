@@ -57,14 +57,21 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Check for empty fields
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert("Login Failed", "Username and password cannot be empty.");
+            return;
+        }
+
+        // Attempt login
         if (LoginService.getInstance().attemptLogin(username, password)) {
-            showAlert("Login successful.", "Welcome " + username + "!");
+            showAlert("Login successful", "Welcome " + username + "!");
             StageFactory.getInstance().switchScene(StageView.HOME);
         } else {
-            showAlert("Login Failed.", "Incorrect username or password.");
-           // TODO: Offer password reset or something?
+            showAlert("Login Failed", "Invalid username or password.");
         }
     }
+
 
     @FXML
     public void handleNavigateToRegister() {
