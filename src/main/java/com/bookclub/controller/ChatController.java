@@ -13,9 +13,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ChatController {
-    @FXML private VBox chatBox;
+    @FXML private VBox       chatBox;
     @FXML private ScrollPane chatScrollPane;
-    @FXML private TextField messageInput;
+    @FXML private TextField  messageInput;
+    @FXML private Label      chatTitleLabel;
     
     private IChatAO chatAO;
     private int currentChatId = 1;
@@ -23,6 +24,12 @@ public class ChatController {
     @FXML public void initalize() {
         chatAO = new ChatMAO(); // TODO: Migrate to DAO
         currentChatId = 1;
+        
+        setChatTitleLabel("Default Chat Title");
+    }
+    
+    public void setChatTitleLabel(String titleLabel) {
+        chatTitleLabel.setText(titleLabel);
     }
     
     @FXML private void sendMessage() {
