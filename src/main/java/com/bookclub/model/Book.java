@@ -10,6 +10,7 @@ public class Book {
     private int id;
     private String title;
     private String author;
+    private double averageRating;
 
     /**
      * Constructs a {@code Book} object with the specified title and author.
@@ -106,6 +107,13 @@ public class Book {
             throw new IllegalArgumentException("Author can not be null or empty");
         }
         this.author = author;
+    }
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     @Override

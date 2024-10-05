@@ -7,20 +7,20 @@ import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
-import java.util.Collections;
 import java.util.List;
 
 public class BooksController {
 
     private IBookAO bookAO;
     private static Book selectedBook;
+
     @FXML
     private VBox booksContainer;
     @FXML
-    private ListView<Book> booksList;
+    private ListView<Book> bookListView;
     @FXML
     private TextField titleField;
     @FXML
@@ -39,17 +39,42 @@ public class BooksController {
         if (booksButton != null) {
             booksButton.setStyle("-fx-background-color: lightsteelblue");
         }
-        booksContainer.maxWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.5));
-        updateBooks();
-        booksList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        // Handle book selection
-        booksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        booksContainer.maxWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.5));
+
+        bookListView.setCellFactory(param -> new ListCell<Book>() {
+            @Override
+            protected void updateItem(Book book, boolean empty) {
+                super.updateItem(book, empty);
+                if (empty || book == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    VBox container = new VBox(5);
+                    container.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);");
+
+                    Text title = new Text(book.getTitle());
+                    title.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+
+                    Text author = new Text("by " + book.getAuthor());
+                    author.setStyle("-fx-font-style: italic;");
+
+                    Text rating = new Text(String.format("Average Rating: %.1f/5.0", book.getAverageRating()));
+
+                    container.getChildren().addAll(title, author, rating);
+                    setGraphic(container);
+                }
+            }
+        });
+
+        bookListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 setSelectedBook(newValue);
                 StageFactory.getInstance().switchScene(StageView.REVIEWS);
             }
         });
+
+        updateBooks();
     }
 
     @FXML
@@ -78,10 +103,9 @@ public class BooksController {
     }
 
     private void updateBooks() {
-        booksList.getItems().clear(); // Clear current books
+        bookListView.getItems().clear(); // Clear current books
         List<Book> books = bookAO.findAllBooks();
-        Collections.reverse(books); // Put latest entry on top
-        booksList.getItems().addAll(books);
+        bookListView.getItems().addAll(books);
     }
 
     private void showAlert(String title, String message) {
@@ -91,5 +115,4 @@ public class BooksController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }

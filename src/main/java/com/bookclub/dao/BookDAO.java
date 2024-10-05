@@ -1,6 +1,7 @@
 package com.bookclub.dao;
 
 import com.bookclub.iao.IBookAO;
+import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
 import com.bookclub.util.DatabaseManager;
 
@@ -18,7 +19,6 @@ public class BookDAO implements IBookAO {
         dbManager = DatabaseManager.getInstance();
         createTable();
     }
-
     @Override
     public List<Book> findAllBooks() {
         List<Book> books = new ArrayList<>();
@@ -31,14 +31,20 @@ public class BookDAO implements IBookAO {
                 String bookTitle = resultSet.getString("bookTitle");
                 String bookAuthor = resultSet.getString("bookAuthor");
                 Book book = new Book(bookId, bookTitle, bookAuthor);
+
+                // Calculate and set the average rating
+                IReviewAO reviewAO = new ReviewDAO();
+                double avgRating = reviewAO.getAverageRatingForBook(book);
+                book.setAverageRating(avgRating);
+
                 books.add(book);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return books;
     }
+
 
     @Override
     public Book findBookByTitleAndAuthor(String title, String author) {
