@@ -9,7 +9,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bookclub.controller.NavigatorBarController"
       alignment="CENTER_LEFT" stylesheets="@styles/navigatorBar.css">
-    <VBox fx:id="navBarVBox" spacing="1" alignment="CENTER">
+    <VBox fx:id="navBarVBox" spacing="1" alignment="CENTER_LEFT" prefWidth="200">
         <Button fx:id="accountButton" onAction="#navigateAccount">
             <graphic>
                 <ImageView fx:id="accountIcon" preserveRatio="true" smooth="true">
@@ -46,5 +46,4 @@
             </graphic>
         </Button>
     </VBox>
-    <Separator orientation="VERTICAL"/>
 </HBox>
