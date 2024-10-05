@@ -7,55 +7,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserMAO implements IUserAO {
-    private final Map<Integer, User> users;
-    private int idIndex;
-    
+    private final Map<String, User> users;
+
     public UserMAO() {
-        idIndex = 0;
         users = new HashMap<>();
-    }
-    
-    @Override
-    public User findUserByUsername(String username) {
-        for (User user : users.values())
-            if (user.getUsername().equals(username))
-                return user;
-        return null;
     }
 
     @Override
-    public User findUserById(int id) {
-        return users.get(id);
+    public User findUserByUsername(String username) {
+        return users.get(username);
     }
-    
+
     @Override
     public boolean addUser(User user) {
-        if (!users.containsKey(user.getId()))
-            return users.put(user.getId(), user) == null;
-        
-        return users.put(idIndex++, user) == null;
+        return users.put(user.getUsername(), user) == null;
     }
 
     @Override
     public boolean updateUser(User user) {
-        User oldUser = findUserById(user.getId());
+        User oldUser = findUserByUsername(user.getUsername());
         if (oldUser == null)
             return false;
-        
-        return users.replace(user.getId(), oldUser, user);
+
+        return users.replace(user.getUsername(), oldUser, user);
     }
-    
-    @Override
-    public boolean hasUser(int userId) { return users.containsKey(userId); }
 
     @Override
-    public boolean hasUser(String username) {
-        for (User user : users.values())
-            if (user.getUsername().equals(username))
-                return true;
-        
-        return false;
-    }
+    public boolean hasUser(User user) { return users.containsKey(user.getUsername()); }
 
     @Override
     public boolean deleteUser(User user) {
