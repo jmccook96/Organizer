@@ -69,6 +69,7 @@ public class EventsController {
         minuteSpinner.getValueFactory().setValue(event.getDateTime().getMinute());
         eventLocationField.setText(event.getLocation());
         toggleFieldsVisibility(true);
+        // TODO: Migrate to using ids
         toggleFieldsDisable(!event.getOrganizer().equals(LoginService.getCurrentUser().getUsername()));
     }
 
