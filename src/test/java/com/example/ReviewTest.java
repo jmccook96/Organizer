@@ -1,3 +1,5 @@
+package com.example;
+
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.model.User;
