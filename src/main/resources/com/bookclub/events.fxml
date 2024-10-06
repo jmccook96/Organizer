@@ -57,6 +57,7 @@
                                 <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"/>
                                 <Button fx:id="deleteButton" text="Delete" onAction="#handleDelete"/>
                             </HBox>
+                            <fx:include fx:id="rsvp" source="rsvp.fxml" spacing="10.0"/>
                         </VBox>
                     </HBox>
                 </VBox>

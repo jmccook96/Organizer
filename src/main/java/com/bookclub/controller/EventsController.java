@@ -5,6 +5,7 @@ import com.bookclub.dao.EventDAO;
 import com.bookclub.iao.IEventAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Event;
+import com.bookclub.service.EventService;
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
@@ -47,6 +49,8 @@ public class EventsController {
     private Button cancelButton;
     @FXML
     private Button deleteButton;
+    @FXML
+    private VBox rsvp;
 
 
     public EventsController() {
@@ -64,6 +68,9 @@ public class EventsController {
         hourSpinner.getValueFactory().setValue(event.getDateTime().getHour());
         minuteSpinner.getValueFactory().setValue(event.getDateTime().getMinute());
         eventLocationField.setText(event.getLocation());
+        toggleFieldsVisibility(true);
+        // TODO: Migrate to using ids
+        toggleFieldsDisable(!event.getOrganizer().equals(LoginService.getCurrentUser().getUsername()));
     }
 
     private ListCell<Event> renderCell(ListView<Event> eventList) {
@@ -72,6 +79,7 @@ public class EventsController {
                 ListCell<Event> clickedCell = (ListCell<Event>) mouseEvent.getSource();
                 Event selectedEvent = clickedCell.getItem();
                 if (selectedEvent != null) selectEvent(selectedEvent);
+                EventService.getInstance().setSelectedEvent(selectedEvent);
             }
 
             @Override
@@ -111,23 +119,14 @@ public class EventsController {
         updateEvents();
         BookDAO bookAO = new BookDAO();
         List<Book> books = bookAO.findAllBooks();
+        toggleFieldsVisibility(false);
         if (books.isEmpty()) {
             eventLabel.setText("Add a book to start creating events");
             eventLabel.setStyle("-fx-text-fill: red; -fx-cursor: hand; -fx-underline: true");
             eventLabel.setOnMouseClicked(event -> {
                 StageFactory.getInstance().switchScene(StageView.BOOKS);
             });
-            // Disable all fields if no books have been added
-            bookComboBox.setDisable(true);
-            eventNameField.setDisable(true);
-            datePicker.setDisable(true);
-            hourSpinner.setDisable(true);
-            minuteSpinner.setDisable(true);
-            eventLocationField.setDisable(true);
             addButton.setDisable(true);
-            confirmButton.setDisable(true);
-            cancelButton.setDisable(true);
-            deleteButton.setDisable(true);
         }
         else {
             bookComboBox.getItems().addAll(books);
@@ -201,5 +200,30 @@ public class EventsController {
             }
         }
         return null;
+    }
+
+    private void toggleFieldsDisable(boolean disable) {
+        bookComboBox.setDisable(disable);
+        eventNameField.setDisable(disable);
+        datePicker.setDisable(disable);
+        hourSpinner.setDisable(disable);
+        minuteSpinner.setDisable(disable);
+        eventLocationField.setDisable(disable);
+        confirmButton.setDisable(disable);
+        cancelButton.setDisable(disable);
+        deleteButton.setDisable(disable);
+    }
+
+    private void toggleFieldsVisibility(boolean visible) {
+        bookComboBox.setVisible(visible);
+        eventNameField.setVisible(visible);
+        datePicker.setVisible(visible);
+        hourSpinner.setVisible(visible);
+        minuteSpinner.setVisible(visible);
+        eventLocationField.setVisible(visible);
+        confirmButton.setVisible(visible);
+        cancelButton.setVisible(visible);
+        deleteButton.setVisible(visible);
+        rsvp.setVisible(visible);
     }
 }
