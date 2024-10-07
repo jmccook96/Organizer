@@ -103,4 +103,26 @@ public class LoginService {
         currentUser = null;
         System.out.println("Current User dropped by LoginService.");
     }
+    /**
+     * Updates the current user information with the provided {@code User} object.
+     * The method validates that the {@code User} object is not null and that the username is non-null and non-empty.
+     * If the validation succeeds, it attempts to update the user using the {@code userAO.updateUser} method.
+     * If the update is successful, the current user session is updated.
+     *
+     * @param user the {@code User} object containing the updated user information
+     * @return {@code true} if the update is successful, {@code false} otherwise
+     * @throws IllegalArgumentException if the {@code user} or {@code username} is null or empty
+     */
+    public boolean updateUser(User user) {
+        if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
+            return false;
+        }
+
+        if (userAO.updateUser(user)) {
+            currentUser = user;  // Update the current user in the session
+            return true;
+        }
+        return false;
+    }
+
 }

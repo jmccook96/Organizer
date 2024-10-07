@@ -73,12 +73,12 @@ public class UserDAO implements IUserAO {
             stmt.setString(1, user.getPassword());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getEmail());
+            stmt.setInt(4, user.getId());
             //stmt.setString(4, user.getSettings());  // ASSUMING STORED AS JSON STRING
-            stmt.setString(5, user.getUsername());
 
             // Make sure row count from execution is 1 (or more) to verify it executed.
             if (stmt.executeUpdate() > 0) {
-                System.out.println("Updated user in db: \"" + user.getUsername() + "\"");
+                System.out.println("Updated user in db: \"" + user.getUsername() + "\" with id " + user.getId());
                 return true;
             }
 
