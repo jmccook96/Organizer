@@ -1,28 +1,40 @@
 package com.bookclub.service;
 
 import com.bookclub.dao.BookDAO;
+import com.bookclub.dao.ReviewDAO;
 import com.bookclub.iao.IBookAO;
+import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
+import com.bookclub.model.Review;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class BookService {
-    private static BookService instance;
     private IBookAO bookAO;
+    private IReviewAO reviewAO;
     private ObjectProperty<Book> selectedBook;
+    private Map<Book, List<Review>> reviewCache;
 
     private BookService() {
         bookAO = new BookDAO();
+        reviewAO = new ReviewDAO();
         selectedBook = new SimpleObjectProperty<>();
+        reviewCache = new ConcurrentHashMap<>();
+    }
+
+    private static class BookServiceHolder {
+        private static final BookService INSTANCE = new BookService();
     }
 
     public static BookService getInstance() {
-        if (instance == null) {
-            instance = new BookService();
-        }
-        return instance;
+        return BookServiceHolder.INSTANCE;
     }
 
+    // Property for selectedBook
     public ObjectProperty<Book> selectedBookProperty() {
         return selectedBook;
     }
@@ -35,4 +47,45 @@ public class BookService {
         selectedBook.set(book);
     }
 
+
+    public ReviewData getReviewData(Book book) {
+        List<Review> reviews = reviewCache.computeIfAbsent(book, reviewAO::findReviewsByBook);
+
+        int sum = 0;
+        for (Review review : reviews) {
+            sum += review.getRating();
+        }
+        double averageRating = reviews.isEmpty() ? 0.0 : (double) sum / reviews.size();
+
+        return new ReviewData(averageRating, reviews.size());
+    }
+
+    // Method to clear cache for a specific book
+    public void clearReviewCache(Book book) {
+        reviewCache.remove(book);
+    }
+
+    // Add or update review and invalidate the cache
+    public void addOrUpdateReview(Review review, Book book) {
+        reviewAO.saveOrUpdateReview(review);
+        clearReviewCache(book);
+    }
+
+    public static class ReviewData {
+        private final double averageRating;
+        private final int numberOfRatings;
+
+        public ReviewData(double averageRating, int numberOfRatings) {
+            this.averageRating = averageRating;
+            this.numberOfRatings = numberOfRatings;
+        }
+
+        public double getAverageRating() {
+            return averageRating;
+        }
+
+        public int getNumberOfRatings() {
+            return numberOfRatings;
+        }
+    }
 }

@@ -71,4 +71,14 @@ public class ReviewMAO implements IReviewAO {
     public boolean deleteReview(Review review) {
         return reviews.remove(review);
     }
+
+    @Override
+    public void saveOrUpdateReview(Review review) {
+        Review existingReview = findReviewByUserAndBook(review.getUser(), review.getBook());
+        if (existingReview != null) {
+            updateReview(review);
+        } else {
+            addReview(review);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import com.bookclub.dao.ReviewDAO;
 import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
+import com.bookclub.model.User;
 import com.bookclub.service.BookService;
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
@@ -28,6 +29,9 @@ public class ReviewController {
 
     private IReviewAO reviewAO;
     private Book selectedBook;
+    private User currentUser;
+    private BookService bookService;
+
     @FXML
     private VBox reviewContainer;
     @FXML
@@ -45,6 +49,8 @@ public class ReviewController {
 
     public ReviewController() {
         reviewAO = new ReviewDAO();
+        bookService = BookService.getInstance();
+        currentUser = LoginService.getInstance().getCurrentUser();
     }
 
     @FXML
@@ -53,7 +59,7 @@ public class ReviewController {
         newReviewContainer.maxWidthProperty().bind(reviewContainer.maxWidthProperty().multiply(0.5));
         backButton.prefHeightProperty().bind(StageFactory.getInstance().getPrimaryStage().heightProperty());
         backIcon.fitWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.1));
-        selectedBook = BookService.getInstance().getSelectedBook();
+        selectedBook = bookService.getSelectedBook();
         if (selectedBook != null) {
             bookLabel.setText(selectedBook.toString());
         }
@@ -64,16 +70,23 @@ public class ReviewController {
 
     @FXML
     private void handleSubmitReview() {
-        int rating = (int)ratingControl.getRating();
-        if (rating == 0) {
-            showAlert("Review submit failed", "A rating must be selected!");
+        int rating = getSelectedRating();
+        Book book = bookService.getSelectedBook();
+        Review existingReview = reviewAO.findReviewByUserAndBook(currentUser, book);
+
+        if (existingReview != null) {
+            existingReview.setRating(rating);
+            bookService.addOrUpdateReview(existingReview, book);
+        } else {
+            Review newReview = new Review(currentUser, book, rating);
+            bookService.addOrUpdateReview(newReview, book);
         }
-        else {
-            showAlert("Review submitted", "You rated " + selectedBook + ": " + rating + " stars");
-            Review review = new Review(LoginService.getCurrentUser(), selectedBook, rating);
-            reviewAO.addReview(review);
-            updateRatings();
-        }
+
+        updateRatings();  // Refresh the view to reflect the updated reviews
+    }
+
+    private int getSelectedRating() {
+        return (int) ratingControl.getRating();
     }
 
     @FXML

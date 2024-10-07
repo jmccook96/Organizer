@@ -49,4 +49,10 @@ public interface IReviewAO {
      * @return If operation succeeded
      */
     boolean deleteReview(Review review);
+
+    /**
+     * Adds or updates a review in the database.
+     * @param review The review to add or update.
+     */
+    void saveOrUpdateReview(Review review);
 }
