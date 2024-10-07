@@ -1,9 +1,9 @@
 package com.bookclub.service;
 
+import com.bookclub.dao.ChatDAO;
 import com.bookclub.dao.UserDAO;
 import com.bookclub.iao.IChatAO;
 import com.bookclub.iao.IUserAO;
-import com.bookclub.mao.ChatMAO;
 import com.bookclub.model.ChatDisplay;
 import com.bookclub.model.ChatMessage;
 import com.bookclub.model.User;
@@ -31,7 +31,7 @@ public class ChatService {
     
     private ChatService() {
         userAO = new UserDAO();
-        chatAO = new ChatMAO();
+        chatAO = new ChatDAO();
         
         setChatId(1);
         // TODO: Investigate thread spool for reloading messages in background
