@@ -90,11 +90,11 @@ public class LoginServiceTests {
 
         loginService.dropCurrentUser();
 
-        assertThrows(IllegalStateException.class, () -> loginService.getCurrentUser());
+        assertNull(loginService.getCurrentUser());
     }
 
     @Test
-    void testGetCurrentUser_ThrowsWhenNoUserLoggedIn() {
-        assertThrows(IllegalStateException.class, () -> loginService.getCurrentUser());
+    void testGetCurrentUser_ReturnsNullWhenNoUserLoggedIn() {
+        assertNull(loginService.getCurrentUser());
     }
 }
