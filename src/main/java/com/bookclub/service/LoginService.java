@@ -62,18 +62,29 @@ public class LoginService {
     }
 
     /**
-     * Registers a new user with the provided username and password.
+     * Registers a new user with the provided username, password, name, and email.
      *
      * @param username the desired username of the new user
      * @param password the desired password of the new user
+     * @param name     the name of the new user (can be null)
+     * @param email    the email of the new user (can be null)
      * @return true if the user is successfully registered, false otherwise
      */
-    public boolean register(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
+    public boolean register(String username, String password, String name, String email) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
+        }
 
-        User newUser = new User(username, PasswordHasher.hashPassword(password));
-        return !userAO.hasUser(newUser.getUsername()) && userAO.addUser(newUser);
+        String hashedPassword = PasswordHasher.hashPassword(password);
+        User newUser = new User(username, hashedPassword);
+        newUser.setName(name);
+        newUser.setEmail(email);
+
+        if (!userAO.hasUser(newUser.getUsername()) && userAO.addUser(newUser)) {
+            currentUser = newUser;
+            return true;
+        }
+        return false;
     }
 
     /**

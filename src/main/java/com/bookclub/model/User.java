@@ -28,8 +28,8 @@ public class User {
         this.id = id;
         setUsername(username);
         setPassword(password);
-        this.name = name;
-        this.email = email;
+        setName(name);
+        setEmail(email);
     }
 
     /**

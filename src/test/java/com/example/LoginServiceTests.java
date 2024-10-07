@@ -8,77 +8,93 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LoginServiceTests { 
-    
+public class LoginServiceTests {
+
     private User mockUser;
-    
+    private LoginService loginService;
+
     @BeforeEach
     public void setUp() {
         UserMAO mao = new UserMAO();
         LoginService.initialize(mao);
-        
+        loginService = LoginService.getInstance();
+
         mockUser = new User("testUser", "password123");
     }
 
     @Test
     void testRegister_Successful() {
-        boolean registerSuccess = LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
+        boolean registerSuccess = loginService.register(mockUser.getUsername(), mockUser.getPassword(), "Test User", "test@example.com");
         assertTrue(registerSuccess);
     }
-    
-    @Test 
-    void testRegister_UniqueUsername() {
-        LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
-        assertTrue(LoginService.getInstance().register(mockUser.getUsername() + "A", mockUser.getPassword()));
+
+    @Test
+    void testRegister_SuccessfulWithNullNameAndEmail() {
+        boolean registerSuccess = loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null);
+        assertTrue(registerSuccess);
     }
-    
+
+    @Test
+    void testRegister_UniqueUsername() {
+        loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null);
+        assertTrue(loginService.register(mockUser.getUsername() + "A", mockUser.getPassword(), null, null));
+    }
+
     @Test
     void testRegister_FailureSameDetails() {
-        LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
-        assertFalse(LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword()));
+        loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null);
+        assertFalse(loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null));
     }
-    
+
     @Test
     void testRegister_FailureDifferentPassword() {
-        LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
-        assertFalse(LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword() + "UNIQUE"));
+        loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null);
+        assertFalse(loginService.register(mockUser.getUsername(), mockUser.getPassword() + "UNIQUE", null, null));
     }
-    
+
     @Test
     void testRegister_FailedDueToBadUsernameOrPassword() {
-        assertFalse(LoginService.getInstance().register(null, "password123"));
-        assertFalse(LoginService.getInstance().register("", "password123"));
-        assertFalse(LoginService.getInstance().register("user", null));
-        assertFalse(LoginService.getInstance().register("user", ""));
+        assertFalse(loginService.register(null, "password123", null, null));
+        assertFalse(loginService.register("", "password123", null, null));
+        assertFalse(loginService.register("user", null, null, null));
+        assertFalse(loginService.register("user", "", null, null));
     }
-    
+
     @Test
     void testAttemptLogin_SuccessfulLogin() {
-        LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
-        
-        assertTrue(LoginService.getInstance().attemptLogin(mockUser.getUsername(), mockUser.getPassword()));
-        assertEquals(mockUser.getUsername(), LoginService.getCurrentUser().getUsername()); // Current user should be set after successful login
+        loginService.register(mockUser.getUsername(), mockUser.getPassword(), "Test User", "test@example.com");
+
+        assertTrue(loginService.attemptLogin(mockUser.getUsername(), mockUser.getPassword()));
+        User currentUser = loginService.getCurrentUser();
+        assertNotNull(currentUser);
+        assertEquals(mockUser.getUsername(), currentUser.getUsername());
+        assertEquals("Test User", currentUser.getName());
+        assertEquals("test@example.com", currentUser.getEmail());
     }
-    
+
     @Test
     void testAttemptLogin_FailedWrongPassword() {
-        LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
-        assertFalse(LoginService.getInstance().attemptLogin(mockUser.getUsername(), mockUser.getPassword() + "UNIQUE"));
+        loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null);
+        assertFalse(loginService.attemptLogin(mockUser.getUsername(), mockUser.getPassword() + "UNIQUE"));
     }
-    
+
     @Test
     void testAttemptLogin_FailedUserNotFound() {
-        assertFalse(LoginService.getInstance().attemptLogin(mockUser.getUsername(), mockUser.getPassword()));
+        assertFalse(loginService.attemptLogin(mockUser.getUsername(), mockUser.getPassword()));
     }
-    
+
     @Test
     void testDropCurrentUser() {
-        LoginService.getInstance().register(mockUser.getUsername(), mockUser.getPassword());
-        LoginService.getInstance().attemptLogin(mockUser.getUsername(), mockUser.getPassword());
-        
-        // Act
-        LoginService.getInstance().dropCurrentUser();
-        
-        assertNull(LoginService.getCurrentUser());
+        loginService.register(mockUser.getUsername(), mockUser.getPassword(), null, null);
+        loginService.attemptLogin(mockUser.getUsername(), mockUser.getPassword());
+
+        loginService.dropCurrentUser();
+
+        assertThrows(IllegalStateException.class, () -> loginService.getCurrentUser());
+    }
+
+    @Test
+    void testGetCurrentUser_ThrowsWhenNoUserLoggedIn() {
+        assertThrows(IllegalStateException.class, () -> loginService.getCurrentUser());
     }
 }
