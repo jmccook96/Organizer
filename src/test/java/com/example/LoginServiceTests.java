@@ -1,3 +1,5 @@
+package com.example;
+
 import com.bookclub.mao.UserMAO;
 import com.bookclub.model.User;
 import com.bookclub.service.LoginService;
