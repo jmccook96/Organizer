@@ -77,7 +77,5 @@ public class NavigatorBarController {
         StageFactory.getInstance().switchScene(StageView.EVENTS);
     }
 
-    public void navigateChat() {
-        navigateTest();
-    }
+    public void navigateChat() { StageFactory.getInstance().switchScene(StageView.CHAT); }
 }
