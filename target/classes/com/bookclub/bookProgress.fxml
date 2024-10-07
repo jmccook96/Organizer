@@ -11,8 +11,8 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bookclub.controller.BookProgressController">
     <Button fx:id="startFinishButton" onAction="#handleStartFinishButton"/>
-    <VBox spacing="20.0">
-        <HBox fx:id="progressHBox" spacing="10.0">
+    <VBox spacing="20">
+        <HBox fx:id="progressHBox" spacing="10">
             <Label text="Enter your page number: "/>
             <Spinner fx:id="pageNumberInput" editable="true"/>
             <Button text="Save" onAction="#handleSaveProgress"/>

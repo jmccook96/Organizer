@@ -44,10 +44,12 @@ public class UserDAO implements IUserAO {
 
     @Override
     public boolean addUser(User user) {
-        String sql = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
-        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+        String sql = "INSERT INTO Users (Username, Password, Name, Email) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getName());
+            stmt.setString(4, user.getEmail());
 
             if (stmt.executeUpdate() > 0) {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
@@ -55,7 +57,7 @@ public class UserDAO implements IUserAO {
                     int newUserId = generatedKeys.getInt(1);
                     user.setId(newUserId);
                 }
-                System.out.println("Added user to db \"" + user.getUsername() + "\"");
+                System.out.println("Added user to db \"" + user.getUsername() + "\" with id " + user.getId());
                 return true;
             }
         } catch (SQLException e) {
@@ -66,11 +68,11 @@ public class UserDAO implements IUserAO {
 
     @Override
     public boolean updateUser(User user) { /**TODO: , Name = ?, Email = ?, Settings = ? */
-        String sql = "UPDATE Users SET Password = ? WHERE Username = ?";
+        String sql = "UPDATE Users SET Password = ?, Name = ?, Email = ? WHERE Id = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setString(1, user.getPassword());
-            //stmt.setString(2, user.getName());
-            //stmt.setString(3, user.getEmail());
+            stmt.setString(2, user.getName());
+            stmt.setString(3, user.getEmail());
             //stmt.setString(4, user.getSettings());  // ASSUMING STORED AS JSON STRING
             stmt.setString(5, user.getUsername());
 
@@ -165,11 +167,15 @@ public class UserDAO implements IUserAO {
         System.err.println("Failed to find User.");
         return null;
     }
-    
-    private User mapResultSetToUser(ResultSet resultSet) throws SQLException { // TODO: POPULATE AS USER MODEL GROWS.
-        return new User(resultSet.getInt("id"), 
-                resultSet.getString("Username"), 
-                resultSet.getString("Password"));
+
+    private User mapResultSetToUser(ResultSet resultSet) throws SQLException {
+        return new User(
+                resultSet.getInt("Id"),
+                resultSet.getString("Username"),
+                resultSet.getString("Password"),
+                resultSet.getString("Name"),
+                resultSet.getString("Email")
+        );
     }
     
     private Connection getConnection() {
