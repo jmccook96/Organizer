@@ -1,3 +1,5 @@
+package com.example;
+
 import com.bookclub.model.User;
 
 import org.junit.jupiter.api.BeforeEach;
