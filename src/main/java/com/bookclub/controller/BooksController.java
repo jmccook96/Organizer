@@ -4,6 +4,7 @@ import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
 import com.bookclub.service.BookService;
+import com.bookclub.service.BookService.ReviewData;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ import java.util.List;
 public class BooksController {
 
     private IBookAO bookAO;
+    private BookService bookService;
+
     @FXML
     private VBox booksContainer;
     @FXML
@@ -30,12 +33,13 @@ public class BooksController {
 
     public BooksController() {
         bookAO = new BookDAO();
+        bookService = BookService.getInstance();
     }
 
     @FXML
     public void initialize() {
-        // Set nav bar button colour
-        Button booksButton = (Button)navBar.lookup("#booksButton");
+        // Set nav bar button color
+        Button booksButton = (Button) navBar.lookup("#booksButton");
         if (booksButton != null) {
             booksButton.setStyle("-fx-background-color: lightsteelblue");
         }
@@ -46,8 +50,31 @@ public class BooksController {
         // Handle book selection
         booksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                BookService.getInstance().setSelectedBook(newValue);
+                Book selectedBook = newValue; // No need to cast to HBox
+                bookService.setSelectedBook(selectedBook);
                 StageFactory.getInstance().switchScene(StageView.REVIEWS);
+            }
+        });
+
+        // Set custom cell factory for booksList
+        booksList.setCellFactory(param -> new ListCell<Book>() {
+            @Override
+            protected void updateItem(Book book, boolean empty) {
+                super.updateItem(book, empty);
+                if (empty || book == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    HBox hbox = new HBox(10);
+                    Label bookLabel = new Label(book.toString());
+
+                    // Use the new ReviewData class to get both the average rating and number of ratings
+                    ReviewData reviewData = bookService.getReviewData(book);
+                    Label ratingLabel = new Label(String.format("%.1f ★ (%d)", reviewData.getAverageRating(), reviewData.getNumberOfRatings()));
+
+                    hbox.getChildren().addAll(bookLabel, ratingLabel);
+                    setGraphic(hbox);
+                }
             }
         });
     }
@@ -63,16 +90,15 @@ public class BooksController {
             titleField.clear();
             authorField.clear();
             System.out.println("Book added successfully.");
-        }
-        else {
+        } else {
             showAlert("Failed", "Book must have a title and author.");
         }
     }
 
     private void updateBooks() {
-        booksList.getItems().clear(); // Clear current books
+        booksList.getItems().clear();
         List<Book> books = bookAO.findAllBooks();
-        Collections.reverse(books); // Put latest entry on top
+        Collections.reverse(books);
         booksList.getItems().addAll(books);
     }
 
@@ -83,5 +109,4 @@ public class BooksController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }
