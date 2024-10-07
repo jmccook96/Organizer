@@ -1,5 +1,7 @@
 package com.bookclub.controller;
 
+import com.bookclub.dao.RSVPDAO;
+import com.bookclub.dao.UserDAO;
 import com.bookclub.model.Event;
 import com.bookclub.model.RSVP;
 import com.bookclub.service.LoginService;
@@ -23,6 +25,7 @@ public class RSVPController {
 
     @FXML
     public void initialize() {
+        RSVPService.initialize(new RSVPDAO(), new UserDAO());
         rsvpStatusComboBox.getItems().addAll(RSVP.RSVPStatus.values());
 
         // Displays correct RSVP info for the selected event
