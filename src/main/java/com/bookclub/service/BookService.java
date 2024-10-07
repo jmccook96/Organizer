@@ -19,7 +19,6 @@ public class BookService {
     private ObjectProperty<Book> selectedBook;
     private Map<Book, List<Review>> reviewCache;
 
-    // Private constructor for Singleton pattern
     private BookService() {
         bookAO = new BookDAO();
         reviewAO = new ReviewDAO();
@@ -27,7 +26,6 @@ public class BookService {
         reviewCache = new ConcurrentHashMap<>();
     }
 
-    // Bill Pugh Singleton Design for thread-safe initialization
     private static class BookServiceHolder {
         private static final BookService INSTANCE = new BookService();
     }
@@ -49,12 +47,10 @@ public class BookService {
         selectedBook.set(book);
     }
 
-    // Retrieves review data (average rating and number of ratings) with caching
+
     public ReviewData getReviewData(Book book) {
-        // Use cache or fetch reviews if not cached
         List<Review> reviews = reviewCache.computeIfAbsent(book, reviewAO::findReviewsByBook);
 
-        // Streamlining the average rating calculation
         int sum = 0;
         for (Review review : reviews) {
             sum += review.getRating();
@@ -64,6 +60,16 @@ public class BookService {
         return new ReviewData(averageRating, reviews.size());
     }
 
+    // Method to clear cache for a specific book
+    public void clearReviewCache(Book book) {
+        reviewCache.remove(book);
+    }
+
+    // Add or update review and invalidate the cache
+    public void addOrUpdateReview(Review review, Book book) {
+        reviewAO.saveOrUpdateReview(review);
+        clearReviewCache(book);
+    }
 
     public static class ReviewData {
         private final double averageRating;

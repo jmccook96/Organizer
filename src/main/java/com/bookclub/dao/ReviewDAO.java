@@ -133,6 +133,17 @@ public class ReviewDAO implements IReviewAO {
         return true;
     }
 
+    @Override
+    public void saveOrUpdateReview(Review review) {
+        Review existingReview = findReviewByUserAndBook(review.getUser(), review.getBook());
+
+        if (existingReview != null) {
+            updateReview(review);
+        } else {
+            addReview(review);
+        }
+    }
+
     private void createTable() {
         // Create table if not exists
         try {
