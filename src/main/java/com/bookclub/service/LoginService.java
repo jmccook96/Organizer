@@ -72,7 +72,7 @@ public class LoginService {
         if (username == null || username.isEmpty() || password == null || password.isEmpty())
             return false;
 
-        User newUser = new User(username, password);
+        User newUser = new User(username, PasswordHasher.hashPassword(password));
         return !userAO.hasUser(newUser.getUsername()) && userAO.addUser(newUser);
     }
 
