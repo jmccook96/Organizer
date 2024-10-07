@@ -4,6 +4,7 @@ import com.bookclub.dao.ReviewDAO;
 import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
+import com.bookclub.service.BookService;
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
@@ -52,7 +53,7 @@ public class ReviewController {
         newReviewContainer.maxWidthProperty().bind(reviewContainer.maxWidthProperty().multiply(0.5));
         backButton.prefHeightProperty().bind(StageFactory.getInstance().getPrimaryStage().heightProperty());
         backIcon.fitWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.1));
-        selectedBook = BooksController.getSelectedBook();
+        selectedBook = BookService.getInstance().getSelectedBook();
         if (selectedBook != null) {
             bookLabel.setText(selectedBook.toString());
         }

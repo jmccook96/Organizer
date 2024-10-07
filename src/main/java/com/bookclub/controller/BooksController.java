@@ -3,6 +3,7 @@ package com.bookclub.controller;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
+import com.bookclub.service.BookService;
 import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
@@ -16,7 +17,6 @@ import java.util.List;
 public class BooksController {
 
     private IBookAO bookAO;
-    private static Book selectedBook;
     @FXML
     private VBox booksContainer;
     @FXML
@@ -46,7 +46,7 @@ public class BooksController {
         // Handle book selection
         booksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                setSelectedBook(newValue);
+                BookService.getInstance().setSelectedBook(newValue);
                 StageFactory.getInstance().switchScene(StageView.REVIEWS);
             }
         });
@@ -67,14 +67,6 @@ public class BooksController {
         else {
             showAlert("Failed", "Book must have a title and author.");
         }
-    }
-
-    public static Book getSelectedBook() {
-        return selectedBook;
-    }
-
-    public static void setSelectedBook(Book book) {
-        selectedBook = book;
     }
 
     private void updateBooks() {
