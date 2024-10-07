@@ -31,6 +31,10 @@ public class RegisterController {
     @FXML
     private TextField usernameField;
     @FXML
+    private TextField nameField;
+    @FXML
+    private TextField emailField;
+    @FXML
     private Button registerButton;
     @FXML
     private Button backToLoginButton;
@@ -49,6 +53,10 @@ public class RegisterController {
         usernameField.prefHeightProperty().bind(registerBorderPane.heightProperty().multiply(0.05));
         passwordField.prefHeightProperty().bind(usernameField.heightProperty());
         confirmPasswordField.prefHeightProperty().bind(usernameField.prefHeightProperty());
+        nameField.maxWidthProperty().bind(usernameField.widthProperty());
+        emailField.maxWidthProperty().bind(usernameField.widthProperty());
+        nameField.prefHeightProperty().bind(usernameField.prefHeightProperty());
+        emailField.prefHeightProperty().bind(usernameField.prefHeightProperty());
         registerButton.prefHeightProperty().bind(usernameField.heightProperty());
         registerButton.prefWidthProperty().bind(usernameField.widthProperty());
         backToLoginButton.prefHeightProperty().bind(usernameField.heightProperty());
@@ -61,9 +69,11 @@ public class RegisterController {
         String username = usernameField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        String name = nameField.getText();
+        String email = emailField.getText();
 
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            messageLabel.setText("All fields are required.");
+            messageLabel.setText("Username and password are required.");
             return;
         }
 
@@ -72,15 +82,21 @@ public class RegisterController {
             return;
         }
 
-        if (LoginService.getInstance().register(username, password)) {
+        if (LoginService.getInstance().register(username, password, name.isEmpty() ? null : name, email.isEmpty() ? null : email)) {
             messageLabel.setText("Registration successful. You can now log in.");
-            // Clear the fields after successful registration
-            usernameField.clear();
-            passwordField.clear();
-            confirmPasswordField.clear();
+            clearFields();
         } else {
             messageLabel.setText("Registration failed. Username may already exist.");
         }
+    }
+
+
+    private void clearFields() {
+        usernameField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+        nameField.clear();
+        emailField.clear();
     }
 
     @FXML

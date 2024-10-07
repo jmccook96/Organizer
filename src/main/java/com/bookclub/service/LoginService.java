@@ -62,18 +62,29 @@ public class LoginService {
     }
 
     /**
-     * Registers a new user with the provided username and password.
+     * Registers a new user with the provided username, password, name, and email.
      *
      * @param username the desired username of the new user
      * @param password the desired password of the new user
+     * @param name     the name of the new user (can be null)
+     * @param email    the email of the new user (can be null)
      * @return true if the user is successfully registered, false otherwise
      */
-    public boolean register(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
+    public boolean register(String username, String password, String name, String email) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
+        }
 
-        User newUser = new User(username, PasswordHasher.hashPassword(password));
-        return !userAO.hasUser(newUser.getUsername()) && userAO.addUser(newUser);
+        String hashedPassword = PasswordHasher.hashPassword(password);
+        User newUser = new User(username, hashedPassword);
+        newUser.setName(name);
+        newUser.setEmail(email);
+
+        if (!userAO.hasUser(newUser.getUsername()) && userAO.addUser(newUser)) {
+            currentUser = newUser;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -92,4 +103,26 @@ public class LoginService {
         currentUser = null;
         System.out.println("Current User dropped by LoginService.");
     }
+    /**
+     * Updates the current user information with the provided {@code User} object.
+     * The method validates that the {@code User} object is not null and that the username is non-null and non-empty.
+     * If the validation succeeds, it attempts to update the user using the {@code userAO.updateUser} method.
+     * If the update is successful, the current user session is updated.
+     *
+     * @param user the {@code User} object containing the updated user information
+     * @return {@code true} if the update is successful, {@code false} otherwise
+     * @throws IllegalArgumentException if the {@code user} or {@code username} is null or empty
+     */
+    public boolean updateUser(User user) {
+        if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
+            return false;
+        }
+
+        if (userAO.updateUser(user)) {
+            currentUser = user;  // Update the current user in the session
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -7,19 +7,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class UserTest {
 
     private User user;
 
     @BeforeEach
-    public void setUp() { 
-        user = new User(0,"testUser", "testPassword");
+    public void setUp() {
+        user = new User(0, "testUser", "testPassword", "Test Name", "test@example.com");
     }
 
     // Basic functionality
-    @Test 
+    @Test
     public void testGetId() { assertEquals(0, user.getId()); }
-    
+
     @Test
     public void testGetUsername() {
         assertEquals("testUser", user.getUsername());
@@ -30,12 +31,22 @@ public class UserTest {
         assertEquals("testPassword", user.getPassword());
     }
 
-    @Test 
+    @Test
+    public void testGetName() {
+        assertEquals("Test Name", user.getName());
+    }
+
+    @Test
+    public void testGetEmail() {
+        assertEquals("test@example.com", user.getEmail());
+    }
+
+    @Test
     public void testSetId() {
         user.setId(1);
         assertEquals(1, user.getId());
     }
-    
+
     @Test
     public void testSetUsernameValid() {
         user.setUsername("newUser");
@@ -48,13 +59,25 @@ public class UserTest {
         assertEquals("newPassword", user.getPassword());
     }
 
+    @Test
+    public void testSetNameValid() {
+        user.setName("New Name");
+        assertEquals("New Name", user.getName());
+    }
+
+    @Test
+    public void testSetEmailValid() {
+        user.setEmail("new@example.com");
+        assertEquals("new@example.com", user.getEmail());
+    }
+
     // Edge Cases
     @Test
     public void testGetIdWithoutSetting() {
         User userTemp = new User("TestName", "TestPassword");
         assertEquals(-1, userTemp.getId());
     }
-    
+
     @Test
     public void testSetUsernameInvalidNull() {
         assertThrows(IllegalArgumentException.class, () -> user.setUsername(null));

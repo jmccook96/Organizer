@@ -11,19 +11,25 @@ public class User {
     private int id = -1;
     private String username;
     private String password;
+    private String name;
+    private String email;
 
     /**
-     * Constructs a {@code User} object with the specified username and password.
+     * Constructs a {@code User} object with the specified id, username, password, name, and email.
      *
-     * @param id the id of the user
+     * @param id       the id of the user
      * @param username the username of the user
      * @param password the password of the user
+     * @param name     the name of the user (can be null)
+     * @param email    the email of the user (can be null)
      * @throws IllegalArgumentException if the username or password is null or empty
      */
-    public User(int id, String username, String password) {
+    public User(int id, String username, String password, String name, String email) {
         this.id = id;
         setUsername(username);
         setPassword(password);
+        setName(name);
+        setEmail(email);
     }
 
     /**
@@ -97,5 +103,42 @@ public class User {
             throw new IllegalArgumentException("Password can not be null or empty");
         }
         this.password = password;
+    }
+
+
+    /**
+     * Returns the name of the user.
+     *
+     * @return the name of the user
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name of the user.
+     *
+     * @param name the new name of the user
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Returns the email of the user.
+     *
+     * @return the email of the user
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the email of the user.
+     *
+     * @param email the new email of the user
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
