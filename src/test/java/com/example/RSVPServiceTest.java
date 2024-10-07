@@ -41,7 +41,7 @@ public class RSVPServiceTest {
 
     @Test
     void testGetEventRSVPUsernames_OneRSVP() {
-        userMAO.addUser(new User(1, "testUser1", "testPassword"));
+        userMAO.addUser(new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 1, RSVP.RSVPStatus.ACCEPTED));
 
         List<String> expected = List.of("testUser1");
@@ -52,13 +52,13 @@ public class RSVPServiceTest {
 
     @Test
     void testGetEventRSVPUsernames_EveryUserRSVP() {
-        userMAO.addUser(new User(1, "testUser1", "testPassword"));
+        userMAO.addUser(new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 1, RSVP.RSVPStatus.ACCEPTED));
-        userMAO.addUser(new User(2, "testUser2", "testPassword"));
+        userMAO.addUser(new User(2, "testUser2", "testPassword", "Test2 Name2", "test2@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 2, RSVP.RSVPStatus.MAYBE));
-        userMAO.addUser(new User(3, "testUser3", "testPassword"));
+        userMAO.addUser(new User(3, "testUser3", "testPassword", "Test3 Name3", "test3@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 3, RSVP.RSVPStatus.DECLINED));
-        userMAO.addUser(new User(4, "testUser4", "testPassword"));
+        userMAO.addUser(new User(4, "testUser4", "testPassword", "Test4 Name4", "test4@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 4, RSVP.RSVPStatus.PENDING));
 
         List<String> expected = List.of("testUser1", "testUser2", "testUser3", "testUser4");
@@ -69,12 +69,12 @@ public class RSVPServiceTest {
 
     @Test
     void testGetEventRSVPUsernames_SomeUsersRSVP() {
-        userMAO.addUser(new User(1, "testUser1", "testPassword"));
+        userMAO.addUser(new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 1, RSVP.RSVPStatus.ACCEPTED));
-        userMAO.addUser(new User(2, "testUser2", "testPassword"));
-        userMAO.addUser(new User(3, "testUser3", "testPassword"));
+        userMAO.addUser(new User(2, "testUser2", "testPassword", "Test2 Name2", "test2@example.com"));
+        userMAO.addUser(new User(3, "testUser3", "testPassword", "Test3 Name3", "test3@example.com"));
         rsvpMAO.addRSVP(new RSVP(event.getId(), 3, RSVP.RSVPStatus.MAYBE));
-        userMAO.addUser(new User(4, "testUser4", "testPassword"));
+        userMAO.addUser(new User(4, "testUser4", "testPassword", "Test4 Name4", "test4@example.com"));
 
         List<String> expected = List.of("testUser1", "testUser3");
         List<String> actual = RSVPService.getInstance().getEventRSVPUsernames(event);
@@ -84,7 +84,7 @@ public class RSVPServiceTest {
 
     @Test
     void testGetRSVP_RSVPExists() {
-        User user = new User(1, "testUser1", "testPassword");
+        User user = new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com");
 
         rsvpMAO.addRSVP(new RSVP(event.getId(), user.getId(), RSVP.RSVPStatus.ACCEPTED));
 
@@ -98,7 +98,7 @@ public class RSVPServiceTest {
 
     @Test
     void testGetRSVP_RSVPDoesNotExist() {
-        User user = new User(1, "testUser1", "testPassword");
+        User user = new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com");
 
         RSVP actual = RSVPService.getInstance().getRSVP(event, user);
 
@@ -107,7 +107,7 @@ public class RSVPServiceTest {
 
     @Test
     void testSaveRSVP_RSVPExists() {
-        User user = new User(1, "testUser1", "testPassword");
+        User user = new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com");
 
         RSVP actual = new RSVP(event.getId(), user.getId(), RSVP.RSVPStatus.ACCEPTED);
         rsvpMAO.addRSVP(actual);
@@ -120,7 +120,7 @@ public class RSVPServiceTest {
 
     @Test
     void testSaveRSVP_RSVPDoesNotExist() {
-        User user = new User(1, "testUser1", "testPassword");
+        User user = new User(1, "testUser1", "testPassword", "Test1 Name1", "test1@example.com");
 
         RSVPService.getInstance().saveRSVP(event, user, RSVP.RSVPStatus.MAYBE);
 
