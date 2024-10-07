@@ -39,7 +39,7 @@ public class ChatController {
     }
     
     private void reloadChatMessages() {
-        flushDispaly();
+        flushDisplay();
         
         for (ChatDisplay msg : ChatService.getInstance().getDisplayMessages())
             displayMessage(msg);
@@ -91,7 +91,7 @@ public class ChatController {
     }
     
     // Clears all messages in the displayed chat.
-    private void flushDispaly() {
+    private void flushDisplay() {
         chatBox.getChildren().clear();
     }
 }
