@@ -1,13 +1,10 @@
 package com.bookclub.service;
 
-import com.bookclub.dao.RSVPDAO;
-import com.bookclub.dao.UserDAO;
 import com.bookclub.iao.IRSVPAO;
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.Event;
 import com.bookclub.model.RSVP;
 import com.bookclub.model.User;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,16 +13,19 @@ public class RSVPService {
     private IRSVPAO rsvpAO;
     private IUserAO userAO;
 
-    private RSVPService() {
-        rsvpAO = new RSVPDAO();
-        userAO = new UserDAO();
+    public static RSVPService getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("RSVPService is not initialized. Call initialize() first.");
+        }
+        return instance;
     }
 
-    public static RSVPService getInstance() {
+    public static void initialize(IRSVPAO rsvpAO, IUserAO userAO) {
         if (instance == null) {
             instance = new RSVPService();
         }
-        return instance;
+        instance.rsvpAO = rsvpAO;
+        instance.userAO = userAO;
     }
 
     public List<String> getEventRSVPUsernames(Event event) {
@@ -43,7 +43,7 @@ public class RSVPService {
 
     public void saveRSVP(Event event, User user, RSVP.RSVPStatus status) {
         RSVP rsvp = getRSVP(event, user);
-        if (getRSVP(event, user) != null) {
+        if (rsvp != null) {
             rsvp.setStatus(status);
             rsvpAO.updateRSVP(rsvp);
         }
