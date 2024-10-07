@@ -1,9 +1,7 @@
 package com.bookclub.controller;
 
-import com.bookclub.iao.IChatAO;
-import com.bookclub.dao.ChatDAO;
-import com.bookclub.model.ChatMessage;
-import com.bookclub.service.LoginService;
+import com.bookclub.model.ChatDisplay;
+import com.bookclub.service.ChatService;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -18,15 +16,12 @@ public class ChatController {
     @FXML private TextField  messageInput;
     @FXML private Label      chatTitleLabel;
     
-    private IChatAO chatAO;
-    private int currentChatId; // TODO: Expose with setter if we implement multiple bookclubs/chats.
-    
+    static private final String messageFormattingStyle = 
+            "-fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: ";
+
     @FXML public void initialize() {
-        chatAO = new ChatDAO();
-        currentChatId = 1;
-        
         setChatTitleLabel("Default Chat Title");
-        loadChatMessages();
+        reloadChatMessages();
     }
     
     public void setChatTitleLabel(String titleLabel) {
@@ -38,60 +33,65 @@ public class ChatController {
         if (msgEntered.isEmpty())
             return;
         
-        ChatMessage newMsg = new ChatMessage(getActiveUserId(), currentChatId, msgEntered);
-        try {
-            chatAO.InsertMessage(newMsg);
-        } catch (Exception e) {
-            System.out.println("Failed to send new message.");
-            System.out.println(e.getMessage());
-        }
-        
-        displayMessage(newMsg);
+        ChatService.getInstance().sendMessage(msgEntered);
+        reloadChatMessages();
         messageInput.clear();
     }
     
-    private void loadChatMessages() {
-        try {
-            for (ChatMessage msg : chatAO.GetMessagesByChatId(currentChatId))
-                displayMessage(msg);
-        } catch (Exception e) {
-            System.out.println("Failed to load messages for chatId: ");
-            System.out.println(e.getMessage());
-        }
+    private void reloadChatMessages() {
+        flushDisplay();
+        
+        for (ChatDisplay msg : ChatService.getInstance().getDisplayMessages())
+            displayMessage(msg);
         
         // Scroll to bottom after loading.
         scrollToBottom();
     }
     
-    private void displayMessage(ChatMessage message) {
+    private void displayMessage(ChatDisplay message) {
+        VBox messageContainer = new VBox();
+        messageContainer.setSpacing(5); // Set some spacing between username and message
+        
         // Create a new HBox per message.
         HBox msgBox = new HBox();
-        Label msgLabel = new Label(message.getMessage());
+        Label msgLabel = new Label(message.message);
+        
+        String msgColour = "lightgray;"; // Default message colour
         
         // Check if the author is the current user, and pin to the left.
-        // TODO: Collapse styles to be inheritve
         // TODO: Investigate setting colour based on user preferences.
-        if (message.getAuthorId() == getActiveUserId()) {
+        if (ChatService.getInstance().isActiveUsername(message.username)) {
             msgBox.setAlignment(Pos.BASELINE_LEFT);
-            msgLabel.setStyle("-fx-background-color: lightgreen; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+            msgColour = "lightgreen;";
         } else {
             msgBox.setAlignment(Pos.BASELINE_RIGHT);
-            msgLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+
+            // Add a label to show the username
+            Label usernameLabel = new Label(message.username);
+            usernameLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: gray;");
+
+            // Add the username above the message
+            messageContainer.getChildren().add(usernameLabel);
         }
+
+        // Set the style of message.
+        msgLabel.setStyle(messageFormattingStyle + msgColour);
         
-        msgBox.getChildren().add(msgLabel);
+        messageContainer.getChildren().add(msgLabel);
+        msgBox.getChildren().add(messageContainer);
         chatBox.getChildren().add(msgBox);
         
         // Scroll to bottom (?)
         scrollToBottom();
     }
     
-    private int getActiveUserId() {
-        return LoginService.getCurrentUser().getId();
-    }
-    
     private void scrollToBottom() {
         chatScrollPane.layout();
         chatScrollPane.setVvalue(1.);
+    }
+    
+    // Clears all messages in the displayed chat.
+    private void flushDisplay() {
+        chatBox.getChildren().clear();
     }
 }
