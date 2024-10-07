@@ -1,7 +1,7 @@
 package com.bookclub.controller;
 
 import com.bookclub.iao.IChatAO;
-import com.bookclub.mao.ChatMAO;
+import com.bookclub.dao.ChatDAO;
 import com.bookclub.model.ChatMessage;
 import com.bookclub.service.LoginService;
 import javafx.fxml.FXML;
@@ -19,13 +19,14 @@ public class ChatController {
     @FXML private Label      chatTitleLabel;
     
     private IChatAO chatAO;
-    private int currentChatId = 1;
+    private int currentChatId; // TODO: Expose with setter if we implement multiple bookclubs/chats.
     
-    @FXML public void initalize() {
-        chatAO = new ChatMAO(); // TODO: Migrate to DAO
+    @FXML public void initialize() {
+        chatAO = new ChatDAO();
         currentChatId = 1;
         
         setChatTitleLabel("Default Chat Title");
+        loadChatMessages();
     }
     
     public void setChatTitleLabel(String titleLabel) {
@@ -49,10 +50,9 @@ public class ChatController {
         messageInput.clear();
     }
     
-    // TODO: Implement passing chatId.
     private void loadChatMessages() {
         try {
-            for (ChatMessage msg : chatAO.GetMessagesByChatId(1))
+            for (ChatMessage msg : chatAO.GetMessagesByChatId(currentChatId))
                 displayMessage(msg);
         } catch (Exception e) {
             System.out.println("Failed to load messages for chatId: ");

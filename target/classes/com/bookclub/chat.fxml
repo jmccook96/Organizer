@@ -15,7 +15,6 @@
     
     <center>
         <VBox fx:id="mainContainer" spacing="20" VBox.vgrow="ALWAYS">
-            <!-- TODO: Implement dynamic title -->
             <Label fx:id="chatTitleLabel" text="Chat" style="-fx-font-size: 20px; -fx-padding: 10px;" BorderPane.alignment="CENTER"/>
             <ScrollPane fx:id="chatScrollPane" fitToWidth="true" fitToHeight="true" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                 <VBox fx:id="chatBox" spacing="10" VBox.vgrow="ALWAYS" alignment="TOP_CENTER">
