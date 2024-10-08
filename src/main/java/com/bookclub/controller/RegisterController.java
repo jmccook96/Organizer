@@ -13,6 +13,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The {@code RegisterController} class handles the registration functionality
+ * in the Book Club application. It manages the user input for creating new
+ * accounts, including validation and registration logic.
+ */
 public class RegisterController {
     @FXML
     private BorderPane registerBorderPane;
@@ -41,6 +46,11 @@ public class RegisterController {
     @FXML
     private Label messageLabel;
 
+    /**
+     * Initializes the registration form layout by binding various UI components
+     * to their parent containers. This method is automatically called after the
+     * controller's root element has been processed.
+     */
     @FXML
     private void initialize() {
         Platform.runLater(() -> registerLabel.requestFocus());
@@ -64,6 +74,12 @@ public class RegisterController {
         messageLabel.prefWidthProperty().bind(usernameField.widthProperty());
     }
 
+    /**
+     * Handles the registration process.
+     * It validates the input fields (username, password, confirm password) and
+     * attempts to register the user. Displays success/error messages based on
+     * the registration outcome.
+     */
     @FXML
     protected void handleRegister() {
         String username = usernameField.getText();
@@ -90,7 +106,9 @@ public class RegisterController {
         }
     }
 
-
+    /**
+     * Clears all the input fields (username, password, confirm password, name, and email).
+     */
     private void clearFields() {
         usernameField.clear();
         passwordField.clear();
@@ -99,6 +117,10 @@ public class RegisterController {
         emailField.clear();
     }
 
+    /**
+     * Navigates back to the login screen.
+     * This method switches the scene to the {@code StageView.LOGIN}.
+     */
     @FXML
     protected void handleBackToLogin() {
         StageFactory.getInstance().switchScene(StageView.LOGIN);
