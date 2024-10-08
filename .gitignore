@@ -84,3 +84,6 @@ modules.xml
 
 # Ignore .DS_Store files
 **/.DS_Store
+/docs/javadoc/
+
+/target

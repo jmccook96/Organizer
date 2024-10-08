@@ -13,7 +13,6 @@ public class PasswordHasher {
      *
      * @param password the password to be hashed
      * @return the hashed password as a string
-     * @throws NoSuchAlgorithmException if an error occurs while hashing the password
      */
     public static String hashPassword(String password) {
         try {
