@@ -30,8 +30,6 @@ public class BooksController {
     private TextField authorField;
     @FXML
     private HBox navBar;
-    @FXML
-    private TextField genreField;
 
     public BooksController() {
         bookAO = new BookDAO();
@@ -85,9 +83,8 @@ public class BooksController {
     private void handleAddBook() {
         String title = titleField.getText();
         String author = authorField.getText();
-        String genre = genreField.getText();
         if (!title.isEmpty() && !author.isEmpty()) {
-            Book book = new Book(title, author,genre);
+            Book book = new Book(title, author);
             bookAO.addBook(book);
             updateBooks();
             titleField.clear();

@@ -28,13 +28,6 @@ public interface IBookAO {
     List<Book> findBooksByTitle(String title);
 
     /**
-     * Retrieves a list of books from the database based on the genre
-     * @param genre The genre of the books to retrieve
-     * @return A list of books with the given genre.
-     */
-    List<Book> findBooksByGenre(String genre);
-
-    /**
      * Retrieves a list of books from the database based on the author
      * @param author The author of the books to retrieve
      * @return A list of books by the given author.

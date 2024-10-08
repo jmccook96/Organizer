@@ -10,21 +10,18 @@ public class Book {
     private int id;
     private String title;
     private String author;
-    private String genre;
 
     /**
-     * Constructs a {@code Book} object with the specified title, genre and author.
-     * title, genre and author must be non-null and non-empty.
+     * Constructs a {@code Book} object with the specified title and author.
+     * Both title and author must be non-null and non-empty.
      *
-     * @param genre the genre of the book
      * @param title  the title of the book
      * @param author the author of the book
      * @throws IllegalArgumentException if the title or author is null or empty
      */
-    public Book(String title, String author, String genre) {
+    public Book(String title, String author) {
         setTitle(title);
         setAuthor(author);
-        setGenre(genre);
     }
 
     /**
@@ -86,29 +83,6 @@ public class Book {
             throw new IllegalArgumentException("Title cannot be null or empty");
         }
         this.title = title;
-    }
-
-    /**
-     * Returns the genre of the book.
-     *
-     * @return the genre of the book
-     */
-    public String getGenre() {
-        return genre;
-    }
-
-    /**
-     * Sets the genre of the book.
-     * The genre must be non-null and non-empty.
-     *
-     * @param genre the new genre of the book
-     * @throws IllegalArgumentException if the genre is null or empty
-     */
-    public void setGenre(String genre) {
-        if (genre == null || genre.isEmpty()) {
-            throw new IllegalArgumentException("Genre cannot be null or empty");
-        }
-        this.genre = genre;
     }
 
     /**

@@ -83,28 +83,6 @@ public class BookDAO implements IBookAO {
     }
 
     @Override
-    public List<Book> findBooksByGenre(String genre) {
-        List<Book> books = new ArrayList<>();
-        try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookGenre = ?");
-            statement.setString(1, genre);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                String bookGenre = resultSet.getString("bookGenre");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
-                books.add(book);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
-
-    @Override
     public List<Book> findBooksByAuthor(String author) {
         List<Book> books = new ArrayList<>();
         try {
