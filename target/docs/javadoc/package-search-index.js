@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.example.organizer","l":"com.bookclub"},{"m":"com.example.organizer","l":"com.bookclub.controller"},{"m":"com.example.organizer","l":"com.bookclub.mao"},{"m":"com.example.organizer","l":"com.bookclub.model"},{"m":"com.example.organizer","l":"com.bookclub.service"}];updateSearchResults();
