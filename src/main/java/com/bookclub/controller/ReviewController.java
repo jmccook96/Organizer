@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -65,7 +66,6 @@ public class ReviewController {
         newReviewContainer.maxWidthProperty().bind(reviewContainer.maxWidthProperty().multiply(0.5));
         selectedBook = bookService.getSelectedBook();
         updateRatings();
-        ratingsList.maxHeightProperty().bind(reviewContainer.heightProperty());
         ratingControl.setUpdateOnHover(false);
     }
 
@@ -115,7 +115,9 @@ public class ReviewController {
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
                     hBox.getChildren().add(spacer);
-                    hBox.getChildren().add(new Rating(5, review.getRating()));
+                    Rating rating = new Rating(5, review.getRating());
+                    rating.addEventFilter(MouseEvent.ANY, event -> event.consume());
+                    hBox.getChildren().add(rating);
                     hBox.setAlignment(Pos.CENTER);
                     ratingsList.getItems().add(hBox);
                 }
