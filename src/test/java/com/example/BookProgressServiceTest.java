@@ -124,10 +124,9 @@ public class BookProgressServiceTest {
     void testGetBookProgressListForBook_OneProgress() {
         bookProgressMAO.addBookProgress(new BookProgress(book.getId(), 1, 1));
 
-        List<BookProgress> expected = List.of(new BookProgress(book.getId(), 1, 1));
         List<BookProgress> actual = bookProgressService.getBookProgressListForBook(book);
 
-        assertEquals(expected.size(), actual.size());
+        assertEquals(1, actual.size());
         assertEquals(1, actual.get(0).getBookId());
         assertEquals(1, actual.get(0).getUserId());
         assertEquals(1, actual.get(0).getPageNumber());
@@ -139,12 +138,9 @@ public class BookProgressServiceTest {
         bookProgressMAO.addBookProgress(new BookProgress(book.getId(), 2, 3));
         bookProgressMAO.addBookProgress(new BookProgress(book.getId(), 3, 1));
 
-        List<BookProgress> expected = List.of(new BookProgress(book.getId(), user.getId(), 10),
-                                              new BookProgress(book.getId(), 2, 3),
-                                              new BookProgress(book.getId(), 3, 1));
         List<BookProgress> actual = bookProgressService.getBookProgressListForBook(book);
 
-        assertEquals(expected.size(), actual.size());
+        assertEquals(3, actual.size());
         assertEquals(1, actual.get(0).getBookId());
         assertEquals(3, actual.get(0).getUserId());
         assertEquals(1, actual.get(0).getPageNumber());
