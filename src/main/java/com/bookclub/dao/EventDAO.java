@@ -9,15 +9,29 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@code EventDAO} class is responsible for interacting with the
+ * {@code Events} table in the database. 
+ * It provides CRUD operations for events in the Book Club application.
+ */
 public class EventDAO implements IEventAO {
 
     private DatabaseManager dbManager;
 
+    /**
+     * Constructs an {@code EventDAO} object and initializes the database connection.
+     * If the events table doesn't exist, it creates the table.
+     */
     public EventDAO() {
         dbManager = DatabaseManager.getInstance();
         createTable();
     }
 
+    /**
+     * Retrieves all events from the database.
+     *
+     * @return a list of all {@link Event} objects stored in the database.
+     */
     @Override
     public List<Event> findAllEvents() {
         List<Event> events = new ArrayList<>();
@@ -42,6 +56,16 @@ public class EventDAO implements IEventAO {
         return events;
     }
 
+    /**
+     * Finds a specific event based on the book ID, name, organizer, date-time, and location.
+     *
+     * @param bookId    the ID of the book associated with the event.
+     * @param name      the name of the event.
+     * @param organizer the organizer of the event.
+     * @param dateTime  the date and time of the event.
+     * @param location  the location of the event.
+     * @return the {@link Event} object that matches the given criteria, or {@code null} if no match is found.
+     */
     @Override
     public Event findEventByBookIdNameOrganizerDateTimeAndLocation(int bookId, String name, String organizer, LocalDateTime dateTime, String location) {
         try {
@@ -69,6 +93,12 @@ public class EventDAO implements IEventAO {
         return null;
     }
 
+    /**
+     * Retrieves a list of events associated with a specific book ID.
+     *
+     * @param bookId the ID of the book.
+     * @return a list of {@link Event} objects associated with the given book ID.
+     */
     @Override
     public List<Event> findEventsByBookId(int bookId) {
         List<Event> events = new ArrayList<>();
@@ -93,7 +123,12 @@ public class EventDAO implements IEventAO {
         return events;
     }
 
-
+    /**
+     * Retrieves a list of events associated with a specific book name.
+     *
+     * @param name the name of the book.
+     * @return a list of {@link Event} objects associated with the given book name.
+     */
     @Override
     public List<Event> findEventsByName(String name) {
         List<Event> events = new ArrayList<>();
@@ -118,6 +153,12 @@ public class EventDAO implements IEventAO {
         return events;
     }
 
+    /**
+     * Retrieves a list of events associated with a specific organizer.
+     *
+     * @param organizer the organizer of the event(s).
+     * @return a list of {@link Event} objects associated with the given organizer.
+     */
     @Override
     public List<Event> findEventsByOrganizer(String organizer) {
         List<Event> events = new ArrayList<>();
@@ -142,6 +183,12 @@ public class EventDAO implements IEventAO {
         return events;
     }
 
+    /**
+     * Retrieves a list of events with a specific location.
+     *
+     * @param location the location of the events.
+     * @return a list of {@link Event} objects associated with the given location.
+     */
     @Override
     public List<Event> findEventsByLocation(String location) {
         List<Event> events = new ArrayList<>();
@@ -166,6 +213,12 @@ public class EventDAO implements IEventAO {
         return events;
     }
 
+    /**
+     * Retrieves a list of events associated with a specific date/time.
+     *
+     * @param dateTime the date/time of the event(s).
+     * @return a list of {@link Event} objects associated with the given date/time.
+     */
     @Override
     public List<Event> findEventsByDateTime(LocalDateTime dateTime) {
         List<Event> events = new ArrayList<>();
@@ -190,6 +243,12 @@ public class EventDAO implements IEventAO {
         return events;
     }
 
+    /**
+     * Adds a new event to the database.
+     *
+     * @param event the {@link Event} object to be added.
+     * @return {@code true} if the event was added successfully, {@code false} otherwise.
+     */
     @Override
     public boolean addEvent(Event event) {
         try {
@@ -214,6 +273,12 @@ public class EventDAO implements IEventAO {
         return true;
     }
 
+    /**
+     * Updates an existing event in the database.
+     *
+     * @param event the {@link Event} object containing updated event data.
+     * @return {@code true} if the event was updated successfully, {@code false} otherwise.
+     */
     @Override
     public boolean updateEvent(Event event) {
         try {
@@ -233,6 +298,12 @@ public class EventDAO implements IEventAO {
         return true;
     }
 
+    /**
+     * Deletes an event from the database.
+     *
+     * @param event the {@link Event} object to be deleted.
+     * @return {@code true} if the event was deleted successfully, {@code false} otherwise.
+     */
     @Override
     public boolean deleteEvent(Event event) {
         try {
@@ -247,6 +318,9 @@ public class EventDAO implements IEventAO {
         return true;
     }
 
+    /**
+     * Creates the {@code Events} table in the database if it does not already exist.
+     */
     private void createTable() {
         // Create table if not exists
         try {
