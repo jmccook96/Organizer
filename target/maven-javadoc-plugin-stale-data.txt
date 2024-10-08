@@ -1,0 +1,51 @@
+@options
+@packages
+@argfile
+--class-path
+'/Users/bonnieli/.m2/repository/org/openjfx/javafx-controls/17.0.6/javafx-controls-17.0.6.jar:/Users/bonnieli/.m2/repository/org/openjfx/javafx-graphics/17.0.6/javafx-graphics-17.0.6.jar:/Users/bonnieli/.m2/repository/org/openjfx/javafx-base/17.0.6/javafx-base-17.0.6.jar:/Users/bonnieli/.m2/repository/org/openjfx/javafx-fxml/17.0.6/javafx-fxml-17.0.6.jar:/Users/bonnieli/.m2/repository/org/xerial/sqlite-jdbc/3.36.0.3/sqlite-jdbc-3.36.0.3.jar:/Users/bonnieli/.m2/repository/org/apache/maven/plugins/maven-javadoc-plugin/3.0.1/maven-javadoc-plugin-3.0.1.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-core/3.0/maven-core-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-settings-builder/3.0/maven-settings-builder-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-repository-metadata/3.0/maven-repository-metadata-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-model-builder/3.0/maven-model-builder-3.0.jar:/Users/bonnieli/.m2/repository/org/sonatype/aether/aether-impl/1.7/aether-impl-1.7.jar:/Users/bonnieli/.m2/repository/org/sonatype/aether/aether-spi/1.7/aether-spi-1.7.jar:/Users/bonnieli/.m2/repository/org/sonatype/aether/aether-api/1.7/aether-api-1.7.jar:/Users/bonnieli/.m2/repository/org/sonatype/aether/aether-util/1.7/aether-util-1.7.jar:/Users/bonnieli/.m2/repository/org/sonatype/sisu/sisu-inject-plexus/1.4.2/sisu-inject-plexus-1.4.2.jar:/Users/bonnieli/.m2/repository/org/sonatype/sisu/sisu-inject-bean/1.4.2/sisu-inject-bean-1.4.2.jar:/Users/bonnieli/.m2/repository/org/sonatype/sisu/sisu-guice/2.1.7/sisu-guice-2.1.7-noaop.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.14/plexus-interpolation-1.14.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.2.3/plexus-classworlds-2.2.3.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.5.5/plexus-component-annotations-1.5.5.jar:/Users/bonnieli/.m2/repository/org/sonatype/plexus/plexus-sec-dispatcher/1.3/plexus-sec-dispatcher-1.3.jar:/Users/bonnieli/.m2/repository/org/sonatype/plexus/plexus-cipher/1.4/plexus-cipher-1.4.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-model/3.0/maven-model-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-settings/3.0/maven-settings-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-plugin-api/3.0/maven-plugin-api-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-artifact/3.0/maven-artifact-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/reporting/maven-reporting-api/3.0/maven-reporting-api-3.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/maven-archiver/3.2.0/maven-archiver-3.2.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/shared/maven-shared-utils/3.2.0/maven-shared-utils-3.2.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/shared/maven-invoker/3.0.0/maven-invoker-3.0.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/shared/maven-common-artifact-filters/3.0.0/maven-common-artifact-filters-3.0.0.jar:/Users/bonnieli/.m2/repository/org/apache/maven/shared/maven-artifact-transfer/0.9.1/maven-artifact-transfer-0.9.1.jar:/Users/bonnieli/.m2/repository/commons-codec/commons-codec/1.6/commons-codec-1.6.jar:/Users/bonnieli/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-sink-api/1.7/doxia-sink-api-1.7.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-logging-api/1.7/doxia-logging-api-1.7.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-site-renderer/1.7.4/doxia-site-renderer-1.7.4.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-core/1.7/doxia-core-1.7.jar:/Users/bonnieli/.m2/repository/xmlunit/xmlunit/1.5/xmlunit-1.5.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-decoration-model/1.7.4/doxia-decoration-model-1.7.4.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-skin-model/1.7.4/doxia-skin-model-1.7.4.jar:/Users/bonnieli/.m2/repository/org/apache/maven/doxia/doxia-module-xhtml/1.7/doxia-module-xhtml-1.7.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-i18n/1.0-beta-7/plexus-i18n-1.0-beta-7.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-30/plexus-container-default-1.0-alpha-30.jar:/Users/bonnieli/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-velocity/1.2/plexus-velocity-1.2.jar:/Users/bonnieli/.m2/repository/org/apache/velocity/velocity/1.7/velocity-1.7.jar:/Users/bonnieli/.m2/repository/org/apache/velocity/velocity-tools/2.0/velocity-tools-2.0.jar:/Users/bonnieli/.m2/repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar:/Users/bonnieli/.m2/repository/commons-digester/commons-digester/1.8/commons-digester-1.8.jar:/Users/bonnieli/.m2/repository/commons-chain/commons-chain/1.1/commons-chain-1.1.jar:/Users/bonnieli/.m2/repository/commons-validator/commons-validator/1.3.1/commons-validator-1.3.1.jar:/Users/bonnieli/.m2/repository/dom4j/dom4j/1.1/dom4j-1.1.jar:/Users/bonnieli/.m2/repository/oro/oro/2.0.8/oro-2.0.8.jar:/Users/bonnieli/.m2/repository/sslext/sslext/1.2-0/sslext-1.2-0.jar:/Users/bonnieli/.m2/repository/org/apache/struts/struts-core/1.3.8/struts-core-1.3.8.jar:/Users/bonnieli/.m2/repository/antlr/antlr/2.7.2/antlr-2.7.2.jar:/Users/bonnieli/.m2/repository/org/apache/struts/struts-taglib/1.3.8/struts-taglib-1.3.8.jar:/Users/bonnieli/.m2/repository/org/apache/struts/struts-tiles/1.3.8/struts-tiles-1.3.8.jar:/Users/bonnieli/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar:/Users/bonnieli/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar:/Users/bonnieli/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-6/wagon-provider-api-1.0-beta-6.jar:/Users/bonnieli/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar:/Users/bonnieli/.m2/repository/commons-io/commons-io/2.5/commons-io-2.5.jar:/Users/bonnieli/.m2/repository/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar:/Users/bonnieli/.m2/repository/org/apache/httpcomponents/httpcore/4.4.4/httpcore-4.4.4.jar:/Users/bonnieli/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/bonnieli/.m2/repository/com/thoughtworks/qdox/qdox/2.0-M7/qdox-2.0-M7.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-java/0.9.8/plexus-java-0.9.8.jar:/Users/bonnieli/.m2/repository/org/ow2/asm/asm/6.1.1/asm-6.1.1.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-archiver/3.6.0/plexus-archiver-3.6.0.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-io/3.0.1/plexus-io-3.0.1.jar:/Users/bonnieli/.m2/repository/org/apache/commons/commons-compress/1.16.1/commons-compress-1.16.1.jar:/Users/bonnieli/.m2/repository/org/objenesis/objenesis/2.6/objenesis-2.6.jar:/Users/bonnieli/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.24/plexus-utils-3.0.24.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-interactivity-api/1.0-alpha-6/plexus-interactivity-api-1.0-alpha-6.jar:/Users/bonnieli/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-30/plexus-container-default-1.0-alpha-30.jar'
+--module-path
+'/Users/bonnieli/Organizer/target/classes:/Users/bonnieli/.m2/repository/org/openjfx/javafx-controls/17.0.6/javafx-controls-17.0.6-mac-aarch64.jar:/Users/bonnieli/.m2/repository/org/controlsfx/controlsfx/11.2.1/controlsfx-11.2.1.jar:/Users/bonnieli/.m2/repository/org/openjfx/javafx-graphics/17.0.6/javafx-graphics-17.0.6-mac-aarch64.jar:/Users/bonnieli/.m2/repository/org/openjfx/javafx-fxml/17.0.6/javafx-fxml-17.0.6-mac-aarch64.jar:/Users/bonnieli/.m2/repository/org/openjfx/javafx-base/17.0.6/javafx-base-17.0.6-mac-aarch64.jar'
+--patch-module
+com.example.organizer='/Users/bonnieli/Organizer/src/main/java'
+-encoding
+'UTF-8'
+-protected
+--module-source-path
+'/Users/bonnieli/Organizer/target/docs/javadoc/src'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/bonnieli/Organizer/target/docs/javadoc'
+-docencoding
+'UTF-8'
+-doctitle
+'Organizer 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Organizer 1.0-SNAPSHOT API'
+com.bookclub.mao
+com.bookclub.controller
+com.bookclub
+com.bookclub.model
+com.bookclub.service
+'/Users/bonnieli/Organizer/src/main/java/module-info.java'
+/Users/bonnieli/Organizer/target/docs/javadoc/tag-search-index.js = 1728375581149
+/Users/bonnieli/Organizer/target/docs/javadoc/overview-tree.html = 1728375581134
+/Users/bonnieli/Organizer/target/docs/javadoc/module-search-index.js = 1728375581147
+/Users/bonnieli/Organizer/target/docs/javadoc/index.html = 1728375581162
+/Users/bonnieli/Organizer/target/docs/javadoc/package-search-index.js = 1728375581147
+/Users/bonnieli/Organizer/target/docs/javadoc/jquery-ui.overrides.css = 1728375581167
+/Users/bonnieli/Organizer/target/docs/javadoc/index-all.html = 1728375581162
+/Users/bonnieli/Organizer/target/docs/javadoc/allpackages-index.html = 1728375581146
+/Users/bonnieli/Organizer/target/docs/javadoc/member-search-index.js = 1728375581148
+/Users/bonnieli/Organizer/target/docs/javadoc/script.js = 1728375581165
+/Users/bonnieli/Organizer/target/docs/javadoc/stylesheet.css = 1728375581165
+/Users/bonnieli/Organizer/target/docs/javadoc/help-doc.html = 1728375581164
+/Users/bonnieli/Organizer/target/docs/javadoc/element-list = 1728375581077
+/Users/bonnieli/Organizer/target/docs/javadoc/allclasses-index.html = 1728375581146
+/Users/bonnieli/Organizer/target/docs/javadoc/type-search-index.js = 1728375581148
+/Users/bonnieli/Organizer/target/docs/javadoc/search.js = 1728375581165

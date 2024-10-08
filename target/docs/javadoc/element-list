@@ -1,0 +1,6 @@
+module:com.example.organizer
+com.bookclub
+com.bookclub.controller
+com.bookclub.mao
+com.bookclub.model
+com.bookclub.service

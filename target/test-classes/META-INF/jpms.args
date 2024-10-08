@@ -1,0 +1,4 @@
+--patch-module
+com.example.organizer=_
+--add-reads
+com.example.organizer=ALL-UNNAMED
