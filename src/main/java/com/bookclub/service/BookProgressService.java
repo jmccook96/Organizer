@@ -2,6 +2,8 @@ package com.bookclub.service;
 
 import com.bookclub.dao.BookProgressDAO;
 import com.bookclub.iao.IBookProgressAO;
+import com.bookclub.iao.IRSVPAO;
+import com.bookclub.iao.IUserAO;
 import com.bookclub.model.BookProgress;
 import com.bookclub.model.Book;
 import com.bookclub.model.User;
@@ -14,15 +16,18 @@ public class BookProgressService {
     private static BookProgressService instance;
     private IBookProgressAO bookProgressAO;
 
-    private BookProgressService() {
-        bookProgressAO = new BookProgressDAO();
+    public static BookProgressService getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("RSVPService is not initialized. Call initialize() first.");
+        }
+        return instance;
     }
 
-    public static BookProgressService getInstance() {
+    public static void initialize(IBookProgressAO bookProgressAO) {
         if (instance == null) {
             instance = new BookProgressService();
         }
-        return instance;
+        instance.bookProgressAO = bookProgressAO;
     }
 
     public BookProgress getBookProgress(Book book, User user) {
@@ -34,11 +39,11 @@ public class BookProgressService {
     }
 
     public boolean startBookProgress(Book book, User user) {
-        return bookProgressAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 0));
+        return !hasBookProgress(book, user) && bookProgressAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 0));
     }
 
     public boolean finishBookProgress(Book book, User user) {
-        return bookProgressAO.deleteBookProgress(getBookProgress(book, user));
+        return hasBookProgress(book, user) && bookProgressAO.deleteBookProgress(getBookProgress(book, user));
     }
 
     public boolean saveBookProgress(Book book, User user, int pageNumber) {
@@ -48,7 +53,7 @@ public class BookProgressService {
         if (bookProgress != null) {
             bookProgress.setPageNumber(pageNumber);
         }
-        return bookProgress != null ? bookProgressAO.updateBookProgress(bookProgress) : startBookProgress(book, user);
+        return bookProgress != null ? bookProgressAO.updateBookProgress(bookProgress) : bookProgressAO.addBookProgress(new BookProgress(book.getId(), user.getId(), pageNumber));
     }
 
     public List<BookProgress> getBookProgressListForBook(Book book) {

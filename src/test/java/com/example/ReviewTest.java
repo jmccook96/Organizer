@@ -19,7 +19,7 @@ public class ReviewTest {
     @BeforeEach
     public void setUp() {
         user = new User("testUser", "testPassword");
-        book = new Book("testTitle", "testAuthor");
+        book = new Book(1, "testTitle", "testAuthor");
         review = new Review(user, book, 5);
     }
 

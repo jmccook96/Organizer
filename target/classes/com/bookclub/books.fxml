@@ -12,16 +12,22 @@
     <left>
         <fx:include fx:id="navBar" source="navigatorBar.fxml"/>
     </left>
+
     <center>
         <VBox fx:id="booksContainer" spacing="20" alignment="CENTER">
             <Label text="Book List" alignment="TOP_CENTER" style="-fx-font-size: 50"/>
+
+            <!-- Add New Book Section -->
             <VBox spacing="10">
                 <Label text="Add a new book:"/>
                 <TextField fx:id="titleField" promptText="Enter title"/>
                 <TextField fx:id="authorField" promptText="Enter author"/>
-                <Button text="Add" onAction="#handleAddBook" />
+                <Button text="Add" onAction="#handleAddBook"/>
             </VBox>
+
+            <!-- List of Books -->
             <VBox>
+                <!-- ListView will use custom cell factory set in controller -->
                 <ListView fx:id="booksList" VBox.vgrow="ALWAYS"/>
             </VBox>
         </VBox>
