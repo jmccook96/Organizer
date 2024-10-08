@@ -76,6 +76,11 @@ public class StageFactory {
         }
     }
 
+    /**
+     * Returns the primary stage of the application.
+     *
+     * @return The primary stage.
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }

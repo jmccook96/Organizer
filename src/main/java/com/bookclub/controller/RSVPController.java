@@ -13,6 +13,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+/**
+ * The RSVPController class manages the RSVP functionality in the JavaFX application.
+ * It interacts with the RSVP service to allow users to respond to events and view
+ * the list of attendees.
+ */
 public class RSVPController {
     @FXML
     private Label promptLabel;
@@ -23,6 +28,12 @@ public class RSVPController {
     @FXML
     private ListView<String> attendeesList;
 
+    /**
+     * Initializes the RSVPController.
+     * This method is called automatically after the FXML fields have been injected.
+     * It sets up the RSVP status options, displays the current RSVP information for
+     * the selected event, and sets up a listener for changes in the selected event.
+     */
     @FXML
     public void initialize() {
         RSVPService.initialize(new RSVPDAO(), new UserDAO());
@@ -47,6 +58,10 @@ public class RSVPController {
         });
     }
 
+    /**
+     * Handles the selection of an RSVP status and saves it for the current user.
+     * It updates the list of attendees to reflect the current RSVP status.
+     */
     @FXML
     public void handleRSVPSelect() {
         RSVP.RSVPStatus status = rsvpStatusComboBox.getValue();
@@ -55,17 +70,32 @@ public class RSVPController {
         attendeesList.setVisible(true);
     }
 
+    /**
+     * Toggles the visibility of the RSVP components based on the given parameter.
+     *
+     * @param visible If true, the RSVP components are shown; otherwise, they are hidden.
+     */
     private void toggleRSVPVisibility(boolean visible) {
         promptLabel.setVisible(visible);
         rsvpStatusComboBox.setVisible(visible);
         rsvpButton.setVisible(visible);
     }
 
+    /**
+     * Updates the attendees list based on the current event.
+     *
+     * @param event The event for which to update the attendees list.
+     */
     private void updateAttendees(Event event) {
         attendeesList.getItems().clear();
         attendeesList.getItems().addAll(RSVPService.getInstance().getEventRSVPUsernames(event));
     }
 
+    /**
+     * Displays the RSVP information for the given event.
+     *
+     * @param event The event for which to display RSVP information.
+     */
     private void displayRSVP(Event event) {
         promptLabel.setText("RSVP to " + event.getName());
         RSVP rsvp = RSVPService.getInstance().getRSVP(event, LoginService.getCurrentUser());
