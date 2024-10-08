@@ -13,6 +13,19 @@ public class Book {
     private String genre;
 
     /**
+     * Constructs a {@code Book} object with the specified title and author.
+     * title and author must be non-null and non-empty.
+     *
+     * @param title  the title of the book
+     * @param author the author of the book
+     * @throws IllegalArgumentException if the title or author is null or empty
+     */
+    public Book(String title, String author) {
+        setTitle(title);
+        setAuthor(author);
+    }
+
+    /**
      * Constructs a {@code Book} object with the specified title, genre and author.
      * title, genre and author must be non-null and non-empty.
      *

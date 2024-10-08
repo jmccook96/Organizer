@@ -1,5 +1,6 @@
 package com.bookclub.controller;
 
+import com.bookclub.dao.BookProgressDAO;
 import com.bookclub.model.BookProgress;
 import com.bookclub.service.BookProgressService;
 import com.bookclub.service.BookService;
@@ -20,6 +21,7 @@ public class BookProgressController {
 
     @FXML
     public void initialize() {
+        BookProgressService.initialize(new BookProgressDAO());
         // TODO: Update max value to book total pages when it gets implemented
         pageNumberInput.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0)); // Min: 0, Max: 1000, Initial: 0
         updateUI();
