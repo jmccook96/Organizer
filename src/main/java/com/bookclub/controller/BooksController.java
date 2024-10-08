@@ -15,6 +15,11 @@ import javafx.scene.layout.VBox;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The {@code BooksController} class serves as the controller for managing the 
+ * books in the book club application. It interacts with the data layer and handles 
+ * the book list, adding books, and navigating between different stages of the application.
+ */
 public class BooksController {
 
     private IBookAO bookAO;
@@ -33,11 +38,19 @@ public class BooksController {
     @FXML
     private TextField genreField;
 
+    /**
+     * Initializes a new instance of the {@code BooksController}. 
+     * This constructor sets up the DAO and service instances.
+     */
     public BooksController() {
         bookAO = new BookDAO();
         bookService = BookService.getInstance();
     }
 
+    /**
+     * Initializes the controller after its root element has been completely processed.
+     * This method sets up event listeners, bindings, and populates the list of books.
+     */
     @FXML
     public void initialize() {
         // Set nav bar button color
@@ -81,6 +94,10 @@ public class BooksController {
         });
     }
 
+    /**
+     * Handles the action of adding a new book to the system.
+     * The book is added only if both the title and author fields are filled.
+     */
     @FXML
     private void handleAddBook() {
         String title = titleField.getText();
@@ -98,6 +115,10 @@ public class BooksController {
         }
     }
 
+    /**
+     * Updates the book list by retrieving all books from the data source, 
+     * displaying them in reverse order in the {@code booksList}.
+     */
     private void updateBooks() {
         booksList.getItems().clear();
         List<Book> books = bookAO.findAllBooks();
@@ -105,6 +126,13 @@ public class BooksController {
         booksList.getItems().addAll(books);
     }
 
+    /**
+     * Displays an alert dialog with the provided title and message.
+     * Used to display informal alerts to the user.
+     *
+     * @param title   The title of the alert dialog.
+     * @param message The message content of the alert dialog.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
