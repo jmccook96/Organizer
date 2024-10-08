@@ -2,6 +2,9 @@ package com.bookclub.iao;
 
 import com.bookclub.model.User;
 
+/**
+ * Interface for the User Access Object (IAO) that defines methods for managing users in the system.
+ */
 public interface IUserAO {
 
     /**

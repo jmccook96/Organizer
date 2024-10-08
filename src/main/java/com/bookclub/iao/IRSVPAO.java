@@ -3,6 +3,9 @@ package com.bookclub.iao;
 import com.bookclub.model.RSVP;
 import java.util.List;
 
+/**
+ * Interface for RSVP Access Object (IAO) that defines methods for managing RSVPs in the system.
+ */
 public interface IRSVPAO {
     /**
      * Retrieves an RSVP from the database

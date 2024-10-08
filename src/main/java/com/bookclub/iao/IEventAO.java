@@ -5,6 +5,9 @@ import com.bookclub.model.Event;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Interface for Events Access Object (IAO) that defines methods for managing events in the system.
+ */
 public interface IEventAO {
     /**
      * Retrieves a list of all events from the database

@@ -25,6 +25,10 @@ import org.controlsfx.control.Rating;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Controller for managing the review functionality of books in the application.
+ * This class handles user interactions related to submitting and displaying book reviews.
+ */
 public class ReviewController {
 
     private IReviewAO reviewAO;
@@ -47,12 +51,20 @@ public class ReviewController {
     @FXML
     private Label bookLabel;
 
+    /**
+     * Initializes a new instance of ReviewController and sets up the review access object.
+     * Also retrieves the current user and selected book.
+     */
     public ReviewController() {
         reviewAO = new ReviewDAO();
         bookService = BookService.getInstance();
-        currentUser = LoginService.getInstance().getCurrentUser();
+        currentUser = LoginService.getInstance().getCurrentUser(); // TODO: Remove this, is dangerous
     }
 
+    /**
+     * Initializes the controller after its root element has been processed.
+     * Sets up UI bindings and updates the view with current book ratings.
+     */
     @FXML
     public void initialize() {
         reviewContainer.maxWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.5));
@@ -68,6 +80,10 @@ public class ReviewController {
         ratingControl.setUpdateOnHover(false);
     }
 
+    /**
+     * Handles the submission of a review by the current user for the selected book.
+     * Updates existing reviews or adds new reviews as necessary.
+     */
     @FXML
     private void handleSubmitReview() {
         int rating = getSelectedRating();
@@ -85,16 +101,29 @@ public class ReviewController {
         updateRatings();  // Refresh the view to reflect the updated reviews
     }
 
+    /**
+     * Retrieves the currently selected rating from the rating control.
+     *
+     * @return the selected rating as an integer
+     */
     private int getSelectedRating() {
         return (int) ratingControl.getRating();
     }
 
+    /**
+     * Handles the action when the back button is clicked,
+     * switching the scene back to the book list view.
+     */
     @FXML
     private void handleBackButton() {
         // Switch back to the book list view
         StageFactory.getInstance().switchScene(StageView.BOOKS);
     }
 
+    /**
+     * Updates the displayed ratings for the selected book by retrieving reviews
+     * from the review access object and populating the ratings list.
+     */
     private void updateRatings() {
         if (selectedBook != null) {
             List<Review> reviews = reviewAO.findReviewsByBook(selectedBook);
@@ -118,6 +147,12 @@ public class ReviewController {
         }
     }
 
+    /**
+     * Displays an alert dialog with the specified title and message.
+     *
+     * @param title   the title of the alert
+     * @param message the message to be displayed in the alert
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
