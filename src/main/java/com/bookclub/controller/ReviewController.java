@@ -41,15 +41,9 @@ public class ReviewController {
     @FXML
     private VBox newReviewContainer;
     @FXML
-    private ImageView backIcon;
-    @FXML
     private Rating ratingControl;
     @FXML
     private ListView<HBox> ratingsList;
-    @FXML
-    private Button backButton;
-    @FXML
-    private Label bookLabel;
 
     /**
      * Initializes a new instance of ReviewController and sets up the review access object.
@@ -69,12 +63,7 @@ public class ReviewController {
     public void initialize() {
         reviewContainer.maxWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.5));
         newReviewContainer.maxWidthProperty().bind(reviewContainer.maxWidthProperty().multiply(0.5));
-        backButton.prefHeightProperty().bind(StageFactory.getInstance().getPrimaryStage().heightProperty());
-        backIcon.fitWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.1));
         selectedBook = bookService.getSelectedBook();
-        if (selectedBook != null) {
-            bookLabel.setText(selectedBook.toString());
-        }
         updateRatings();
         ratingsList.maxHeightProperty().bind(reviewContainer.heightProperty());
         ratingControl.setUpdateOnHover(false);
@@ -108,16 +97,6 @@ public class ReviewController {
      */
     private int getSelectedRating() {
         return (int) ratingControl.getRating();
-    }
-
-    /**
-     * Handles the action when the back button is clicked,
-     * switching the scene back to the book list view.
-     */
-    @FXML
-    private void handleBackButton() {
-        // Switch back to the book list view
-        StageFactory.getInstance().switchScene(StageView.BOOKS);
     }
 
     /**
