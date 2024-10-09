@@ -7,6 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+/**
+ * The {@code NavigatorBarController} class handles the navigation bar functionality for the
+ * book club application. It defines the buttons and icons for navigation and implements
+ * navigation logic between different views such as home, books, account, events, and chat.
+ */
 public class NavigatorBarController {
 
     @FXML
@@ -33,6 +38,11 @@ public class NavigatorBarController {
     @FXML
     private ImageView chatIcon;
 
+    /**
+     * Initializes the navigation bar layout by binding the width and height properties
+     * of the buttons and icons to the main stage and navigation bar dimensions.
+     * This method is automatically called after the controller's root element has been processed.
+     */
     @FXML
     public void initialize() {
         navBarVBox.prefWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.1));
@@ -56,26 +66,45 @@ public class NavigatorBarController {
         chatIcon.fitHeightProperty().bind(accountIcon.fitHeightProperty());
     }
 
+    /**
+     * A placeholder method that navigates to the home view. This is for testing purposes
+     * and prints a message indicating that the navigation logic is yet to be implemented.
+     */
     public void navigateTest() {
         StageFactory.getInstance().switchScene(StageView.HOME);
         System.out.println("YET TO BE IMPLEMENTED. GOING HOME.");
     }
 
+    /**
+     * Navigates to the home view by switching the scene to the {@code StageView.HOME}.
+     */
     public void navigateHome() {
         StageFactory.getInstance().switchScene(StageView.HOME);
     }
 
+    /**
+     * Navigates to the books view by switching the scene to the {@code StageView.BOOKS}.
+     */
     public void navigateBooks() {
         StageFactory.getInstance().switchScene(StageView.BOOKS);
     }
 
+    /**
+     * Navigates to the account settings view by switching the scene to the {@code StageView.ACCOUNT_SETTINGS}.
+     */
     public void navigateAccount() {
         StageFactory.getInstance().switchScene(StageView.ACCOUNT_SETTINGS);
     }
 
+    /**
+     * Navigates to the events view by switching the scene to the {@code StageView.EVENTS}.
+     */
     public void navigateEvents() {
         StageFactory.getInstance().switchScene(StageView.EVENTS);
     }
 
+    /**
+     * Navigates to the chat view by switching the scene to the {@code StageView.CHAT}.
+     */
     public void navigateChat() { StageFactory.getInstance().switchScene(StageView.CHAT); }
 }

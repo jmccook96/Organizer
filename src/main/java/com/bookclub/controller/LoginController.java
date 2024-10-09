@@ -12,6 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for the login screen of the application.
+ * Handles user interactions for logging in and navigating to the registration screen.
+ */
 public class LoginController {
     @FXML
     private BorderPane loginBorderPane;
@@ -31,11 +35,17 @@ public class LoginController {
     private Button loginButton;
     @FXML
     private Button registerButton;
-    
+
+    /**
+     * Initializes the LoginController and sets up the LoginService.
+     */
     public LoginController() {
         LoginService.initialize(new UserDAO());
     }
 
+    /**
+     * Initializes the UI components and binds properties for responsiveness.
+     */
     @FXML
     private void initialize() {
         Platform.runLater(() -> loginLabel.requestFocus());
@@ -51,7 +61,12 @@ public class LoginController {
         registerButton.prefHeightProperty().bind(usernameField.heightProperty());
         registerButton.prefWidthProperty().bind(usernameField.widthProperty());
     }
-    
+
+    /**
+     * Handles the login action when the login button is pressed.
+     *
+     * @param event the ActionEvent triggered by the login button
+     */
     @FXML
     public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
@@ -66,11 +81,20 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navigates the user to the registration screen when the register button is pressed.
+     */
     @FXML
     public void handleNavigateToRegister() {
         StageFactory.getInstance().switchScene(StageView.REGISTER);
     }
 
+    /**
+     * Displays an alert dialog with the specified title and message.
+     *
+     * @param title   the title of the alert dialog
+     * @param message the message to be displayed in the alert dialog
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

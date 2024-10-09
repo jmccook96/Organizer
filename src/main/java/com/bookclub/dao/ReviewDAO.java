@@ -12,15 +12,31 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) for handling Review-related database operations.
+ * Implements the IReviewAO interface to provide methods for adding, updating,
+ * deleting, and retrieving reviews from the database.
+ */
 public class ReviewDAO implements IReviewAO {
 
     private DatabaseManager dbManager;
 
+    /**
+     * Initializes a new instance of ReviewDAO and creates the Reviews table 
+     * if it does not already exist.
+     */
     public ReviewDAO() {
         dbManager = DatabaseManager.getInstance();
         createTable();
     }
 
+    /**
+     * Finds a review by the specified user and book.
+     *
+     * @param user the user who wrote the review
+     * @param book the book for which the review is written
+     * @return the Review object if found, otherwise null
+     */
     @Override
     public Review findReviewByUserAndBook(User user, Book book) {
         try {
@@ -40,6 +56,12 @@ public class ReviewDAO implements IReviewAO {
         return null;
     }
 
+    /**
+     * Retrieves all reviews written by the specified user.
+     *
+     * @param user the user whose reviews are to be retrieved
+     * @return a list of Review objects written by the user
+     */
     @Override
     public List<Review> findReviewsByUser(User user) {
         List<Review> reviews = new ArrayList<>();
@@ -63,6 +85,12 @@ public class ReviewDAO implements IReviewAO {
         return reviews;
     }
 
+    /**
+     * Retrieves all reviews for the specified book.
+     *
+     * @param book the book for which the reviews are to be retrieved
+     * @return a list of Review objects associated with the book
+     */
     @Override
     public List<Review> findReviewsByBook(Book book) {
         List<Review> reviews = new ArrayList<>();
@@ -85,6 +113,12 @@ public class ReviewDAO implements IReviewAO {
         return reviews;
     }
 
+    /**
+     * Adds a new review to the database.
+     *
+     * @param review the Review object to be added
+     * @return true if the review was added successfully, false otherwise
+     */
     @Override
     public boolean addReview(Review review) {
         try {
@@ -101,6 +135,12 @@ public class ReviewDAO implements IReviewAO {
         return true;
     }
 
+    /**
+     * Updates an existing review in the database.
+     *
+     * @param review the Review object containing updated information
+     * @return true if the review was updated successfully, false otherwise
+     */
     @Override
     public boolean updateReview(Review review) {
         try {
@@ -118,6 +158,12 @@ public class ReviewDAO implements IReviewAO {
         return true;
     }
 
+    /**
+     * Deletes a review from the database.
+     *
+     * @param review the Review object to be deleted
+     * @return true if the review was deleted successfully, false otherwise
+     */
     @Override
     public boolean deleteReview(Review review) {
         try {
@@ -133,6 +179,12 @@ public class ReviewDAO implements IReviewAO {
         return true;
     }
 
+    /**
+     * Saves or updates a review in the database. If the review already exists, it is updated;
+     * otherwise, a new review is added.
+     *
+     * @param review the Review object to be saved or updated
+     */
     @Override
     public void saveOrUpdateReview(Review review) {
         Review existingReview = findReviewByUserAndBook(review.getUser(), review.getBook());
@@ -144,6 +196,9 @@ public class ReviewDAO implements IReviewAO {
         }
     }
 
+    /**
+     * Creates the Reviews table in the database if it does not already exist.
+     */
     private void createTable() {
         // Create table if not exists
         try {

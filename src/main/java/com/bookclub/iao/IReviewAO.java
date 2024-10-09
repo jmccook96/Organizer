@@ -5,6 +5,9 @@ import com.bookclub.model.Book;
 import com.bookclub.model.User;
 import java.util.List;
 
+/**
+ * Interface for Reviews Access Object (IAO) that defines methods for managing reviews in the system.
+ */
 public interface IReviewAO {
 
     /**

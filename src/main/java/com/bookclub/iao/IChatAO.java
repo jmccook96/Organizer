@@ -5,6 +5,9 @@ import com.bookclub.model.ChatMessage;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Interface for Chats Access Object (IAO) that defines methods for managing chats/messages in the system.
+ */
 public interface IChatAO {
     /**
      * Inserts a new ChatMessage into the database.

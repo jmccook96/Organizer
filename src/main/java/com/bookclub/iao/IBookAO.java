@@ -4,6 +4,9 @@ import com.bookclub.model.Book;
 
 import java.util.List;
 
+/**
+ * Interface for Books Access Object (IAO) that defines methods for managing books in the system.
+ */
 public interface IBookAO {
 
     /**

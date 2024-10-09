@@ -21,6 +21,11 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Controller class responsible for managing the events in the Book Club application.
+ * It handles user interactions for adding, updating, and deleting events,
+ * and binds these interactions to the data model.
+ */
 public class EventsController {
     private IEventAO eventAO;
     @FXML
@@ -52,11 +57,19 @@ public class EventsController {
     @FXML
     private VBox rsvp;
 
-
+    /**
+     * Constructor initializes the Event Data Access Object (DAO).
+     */
     public EventsController() {
         eventAO = new EventDAO();
     }
 
+    /**
+     * Populates the form fields with the selected event's data and enables or disables fields 
+     * based on the organizer of the event.
+     *
+     * @param event The selected event.
+     */
     private void selectEvent(Event event) {
         eventList.getSelectionModel().select(event);
         Book book = getBookById(event.getBookId());
@@ -73,6 +86,13 @@ public class EventsController {
         toggleFieldsDisable(!event.getOrganizer().equals(LoginService.getCurrentUser().getUsername()));
     }
 
+    /**
+     * Renders each event in the ListView as a selectable cell, and sets up the click event 
+     * to populate the form fields when an event is selected.
+     *
+     * @param eventList The ListView displaying the events.
+     * @return A ListCell containing the event name.
+     */
     private ListCell<Event> renderCell(ListView<Event> eventList) {
         return new ListCell<>() {
             private void onEventSelected(MouseEvent mouseEvent) {
@@ -97,6 +117,10 @@ public class EventsController {
         };
     }
 
+    /**
+     * Updates the ListView with the latest events from the database, sorting them 
+     * by the event date (earliest event first).
+     */
     private void updateEvents() {
         eventList.getItems().clear();
         List<Event> events = eventAO.findAllEvents();
@@ -106,6 +130,11 @@ public class EventsController {
         }
     }
 
+    /**
+     * Initializes the UI components of the Events view. Sets up the default values 
+     * for the time spinners and loads the list of books into the ComboBox. 
+     * Also checks if books exist, and disables event creation if none are currently available.
+     */
     @FXML
     public void initialize() {
         // Set nav bar button colour
@@ -150,6 +179,10 @@ public class EventsController {
         }
     }
 
+    /**
+     * Handles the confirmation of event editing. Updates the selected event's details 
+     *  and persists the changes to the database.
+     */
     @FXML
     private void handleConfirm() {
         Event selectedEvent = eventList.getSelectionModel().getSelectedItem();
@@ -167,6 +200,10 @@ public class EventsController {
         }
     }
 
+    /**
+     * Handles the deletion of the selected event, removing it from the database and 
+     * updating the ListView to reflect the change.
+     */
     @FXML
     private void handleDelete() {
         Event selectedEvent = eventList.getSelectionModel().getSelectedItem();
@@ -176,6 +213,10 @@ public class EventsController {
         }
     }
 
+    /**
+     * Handles the creation of a new default event. Adds the new event to the database and selects it in the UI 
+     * for further editing.
+     */
     @FXML
     private void handleAdd() {
         Event newEvent = new Event(bookComboBox.getItems().get(0).getId(), "New Event", LoginService.getCurrentUser().getUsername(), LocalDateTime.now(), "New Location");
@@ -185,6 +226,10 @@ public class EventsController {
         bookComboBox.requestFocus();
     }
 
+    /**
+     * Cancels any unsaved changes made to the selected event, restoring the form fields to the event's
+     * previously saved state.
+     */
     @FXML
     private void handleCancel() {
         Event selectedEvent = eventList.getSelectionModel().getSelectedItem();
@@ -193,6 +238,12 @@ public class EventsController {
         }
     }
 
+    /**
+     * Retrieves a book from the ComboBox by its ID.
+     *
+     * @param bookId The ID of the book to retrieve.
+     * @return The matching Book object, or null if not found.
+     */
     private Book getBookById(int bookId) {
         for (Book book : bookComboBox.getItems()) {
             if (book.getId() == bookId) {
@@ -202,6 +253,11 @@ public class EventsController {
         return null;
     }
 
+    /**
+     * Enables or disables form fields.
+     *
+     * @param disable True to disable the fields, false to enable them.
+     */
     private void toggleFieldsDisable(boolean disable) {
         bookComboBox.setDisable(disable);
         eventNameField.setDisable(disable);
@@ -214,6 +270,11 @@ public class EventsController {
         deleteButton.setDisable(disable);
     }
 
+    /**
+     * Toggles visibility of form fields.
+     *
+     * @param visible True to enable field visibility, false to disable them.
+     */
     private void toggleFieldsVisibility(boolean visible) {
         bookComboBox.setVisible(visible);
         eventNameField.setVisible(visible);

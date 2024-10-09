@@ -3,6 +3,9 @@ package com.bookclub.iao;
 import com.bookclub.model.BookProgress;
 import java.util.List;
 
+/**
+ * Interface for BookProgress's Access Object (IAO) that defines methods for managing book progress in the system.
+ */
 public interface IBookProgressAO {
     /**
      * Retrieves a BookProgress from the database based on the bookId and userId
