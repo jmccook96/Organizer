@@ -23,6 +23,7 @@ public class Book {
     public Book(String title, String author) {
         setTitle(title);
         setAuthor(author);
+
     }
 
     /**
@@ -49,10 +50,11 @@ public class Book {
      * @param author the author of the book
      * @throws IllegalArgumentException if the id is less than 1, or title or author is null or empty
      */
-    public Book(int id, String title, String author) {
+    public Book(int id, String title, String author, String genre) {
         setId(id);
         setTitle(title);
         setAuthor(author);
+        setGenre(genre);
     }
 
     /**
@@ -149,13 +151,13 @@ public class Book {
 
     @Override
     public String toString() {
-        return title + " by " + author;
+        return title + " by " + author + " ( " + genre + " ) ";
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Book) {
-            return ((Book) obj).getTitle().equals(this.getTitle()) && ((Book) obj).getAuthor().equals(this.getAuthor());
+            return ((Book) obj).getTitle().equals(this.getTitle()) && ((Book) obj).getAuthor().equals(this.getAuthor()) && ((Book) obj).getGenre().equals(this.getGenre());
         }
         return false;
     }

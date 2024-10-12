@@ -10,6 +10,8 @@ import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.Collections;
@@ -35,8 +37,13 @@ public class BooksController {
     private TextField authorField;
     @FXML
     private HBox navBar;
+
     @FXML
-    private TextField genreField;
+    private ComboBox<String> genreComboBox, searchGenreComboBox;
+    @FXML
+    private TextField searchTitleAuthorField;
+    @FXML
+    private Button searchButton;
 
     /**
      * Initializes a new instance of the {@code BooksController}. 
@@ -53,6 +60,12 @@ public class BooksController {
      */
     @FXML
     public void initialize() {
+        // set genre combo box
+        genreComboBox.getItems().addAll("Fiction", "Non-fiction", "Sci-Fi", "Fantasy", "Romance", "Horror");
+        //set genre search combo box
+        searchGenreComboBox.getItems().addAll("All", "Fiction", "Non-fiction", "Sci-Fi", "Fantasy", "Romance", "Horror");
+        searchGenreComboBox.setValue("All");  // Default to "All" for searching
+
         // Set nav bar button color
         Button booksButton = (Button) navBar.lookup("#booksButton");
         if (booksButton != null) {
@@ -87,7 +100,17 @@ public class BooksController {
                     ReviewData reviewData = bookService.getReviewData(book);
                     Label ratingLabel = new Label(String.format("%.1f ★ (%d)", reviewData.getAverageRating(), reviewData.getNumberOfRatings()));
 
-                    hbox.getChildren().addAll(bookLabel, ratingLabel);
+                    // Create a remove button
+                    Button removeButton = new Button("Remove");
+                    removeButton.setOnAction(event -> {
+                        bookAO.removeBook(book); // Call your method to remove the book
+                        updateBooks(); // Refresh the book list
+                    });
+
+                    Region spacer = new Region();
+                    HBox.setHgrow(spacer, Priority.ALWAYS); // Allow the spacer to grow and fill available space and move the remove button to the right end of the list
+
+                    hbox.getChildren().addAll(bookLabel, ratingLabel, spacer, removeButton);
                     setGraphic(hbox);
                 }
             }
@@ -102,16 +125,20 @@ public class BooksController {
     private void handleAddBook() {
         String title = titleField.getText();
         String author = authorField.getText();
-//        String genre = genreField.getText();
-        if (!title.isEmpty() && !author.isEmpty()) {
-            Book book = new Book(title, author);
+        String genre = genreComboBox.getValue();
+
+        if (!title.isEmpty() && !author.isEmpty() && genre !=null) {
+            Book book = new Book(title, author, genre);
             bookAO.addBook(book);
             updateBooks();
             titleField.clear();
             authorField.clear();
+            genreComboBox.setValue(null);
+
             System.out.println("Book added successfully.");
+
         } else {
-            showAlert("Failed", "Book must have a title and author.");
+            showAlert("Failed", "Book must have a Title, Author and Genre.");
         }
     }
 
@@ -122,8 +149,44 @@ public class BooksController {
     private void updateBooks() {
         booksList.getItems().clear();
         List<Book> books = bookAO.findAllBooks();
-        Collections.reverse(books);
+        Collections.reverse(books); //
         booksList.getItems().addAll(books);
+    }
+
+    @FXML
+    public void handleSearchBooks() {
+        String searchQuery = searchTitleAuthorField.getText().trim().toLowerCase(); // Get the search query and convert it to lower case
+        String selectedGenre = searchGenreComboBox.getValue();
+
+        List<Book> filteredBooks;
+
+        // Search by title or author
+        if (selectedGenre.equals("All") && searchQuery.isEmpty()) {
+            // No filters, show all books
+            filteredBooks = bookAO.findAllBooks();
+        } else {
+            // Filter by genre
+            filteredBooks = bookAO.findAllBooks(); // Get all books first
+
+            // Filter based on the search query
+            filteredBooks.removeIf(book ->
+                    !book.getTitle().toLowerCase().contains(searchQuery) && // Check title
+                            !book.getAuthor().toLowerCase().contains(searchQuery)); // Check author
+
+            // If a specific genre is selected, filter by genre
+            if (!selectedGenre.equals("All")) {
+                filteredBooks.removeIf(book -> !book.getGenre().equalsIgnoreCase(selectedGenre));
+            }
+        }
+
+        // Update the book list with filtered results
+        booksList.getItems().clear();
+        if (filteredBooks != null && !filteredBooks.isEmpty()) {
+            booksList.getItems().addAll(filteredBooks);
+        } else {
+            System.out.println("No books found.");
+            showAlert("No Results", "No books found for the given search search.");
+        }
     }
 
     /**

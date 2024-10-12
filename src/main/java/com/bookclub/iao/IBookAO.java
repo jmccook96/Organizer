@@ -64,4 +64,6 @@ public interface IBookAO {
      * @return If operation succeeded
      */
     boolean deleteBook(Book book);
+
+    void removeBook(Book book);
 }
