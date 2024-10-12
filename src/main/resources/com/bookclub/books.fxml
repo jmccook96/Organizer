@@ -20,16 +20,26 @@
             <!-- Add New Book Section -->
             <VBox spacing="10">
                 <Label text="Add a new book:"/>
-                <TextField fx:id="titleField" promptText="Enter title"/>
-                <TextField fx:id="authorField" promptText="Enter author"/>
+                <TextField fx:id="titleField" promptText="Enter Title"/>
+                <TextField fx:id="authorField" promptText="Enter Author"/>
+                <Label text="Genre:"/> <!-- Label for the genre ComboBox -->
+                <ComboBox fx:id="genreComboBox" promptText="Select genre"/> <!-- Added ComboBox for genres -->
                 <Button text="Add" onAction="#handleAddBook"/>
+            </VBox>
+
+            <!-- Search Section -->
+            <VBox spacing="10" alignment="CENTER">
+                <Label text="Search Books" style="-fx-font-size: 20"/>
+                <TextField fx:id="searchAuthorField" promptText="Search by Title or Author"/>
+                <ComboBox fx:id="searchGenreComboBox" promptText="Filter by genre"/>
+                <Button text="Search" onAction="#handleSearchBooks"/>
             </VBox>
 
             <!-- List of Books -->
             <VBox>
-                <!-- ListView will use custom cell factory set in controller -->
                 <ListView fx:id="booksList" VBox.vgrow="ALWAYS"/>
             </VBox>
         </VBox>
     </center>
 </BorderPane>
+

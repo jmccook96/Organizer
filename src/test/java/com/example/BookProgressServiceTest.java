@@ -23,7 +23,7 @@ public class BookProgressServiceTest {
     @BeforeEach
     public void setUp() {
         bookProgressMAO = new BookProgressMAO();
-        book = new Book(1, "TestTitle", "TestAuthor");
+        book = new Book("TestTitle", "TestAuthor");
         user = new User(1, "testUser", "testPassword", "Test Name", "test@example.com");
         BookProgressService.initialize(bookProgressMAO);
         bookProgressService = BookProgressService.getInstance();

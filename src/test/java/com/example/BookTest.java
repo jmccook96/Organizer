@@ -13,7 +13,7 @@ public class BookTest {
     
     @BeforeEach
     public void setUp() {
-        book = new Book(1, "testTitle", "testAuthor");
+        book = new Book("testTitle", "testAuthor");
     }
 
     // Basic functionality
@@ -62,21 +62,21 @@ public class BookTest {
 
     @Test
     public void testConstructorInvalidTitleNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, null, "author"));
+        assertThrows(IllegalArgumentException.class, () -> new Book(null, "author"));
     }
 
     @Test
     public void testConstructorInvalidTitleEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "", "author"));
+        assertThrows(IllegalArgumentException.class, () -> new Book("", "author"));
     }
 
     @Test
     public void testConstructorInvalidAuthorNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "title", null));
+        assertThrows(IllegalArgumentException.class, () -> new Book("title", null));
     }
 
     @Test
     public void testConstructorInvalidAuthorEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "title", ""));
+        assertThrows(IllegalArgumentException.class, () -> new Book("title", ""));
     }
 }

@@ -17,8 +17,8 @@ public class EventMAO  implements IEventAO {
     }
 
     private void addTestData() {
-        Book book1 = new Book(1, "It", "Stephen King");
-        Book book2 = new Book(2, "The Shining", "Stephen King");
+        Book book1 = new Book("It", "Stephen King");
+        Book book2 = new Book("The Shining", "Stephen King");
         events.add(new Event(book1.getId(), "It bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 1, 30),"1234 library court"));
         events.add(new Event(book2.getId(), "The Shining bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 3, 2, 30),"1234 library court"));
         events.add(new Event(book1.getId(),"testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 4, 3, 30),"1234 library court"));

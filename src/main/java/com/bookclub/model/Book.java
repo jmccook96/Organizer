@@ -20,24 +20,24 @@ public class Book {
      * @param author the author of the book
      * @throws IllegalArgumentException if the title or author is null or empty
      */
-    public Book(String title, String author) {
+    public Book(String title, String author, String genre) {
         setTitle(title);
         setAuthor(author);
+        setGenre(genre);
     }
 
     /**
      * Constructs a {@code Book} object with the specified title, genre and author.
      * title, genre and author must be non-null and non-empty.
      *
-     * @param genre the genre of the book
      * @param title  the title of the book
      * @param author the author of the book
      * @throws IllegalArgumentException if the title or author is null or empty
      */
-    public Book(String title, String author, String genre) {
+    public Book(String title, String author) {
         setTitle(title);
         setAuthor(author);
-        setGenre(genre);
+
     }
 
     /**
@@ -49,10 +49,11 @@ public class Book {
      * @param author the author of the book
      * @throws IllegalArgumentException if the id is less than 1, or title or author is null or empty
      */
-    public Book(int id, String title, String author) {
+    public Book(int id, String title, String author, String genre) {
         setId(id);
         setTitle(title);
         setAuthor(author);
+        setGenre(genre); //
     }
 
     /**
@@ -149,13 +150,13 @@ public class Book {
 
     @Override
     public String toString() {
-        return title + " by " + author;
-    }
+        return title + " by " + author + " ( " + genre + " ) ";
+    } //
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Book) {
-            return ((Book) obj).getTitle().equals(this.getTitle()) && ((Book) obj).getAuthor().equals(this.getAuthor());
+            return ((Book) obj).getTitle().equals(this.getTitle()) && ((Book) obj).getAuthor().equals(this.getAuthor()) && ((Book) obj).getGenre().equals(this.getGenre()); //
         }
         return false;
     }

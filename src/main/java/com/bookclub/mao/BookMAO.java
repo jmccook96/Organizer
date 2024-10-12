@@ -7,7 +7,7 @@ import java.util.*;
 
 import java.util.List;
 
-public class BookMAO implements IBookAO {
+public abstract class BookMAO implements IBookAO {
 
     private List<Book> books;
 
@@ -87,4 +87,6 @@ public class BookMAO implements IBookAO {
     public boolean deleteBook(Book book) {
         return books.remove(book);
     }
+
+
 }
