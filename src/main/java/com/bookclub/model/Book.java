@@ -23,7 +23,6 @@ public class Book {
     public Book(String title, String author) {
         setTitle(title);
         setAuthor(author);
-
     }
 
     /**

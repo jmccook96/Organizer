@@ -1,8 +1,9 @@
 package com.bookclub.controller;
-
+import com.bookclub.model.Genre;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
+import com.bookclub.service.BookServiceManager;
 import com.bookclub.service.BookService;
 import com.bookclub.service.BookService.ReviewData;
 import com.bookclub.util.StageFactory;
@@ -42,8 +43,9 @@ public class BooksController {
     private ComboBox<String> genreComboBox, searchGenreComboBox;
     @FXML
     private TextField searchTitleAuthorField;
-    @FXML
-    private Button searchButton;
+
+
+    private BookServiceManager bookServiceManager;
 
     /**
      * Initializes a new instance of the {@code BooksController}. 
@@ -60,11 +62,17 @@ public class BooksController {
      */
     @FXML
     public void initialize() {
+
+        // Initialize the service manager with a DAO
+        bookServiceManager = new BookServiceManager(new BookDAO());
+
         // set genre combo box
-        genreComboBox.getItems().addAll("Fiction", "Non-fiction", "Sci-Fi", "Fantasy", "Romance", "Horror");
+        for (Genre genre : Genre.values()) {
+            genreComboBox.getItems().add(genre.getDisplayName());
+        }
+
         //set genre search combo box
-        searchGenreComboBox.getItems().addAll("All", "Fiction", "Non-fiction", "Sci-Fi", "Fantasy", "Romance", "Horror");
-        searchGenreComboBox.setValue("All");  // Default to "All" for searching
+        searchGenreComboBox.getItems().addAll("All", "General", "Fiction", "Non-fiction", "Sci-Fi", "Fantasy", "Romance", "Horror");
 
         // Set nav bar button color
         Button booksButton = (Button) navBar.lookup("#booksButton");
@@ -103,7 +111,7 @@ public class BooksController {
                     // Create a remove button
                     Button removeButton = new Button("Remove");
                     removeButton.setOnAction(event -> {
-                        bookAO.removeBook(book); // Call your method to remove the book
+                        bookAO.deleteBook(book);
                         updateBooks(); // Refresh the book list
                     });
 
@@ -133,7 +141,7 @@ public class BooksController {
             updateBooks();
             titleField.clear();
             authorField.clear();
-            genreComboBox.setValue(null);
+            genreComboBox.setValue("General");
 
             System.out.println("Book added successfully.");
 
@@ -155,37 +163,23 @@ public class BooksController {
 
     @FXML
     public void handleSearchBooks() {
-        String searchQuery = searchTitleAuthorField.getText().trim().toLowerCase(); // Get the search query and convert it to lower case
+        String searchQuery = searchTitleAuthorField.getText().trim().toLowerCase(); // Get the search query
         String selectedGenre = searchGenreComboBox.getValue();
 
-        List<Book> filteredBooks;
+        // Use the service manager to perform the search
+        List<Book> filteredBooks = bookServiceManager.searchForBooks(searchQuery, selectedGenre);
 
-        // Search by title or author
-        if (selectedGenre.equals("All") && searchQuery.isEmpty()) {
-            // No filters, show all books
-            filteredBooks = bookAO.findAllBooks();
-        } else {
-            // Filter by genre
-            filteredBooks = bookAO.findAllBooks(); // Get all books first
+        displaySearchedBooks(filteredBooks);
+    }
 
-            // Filter based on the search query
-            filteredBooks.removeIf(book ->
-                    !book.getTitle().toLowerCase().contains(searchQuery) && // Check title
-                            !book.getAuthor().toLowerCase().contains(searchQuery)); // Check author
-
-            // If a specific genre is selected, filter by genre
-            if (!selectedGenre.equals("All")) {
-                filteredBooks.removeIf(book -> !book.getGenre().equalsIgnoreCase(selectedGenre));
-            }
-        }
-
-        // Update the book list with filtered results
+    private void displaySearchedBooks(List<Book> filteredBooks) {
         booksList.getItems().clear();
         if (filteredBooks != null && !filteredBooks.isEmpty()) {
             booksList.getItems().addAll(filteredBooks);
+
         } else {
             System.out.println("No books found.");
-            showAlert("No Results", "No books found for the given search search.");
+            showAlert("No results", "No books found for the given search");
         }
     }
 

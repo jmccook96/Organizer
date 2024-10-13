@@ -31,7 +31,8 @@
             <VBox spacing="10" alignment="CENTER">
                 <Label text="Search Books" style="-fx-font-size: 20"/>
                 <TextField fx:id="searchTitleAuthorField" promptText="Search by Title or Author"/>
-                <ComboBox fx:id="searchGenreComboBox" promptText="Filter by genre"/>
+                <Label text="Search by Genre:"/>
+                <ComboBox fx:id="searchGenreComboBox" promptText="Select a Genre"/>
                 <Button text="Search" onAction="#handleSearchBooks"/>
             </VBox>
 

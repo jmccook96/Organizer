@@ -7,7 +7,7 @@ import java.util.*;
 
 import java.util.List;
 
-public abstract class BookMAO implements IBookAO {
+public class BookMAO implements IBookAO {
 
     private List<Book> books;
 

@@ -65,5 +65,5 @@ public interface IBookAO {
      */
     boolean deleteBook(Book book);
 
-    void removeBook(Book book);
+
 }
