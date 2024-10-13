@@ -73,8 +73,9 @@ public class ReviewDAO implements IReviewAO {
                 int bookId = resultSet.getInt("bookId");
                 String bookTitle = resultSet.getString("bookTitle");
                 String bookAuthor = resultSet.getString("bookAuthor");
+                String bookGenre = resultSet.getString("bookGenre");
                 int rating = resultSet.getInt("rating");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
+                Book book = new Book(bookId, bookTitle, bookAuthor, bookGenre);
                 Review review = new Review(user, book, rating);
                 reviews.add(review);
             }
