@@ -12,12 +12,31 @@ import java.util.List;
 
 public class BookDAO implements IBookAO {
 
-    private Book buildBookFromResultSet(ResultSet resultSet) throws Exception {
-        int bookId = resultSet.getInt("bookId");
-        String bookTitle = resultSet.getString("bookTitle");
-        String bookAuthor = resultSet.getString("bookAuthor");
-        String bookGenre = resultSet.getString("bookGenre");
-        return new Book(bookId, bookTitle, bookAuthor, bookGenre);
+    private Book buildBookFromResultSet(ResultSet resultSet) {
+        try {
+            int bookId = resultSet.getInt("bookId");
+            String bookTitle = resultSet.getString("bookTitle");
+            String bookAuthor = resultSet.getString("bookAuthor");
+            String bookGenre = resultSet.getString("bookGenre");
+            return new Book(bookId, bookTitle, bookAuthor, bookGenre);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+            return null;
+    }
+
+    private List<Book> getListFromStatement(PreparedStatement statement) {
+        List<Book> books = new ArrayList<>();
+        try {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                books.add(buildBookFromResultSet(resultSet));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return books;
     }
 
     private DatabaseManager dbManager;
@@ -32,18 +51,12 @@ public class BookDAO implements IBookAO {
         List<Book> books = new ArrayList<>();
         String query = "SELECT * FROM Books";
         try {
-            Statement statement = dbManager.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-
-                books.add(buildBookFromResultSet(resultSet));
-            }
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(query);
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println("Books in the system: " + books.size());
         return books;
     }
 
@@ -71,11 +84,7 @@ public class BookDAO implements IBookAO {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookTitle = ?");
             statement.setString(1, title);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-
-                books.add(buildBookFromResultSet(resultSet));
-            }
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -89,11 +98,7 @@ public class BookDAO implements IBookAO {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookGenre = ?");
             statement.setString(1, genre);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-
-                books.add(buildBookFromResultSet(resultSet));
-            }
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -107,11 +112,7 @@ public class BookDAO implements IBookAO {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookAuthor = ?");
             statement.setString(1, author);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-
-                books.add(buildBookFromResultSet(resultSet));
-            }
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -155,7 +156,6 @@ public class BookDAO implements IBookAO {
         }
         catch (Exception e) {
             e.printStackTrace();
-
         }
         return true;
     }

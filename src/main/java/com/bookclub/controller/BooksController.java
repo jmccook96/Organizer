@@ -3,7 +3,6 @@ import com.bookclub.model.Genre;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
-import com.bookclub.service.BookServiceManager;
 import com.bookclub.service.BookService;
 import com.bookclub.service.BookService.ReviewData;
 import com.bookclub.util.StageFactory;
@@ -45,7 +44,6 @@ public class BooksController {
     private TextField searchTitleAuthorField;
 
 
-    private BookServiceManager bookServiceManager;
 
     /**
      * Initializes a new instance of the {@code BooksController}.
@@ -63,16 +61,18 @@ public class BooksController {
     @FXML
     public void initialize() {
 
-        // Initialize the service manager with a DAO
-        bookServiceManager = new BookServiceManager(new BookDAO());
-
         // set genre combo box
         for (Genre genre : Genre.values()) {
             genreComboBox.getItems().add(genre.getDisplayName());
         }
 
-        //set genre search combo box
-        searchGenreComboBox.getItems().addAll("All", "General", "Fiction", "Non-fiction", "Sci-Fi", "Fantasy", "Romance", "Horror");
+        //Set genre search combo box
+        // Add "All" as the first option
+        searchGenreComboBox.getItems().add("All");
+        // Populate the combo box with genres from the Genre enum
+        for (Genre genre : Genre.values()) {
+            searchGenreComboBox.getItems().add(genre.getDisplayName());
+        }
 
         // Set nav bar button color
         Button booksButton = (Button) navBar.lookup("#booksButton");
@@ -142,9 +142,6 @@ public class BooksController {
             titleField.clear();
             authorField.clear();
             genreComboBox.setValue("General");
-
-            System.out.println("Book added successfully.");
-
         } else {
             showAlert("Failed", "Book must have a Title, Author and Genre.");
         }
@@ -167,7 +164,7 @@ public class BooksController {
         String selectedGenre = searchGenreComboBox.getValue();
 
         // Use the service manager to perform the search
-        List<Book> filteredBooks = bookServiceManager.searchForBooks(searchQuery, selectedGenre);
+        List<Book> filteredBooks = bookService.searchForBooks(searchQuery, selectedGenre);
 
         displaySearchedBooks(filteredBooks);
     }
@@ -178,7 +175,6 @@ public class BooksController {
             booksList.getItems().addAll(filteredBooks);
 
         } else {
-            System.out.println("No books found.");
             showAlert("No results", "No books found for the given search");
         }
     }
