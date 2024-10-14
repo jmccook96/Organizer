@@ -1,7 +1,7 @@
 package com.bookclub.model;
 
 public enum Genre {
-    General("General"),
+    GENERAL("General"),
     FICTION("Fiction"),
     NON_FICTION("Non-fiction"),
     SCI_FI("Sci-Fi"),
