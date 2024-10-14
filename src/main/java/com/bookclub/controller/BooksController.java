@@ -1,5 +1,5 @@
 package com.bookclub.controller;
-
+import com.bookclub.model.Genre;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
@@ -10,14 +10,16 @@ import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
- * The {@code BooksController} class serves as the controller for managing the 
- * books in the book club application. It interacts with the data layer and handles 
+ * The {@code BooksController} class serves as the controller for managing the
+ * books in the book club application. It interacts with the data layer and handles
  * the book list, adding books, and navigating between different stages of the application.
  */
 public class BooksController {
@@ -35,11 +37,16 @@ public class BooksController {
     private TextField authorField;
     @FXML
     private HBox navBar;
+
     @FXML
-    private TextField genreField;
+    private ComboBox<String> genreComboBox, searchGenreComboBox;
+    @FXML
+    private TextField searchTitleAuthorField;
+
+
 
     /**
-     * Initializes a new instance of the {@code BooksController}. 
+     * Initializes a new instance of the {@code BooksController}.
      * This constructor sets up the DAO and service instances.
      */
     public BooksController() {
@@ -53,6 +60,13 @@ public class BooksController {
      */
     @FXML
     public void initialize() {
+
+        searchGenreComboBox.getItems().add("All"); // Add "All" as the first option
+        for (Genre genre : Genre.values()) {
+            genreComboBox.getItems().add(genre.getDisplayName());
+            searchGenreComboBox.getItems().add(genre.getDisplayName());
+        }
+
         // Set nav bar button color
         Button booksButton = (Button) navBar.lookup("#booksButton");
         if (booksButton != null) {
@@ -87,7 +101,17 @@ public class BooksController {
                     ReviewData reviewData = bookService.getReviewData(book);
                     Label ratingLabel = new Label(String.format("%.1f ★ (%d)", reviewData.getAverageRating(), reviewData.getNumberOfRatings()));
 
-                    hbox.getChildren().addAll(bookLabel, ratingLabel);
+                    // Create a remove button
+                    Button removeButton = new Button("Remove");
+                    removeButton.setOnAction(event -> {
+                        bookAO.deleteBook(book);
+                        updateBooks(); // Refresh the book list
+                    });
+
+                    Region spacer = new Region();
+                    HBox.setHgrow(spacer, Priority.ALWAYS); // Allow the spacer to grow and fill available space and move the remove button to the right end of the list
+
+                    hbox.getChildren().addAll(bookLabel, ratingLabel, spacer, removeButton);
                     setGraphic(hbox);
                 }
             }
@@ -102,28 +126,50 @@ public class BooksController {
     private void handleAddBook() {
         String title = titleField.getText();
         String author = authorField.getText();
-//        String genre = genreField.getText();
-        if (!title.isEmpty() && !author.isEmpty()) {
-            Book book = new Book(title, author);
+        String genre = genreComboBox.getValue();
+
+        if (!title.isEmpty() && !author.isEmpty() && genre !=null) {
+            Book book = new Book(title, author, genre);
             bookAO.addBook(book);
             updateBooks();
             titleField.clear();
             authorField.clear();
-            System.out.println("Book added successfully.");
+            genreComboBox.setValue("General");
         } else {
-            showAlert("Failed", "Book must have a title and author.");
+            showAlert("Failed", "Book must have a Title, Author and Genre.");
         }
     }
 
     /**
-     * Updates the book list by retrieving all books from the data source, 
+     * Updates the book list by retrieving all books from the data source,
      * displaying them in reverse order in the {@code booksList}.
      */
     private void updateBooks() {
         booksList.getItems().clear();
         List<Book> books = bookAO.findAllBooks();
-        Collections.reverse(books);
+        Collections.reverse(books); //
         booksList.getItems().addAll(books);
+    }
+
+    @FXML
+    public void handleSearchBooks() {
+        String searchQuery = searchTitleAuthorField.getText().trim().toLowerCase(); // Get the search query
+        String selectedGenre = searchGenreComboBox.getValue();
+
+        // Use the service manager to perform the search
+        List<Book> filteredBooks = bookService.searchForBooks(searchQuery, selectedGenre);
+
+        displaySearchedBooks(filteredBooks);
+    }
+
+    private void displaySearchedBooks(List<Book> filteredBooks) {
+        booksList.getItems().clear();
+        if (filteredBooks != null && !filteredBooks.isEmpty()) {
+            booksList.getItems().addAll(filteredBooks);
+
+        } else {
+            showAlert("No results", "No books found for the given search");
+        }
     }
 
     /**

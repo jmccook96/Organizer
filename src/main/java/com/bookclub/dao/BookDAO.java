@@ -12,6 +12,33 @@ import java.util.List;
 
 public class BookDAO implements IBookAO {
 
+    private Book buildBookFromResultSet(ResultSet resultSet) {
+        try {
+            int bookId = resultSet.getInt("bookId");
+            String bookTitle = resultSet.getString("bookTitle");
+            String bookAuthor = resultSet.getString("bookAuthor");
+            String bookGenre = resultSet.getString("bookGenre");
+            return new Book(bookId, bookTitle, bookAuthor, bookGenre);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+            return null;
+    }
+
+    private List<Book> getListFromStatement(PreparedStatement statement) {
+        List<Book> books = new ArrayList<>();
+        try {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                books.add(buildBookFromResultSet(resultSet));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
     private DatabaseManager dbManager;
 
     public BookDAO() {
@@ -22,17 +49,10 @@ public class BookDAO implements IBookAO {
     @Override
     public List<Book> findAllBooks() {
         List<Book> books = new ArrayList<>();
+        String query = "SELECT * FROM Books";
         try {
-            Statement statement = dbManager.getConnection().createStatement();
-            String query = "SELECT * FROM Books";
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
-                books.add(book);
-            }
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(query);
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -48,11 +68,8 @@ public class BookDAO implements IBookAO {
             statement.setString(2, author);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
-                return book;
+
+                return buildBookFromResultSet(resultSet);
             }
         }
         catch (Exception e) {
@@ -67,14 +84,7 @@ public class BookDAO implements IBookAO {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookTitle = ?");
             statement.setString(1, title);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
-                books.add(book);
-            }
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -88,15 +98,7 @@ public class BookDAO implements IBookAO {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookGenre = ?");
             statement.setString(1, genre);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                String bookGenre = resultSet.getString("bookGenre");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
-                books.add(book);
-            }
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -110,14 +112,7 @@ public class BookDAO implements IBookAO {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookAuthor = ?");
             statement.setString(1, author);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                Book book = new Book(bookId, bookTitle, bookAuthor);
-                books.add(book);
-            }
+            return getListFromStatement(statement);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -128,23 +123,27 @@ public class BookDAO implements IBookAO {
     @Override
     public boolean addBook(Book book) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Books (bookTitle, bookAuthor) VALUES (?, ?)");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Books (bookTitle, bookAuthor, bookGenre) VALUES (?, ?, ?)");
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
+            statement.setString(3, book.getGenre());
             statement.executeUpdate();
 
             // Set the id of the new book
+
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 book.setId(generatedKeys.getInt(1));
             }
+
         }
         catch (Exception e) {
             e.printStackTrace();
-            return false;
+
         }
         return true;
     }
+
 
     @Override
     public boolean updateBook(Book book) {
@@ -170,20 +169,23 @@ public class BookDAO implements IBookAO {
         }
         catch (Exception e) {
             e.printStackTrace();
+
         }
         return true;
     }
+
 
     private void createTable() {
         // Create table if not exists
         try {
             Statement statement = dbManager.getConnection().createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS Books ("
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS Books ("
                     + "bookID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "bookTitle VARCHAR NOT NULL,"
-                    + "bookAuthor VARCHAR NOT NULL"
+                    + "bookAuthor VARCHAR NOT NULL,"
+                    + "bookGenre VARCHAR NOT NULL"
                     + ")";
-            statement.execute(query);
+            statement.executeUpdate(createTableQuery);
         }
         catch (Exception e) {
             e.printStackTrace();

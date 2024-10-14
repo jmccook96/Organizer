@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class BookService {
     private IBookAO bookAO;
@@ -47,6 +48,25 @@ public class BookService {
         selectedBook.set(book);
     }
 
+    public List<Book> searchForBooks(String searchQuery, String selectedGenre) {
+        List<Book> filteredBooks = bookAO.findAllBooks();
+
+        // Filter based on the search query (title or author)
+        if (!searchQuery.isEmpty()) {
+            filteredBooks = filteredBooks.stream()
+                    .filter(book -> book.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            book.getAuthor().toLowerCase().contains(searchQuery.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        // If a specific genre is selected, filter by genre
+        if (!selectedGenre.equalsIgnoreCase("All")) {
+            filteredBooks = filteredBooks.stream()
+                    .filter(book -> book.getGenre().equalsIgnoreCase(selectedGenre))
+                    .collect(Collectors.toList());
+        }
+        return filteredBooks;
+    }
 
     public ReviewData getReviewData(Book book) {
         List<Review> reviews = reviewCache.computeIfAbsent(book, reviewAO::findReviewsByBook);
