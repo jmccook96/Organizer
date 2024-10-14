@@ -61,16 +61,9 @@ public class BooksController {
     @FXML
     public void initialize() {
 
-        // set genre combo box
+        searchGenreComboBox.getItems().add("All"); // Add "All" as the first option
         for (Genre genre : Genre.values()) {
             genreComboBox.getItems().add(genre.getDisplayName());
-        }
-
-        //Set genre search combo box
-        // Add "All" as the first option
-        searchGenreComboBox.getItems().add("All");
-        // Populate the combo box with genres from the Genre enum
-        for (Genre genre : Genre.values()) {
             searchGenreComboBox.getItems().add(genre.getDisplayName());
         }
 
