@@ -2,58 +2,89 @@ package com.bookclub.service;
 
 import com.bookclub.dao.BookProgressDAO;
 import com.bookclub.iao.IBookProgressAO;
-import com.bookclub.iao.IRSVPAO;
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.BookProgress;
 import com.bookclub.model.Book;
 import com.bookclub.model.User;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BookProgressService {
     private static BookProgressService instance;
     private IBookProgressAO bookProgressAO;
+    private IUserAO userAO;
 
     public static BookProgressService getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("RSVPService is not initialized. Call initialize() first.");
+            throw new IllegalStateException("BookProgressService is not initialized. Call initialize() first.");
         }
         return instance;
     }
 
-    public static void initialize(IBookProgressAO bookProgressAO) {
+    public static void initialize(IBookProgressAO bookProgressAO, IUserAO userAO) {
         if (instance == null) {
             instance = new BookProgressService();
         }
         instance.bookProgressAO = bookProgressAO;
+        instance.userAO = userAO;
     }
 
-    public BookProgress getBookProgress(Book book, User user) {
-        return bookProgressAO.findBookProgressByBookAndUser(book.getId(), user.getId());
+    public Optional<BookProgress> getBookProgress(Book book, User user) {
+        return Optional.ofNullable(bookProgressAO.findBookProgressByBookAndUser(book.getId(), user.getId()));
     }
 
     public boolean hasBookProgress(Book book, User user) {
-        return getBookProgress(book, user) != null;
+        return getBookProgress(book, user).isPresent();
     }
 
     public boolean startBookProgress(Book book, User user) {
-        return !hasBookProgress(book, user) && bookProgressAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 0));
+        if (!hasBookProgress(book, user)) {
+            return bookProgressAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 0));
+        }
+        return false;
     }
 
     public boolean finishBookProgress(Book book, User user) {
-        return hasBookProgress(book, user) && bookProgressAO.deleteBookProgress(getBookProgress(book, user));
+        return getBookProgress(book, user)
+                .map(bookProgress -> bookProgressAO.deleteBookProgress(bookProgress))
+                .orElse(false);
     }
 
     public boolean saveBookProgress(Book book, User user, int pageNumber) {
-        // TODO: Implement book total pages
-        if (pageNumber < 0) return false;
-        BookProgress bookProgress = getBookProgress(book, user);
-        if (bookProgress != null) {
-            bookProgress.setPageNumber(pageNumber);
+        if (pageNumber < 0 || pageNumber > book.getTotalPages()) {
+            return false;
         }
-        return bookProgress != null ? bookProgressAO.updateBookProgress(bookProgress) : bookProgressAO.addBookProgress(new BookProgress(book.getId(), user.getId(), pageNumber));
+
+        return getBookProgress(book, user)
+                .map(bookProgress -> {
+                    // Update existing progress
+                    bookProgress.setPageNumber(pageNumber);
+                    return bookProgressAO.updateBookProgress(bookProgress);
+                })
+                .orElseGet(() -> {
+                    // Create new progress
+                    BookProgress newProgress = new BookProgress(book.getId(), user.getId(), pageNumber);
+                    return bookProgressAO.addBookProgress(newProgress);
+                });
+    }
+
+
+
+    public List<String> getFormattedProgressForBook(Book book) {
+        List<BookProgress> progressList = bookProgressAO.findBookProgressesByBook(book.getId());
+        Map<Integer, User> userCache = new HashMap<>();
+        int totalPages = book.getTotalPages();
+
+        return progressList.stream()
+                .map(progress -> {
+                    // Fetch user details using cached data
+                    User user = userCache.computeIfAbsent(progress.getUserId(), userAO::findUserById);
+                    String userName = user.getUsername();
+                    int currentPage = progress.getPageNumber();
+                    return String.format("%s is at Page %d/%d", userName, currentPage, totalPages);
+                })
+                .collect(Collectors.toList());
     }
 
     public List<BookProgress> getBookProgressListForBook(Book book) {

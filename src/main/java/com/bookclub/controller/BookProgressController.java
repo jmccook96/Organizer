@@ -1,13 +1,18 @@
 package com.bookclub.controller;
 
 import com.bookclub.dao.BookProgressDAO;
+import com.bookclub.dao.UserDAO;
+import com.bookclub.model.Book;
 import com.bookclub.model.BookProgress;
+import com.bookclub.model.User;
 import com.bookclub.service.BookProgressService;
 import com.bookclub.service.BookService;
 import com.bookclub.service.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+
+import java.util.List;
 
 public class BookProgressController {
     @FXML
@@ -17,35 +22,49 @@ public class BookProgressController {
     @FXML
     private HBox progressHBox;
     @FXML
-    private ListView<Integer> progressListView;
+    private Label currentPageLabel;
+    @FXML
+    private Label totalPagesLabel;
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private ListView<String> progressListView;
 
     @FXML
     public void initialize() {
-        BookProgressService.initialize(new BookProgressDAO());
-        // TODO: Update max value to book total pages when it gets implemented
-        pageNumberInput.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0)); // Min: 0, Max: 1000, Initial: 0
+        BookProgressService.initialize(new BookProgressDAO(), new UserDAO());
+
+        Book selectedBook = BookService.getInstance().getSelectedBook();
+        int totalPages = selectedBook != null ? selectedBook.getTotalPages() : 0;
+
+        // Set spinner's max value based on the total pages of the selected book
+        pageNumberInput.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, totalPages > 0 ? totalPages : 1000, 0));
+
         updateUI();
     }
 
     @FXML
     private void handleStartFinishButton() {
-        if (BookProgressService.getInstance().hasBookProgress(BookService.getInstance().getSelectedBook(), LoginService.getCurrentUser())) {
-            BookProgressService.getInstance().finishBookProgress(BookService.getInstance().getSelectedBook(), LoginService.getCurrentUser());
-        }
-        else {
-            BookProgressService.getInstance().startBookProgress(BookService.getInstance().getSelectedBook(), LoginService.getCurrentUser());
+        Book selectedBook = BookService.getInstance().getSelectedBook();
+        User currentUser = LoginService.getCurrentUser();
+
+        if (BookProgressService.getInstance().hasBookProgress(selectedBook, currentUser)) {
+            BookProgressService.getInstance().finishBookProgress(selectedBook, currentUser);
+        } else {
+            BookProgressService.getInstance().startBookProgress(selectedBook, currentUser);
         }
         updateUI();
     }
 
     @FXML
     private void handleSaveProgress() {
+        Book selectedBook = BookService.getInstance().getSelectedBook();
+        User currentUser = LoginService.getCurrentUser();
         int pageNumber = pageNumberInput.getValue();
-        boolean isProgressSaved = BookProgressService.getInstance().saveBookProgress(BookService.getInstance().getSelectedBook(), LoginService.getCurrentUser(), pageNumber);
-        if (!isProgressSaved) {
+
+        if (!BookProgressService.getInstance().saveBookProgress(selectedBook, currentUser, pageNumber)) {
             showAlert("Failed", "Invalid page number was entered.");
-        }
-        else {
+        } else {
             updateProgressList();
         }
     }
@@ -59,16 +78,40 @@ public class BookProgressController {
     }
 
     private void updateUI() {
-        boolean isStarted = BookProgressService.getInstance().hasBookProgress(BookService.getInstance().getSelectedBook(), LoginService.getCurrentUser());
-        pageNumberInput.getValueFactory().setValue(isStarted ? BookProgressService.getInstance().getBookProgress(BookService.getInstance().getSelectedBook(), LoginService.getCurrentUser()).getPageNumber() : 0);
+        Book selectedBook = BookService.getInstance().getSelectedBook();
+        User currentUser = LoginService.getCurrentUser();
+
+        boolean isStarted = BookProgressService.getInstance().hasBookProgress(selectedBook, currentUser);
+        BookProgress bookProgress = BookProgressService.getInstance().getBookProgress(selectedBook, currentUser).orElse(null);
+
+        int currentPage = bookProgress != null ? bookProgress.getPageNumber() : 0;
+
+        pageNumberInput.getValueFactory().setValue(currentPage);
         startFinishButton.setText(isStarted ? "Finish" : "Start");
         progressHBox.setVisible(isStarted);
+
         updateProgressList();
         progressListView.setVisible(isStarted);
+
+        // Update labels and progress bar
+        int totalPages = selectedBook != null ? selectedBook.getTotalPages() : 0;
+        currentPageLabel.setText(String.valueOf(currentPage));
+        totalPagesLabel.setText(String.valueOf(totalPages));
+
+        double progress = totalPages > 0 ? (double) currentPage / totalPages : 0;
+        progressBar.setProgress(progress);
     }
 
     private void updateProgressList() {
         progressListView.getItems().clear();
-        progressListView.getItems().addAll(BookProgressService.getInstance().getBookProgressListForBook(BookService.getInstance().getSelectedBook()).stream().map(progress -> progress.getPageNumber()).toList());
+
+        List<String> formattedProgressList = BookProgressService.getInstance()
+                .getFormattedProgressForBook(BookService.getInstance().getSelectedBook());
+
+        if (formattedProgressList != null && !formattedProgressList.isEmpty()) {
+            progressListView.getItems().addAll(formattedProgressList);
+        } else {
+            progressListView.getItems().add("No progress available.");
+        }
     }
 }

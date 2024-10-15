@@ -36,6 +36,9 @@ public class BooksController {
     @FXML
     private TextField authorField;
     @FXML
+    private TextField totalPagesField;
+
+    @FXML
     private HBox navBar;
 
     @FXML
@@ -97,7 +100,6 @@ public class BooksController {
                     HBox hbox = new HBox(10);
                     Label bookLabel = new Label(book.toString());
 
-                    // Use the new ReviewData class to get both the average rating and number of ratings
                     ReviewData reviewData = bookService.getReviewData(book);
                     Label ratingLabel = new Label(String.format("%.1f ★ (%d)", reviewData.getAverageRating(), reviewData.getNumberOfRatings()));
 
@@ -105,11 +107,11 @@ public class BooksController {
                     Button removeButton = new Button("Remove");
                     removeButton.setOnAction(event -> {
                         bookAO.deleteBook(book);
-                        updateBooks(); // Refresh the book list
+                        updateBooks();
                     });
 
                     Region spacer = new Region();
-                    HBox.setHgrow(spacer, Priority.ALWAYS); // Allow the spacer to grow and fill available space and move the remove button to the right end of the list
+                    HBox.setHgrow(spacer, Priority.ALWAYS);
 
                     hbox.getChildren().addAll(bookLabel, ratingLabel, spacer, removeButton);
                     setGraphic(hbox);
@@ -127,18 +129,23 @@ public class BooksController {
         String title = titleField.getText();
         String author = authorField.getText();
         String genre = genreComboBox.getValue();
+        String totalPagesText = totalPagesField.getText().trim();
 
-        if (!title.isEmpty() && !author.isEmpty() && genre !=null) {
-            Book book = new Book(title, author, genre);
-            bookAO.addBook(book);
-            updateBooks();
-            titleField.clear();
-            authorField.clear();
-            genreComboBox.setValue("General");
+        if (!title.isEmpty() && !author.isEmpty() && genre != null) {
+            try {
+                int totalPages = Integer.parseInt(totalPagesText);
+                Book book = new Book(title, author, genre, totalPages);
+                bookAO.addBook(book);
+                updateBooks();
+                clearFields();
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Total pages must be a valid number.");
+            }
         } else {
-            showAlert("Failed", "Book must have a Title, Author and Genre.");
+            showAlert("Failed", "Book must have a Title, Author, and Genre.");
         }
     }
+
 
     /**
      * Updates the book list by retrieving all books from the data source,
@@ -171,6 +178,13 @@ public class BooksController {
             showAlert("No results", "No books found for the given search");
         }
     }
+    private void clearFields() {
+        titleField.clear();
+        authorField.clear();
+        totalPagesField.clear();
+        genreComboBox.setValue(null);
+    }
+
 
     /**
      * Displays an alert dialog with the provided title and message.

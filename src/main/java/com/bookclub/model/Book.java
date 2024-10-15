@@ -11,6 +11,7 @@ public class Book {
     private String title;
     private String author;
     private String genre;
+    private int totalPages;
 
     /**
      * Constructs a {@code Book} object with the specified title and author.
@@ -23,6 +24,7 @@ public class Book {
     public Book(String title, String author) {
         setTitle(title);
         setAuthor(author);
+
     }
 
     /**
@@ -34,10 +36,12 @@ public class Book {
      * @param author the author of the book
      * @throws IllegalArgumentException if the title or author is null or empty
      */
-    public Book(String title, String author, String genre) {
+    public Book(String title, String author, String genre, int totalPages) {
         setTitle(title);
         setAuthor(author);
         setGenre(genre);
+        setTotalPages(totalPages);
+
     }
 
     /**
@@ -49,11 +53,12 @@ public class Book {
      * @param author the author of the book
      * @throws IllegalArgumentException if the id is less than 1, or title or author is null or empty
      */
-    public Book(int id, String title, String author, String genre) {
+    public Book(int id, String title, String author, String genre, int totalPages) {
         setId(id);
         setTitle(title);
         setAuthor(author);
         setGenre(genre);
+        setTotalPages(totalPages);
     }
 
     /**
@@ -146,6 +151,14 @@ public class Book {
             throw new IllegalArgumentException("Author can not be null or empty");
         }
         this.author = author;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
     @Override

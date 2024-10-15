@@ -48,35 +48,22 @@ public class BookService {
         selectedBook.set(book);
     }
 
+    // Optimized search logic: combined filters using a single stream
     public List<Book> searchForBooks(String searchQuery, String selectedGenre) {
         List<Book> filteredBooks = bookAO.findAllBooks();
 
-        // Filter based on the search query (title or author)
-        if (!searchQuery.isEmpty()) {
-            filteredBooks = filteredBooks.stream()
-                    .filter(book -> book.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                            book.getAuthor().toLowerCase().contains(searchQuery.toLowerCase()))
-                    .collect(Collectors.toList());
-        }
-
-        // If a specific genre is selected, filter by genre
-        if (!selectedGenre.equalsIgnoreCase("All")) {
-            filteredBooks = filteredBooks.stream()
-                    .filter(book -> book.getGenre().equalsIgnoreCase(selectedGenre))
-                    .collect(Collectors.toList());
-        }
-        return filteredBooks;
+        return filteredBooks.stream()
+                .filter(book -> (searchQuery.isEmpty() || book.getTitle().toLowerCase().contains(searchQuery.toLowerCase())
+                        || book.getAuthor().toLowerCase().contains(searchQuery.toLowerCase())))
+                .filter(book -> selectedGenre.equalsIgnoreCase("All") || book.getGenre().equalsIgnoreCase(selectedGenre))
+                .collect(Collectors.toList());
     }
+
 
     public ReviewData getReviewData(Book book) {
         List<Review> reviews = reviewCache.computeIfAbsent(book, reviewAO::findReviewsByBook);
-
-        int sum = 0;
-        for (Review review : reviews) {
-            sum += review.getRating();
-        }
-        double averageRating = reviews.isEmpty() ? 0.0 : (double) sum / reviews.size();
-
+        int totalRating = reviews.stream().mapToInt(Review::getRating).sum();
+        double averageRating = reviews.isEmpty() ? 0.0 : (double) totalRating / reviews.size();
         return new ReviewData(averageRating, reviews.size());
     }
 
@@ -108,4 +95,5 @@ public class BookService {
             return numberOfRatings;
         }
     }
+
 }
