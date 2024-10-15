@@ -17,12 +17,12 @@ public class BookMAO implements IBookAO {
     }
 
     private void addTestData() {
-        books.add(new Book("It", "Stephen King","Horror"));
-        books.add(new Book("The Shining", "Stephen King","Horror"));
-        books.add(new Book("testTitle", "Stephen King","Horror"));
-        books.add(new Book("1984", "George Orwell","Horror"));
-        books.add(new Book("Animal Farm", "George Orwell","Horror"));
-        books.add(new Book("testTitle", "George Orwell","Horror"));
+        books.add(new Book("It", "Stephen King","Horror", 659));
+        books.add(new Book("The Shining", "Stephen King","Horror", 1120));
+        books.add(new Book("testTitle", "Stephen King","Horror", 245));
+        books.add(new Book("1984", "George Orwell","Horror", 345));
+        books.add(new Book("Animal Farm", "George Orwell","Horror",530));
+        books.add(new Book("testTitle", "George Orwell","Horror", 290));
     }
 
     @Override

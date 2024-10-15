@@ -53,8 +53,17 @@ public class BookProgressMAO implements IBookProgressAO {
 
     @Override
     public boolean updateBookProgress(BookProgress bookProgress) {
-        return bookProgressList.set(bookProgressList.indexOf(findBookProgressByBookAndUser(bookProgress.getBookId(), bookProgress.getUserId())), bookProgress) != null;
+        int index = bookProgressList.indexOf(findBookProgressByBookAndUser(bookProgress.getBookId(), bookProgress.getUserId()));
+
+        // Ensure that the progress exists before attempting to update it
+        if (index >= 0) {
+            bookProgressList.set(index, bookProgress);
+            return true;
+        } else {
+            return false;
+        }
     }
+
 
     @Override
     public boolean deleteBookProgress(BookProgress bookProgress) {

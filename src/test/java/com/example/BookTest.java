@@ -13,7 +13,7 @@ public class BookTest {
 
     @BeforeEach
     public void setUp() {
-        book = new Book(1, "testTitle", "testAuthor", "testGenre");
+        book = new Book(1, "testTitle", "testAuthor", "testGenre", 100);
     }
 
     // Basic functionality
@@ -50,7 +50,6 @@ public class BookTest {
         assertEquals("testNewGenre", book.getGenre());
     }
 
-
     // Edge cases
     @Test
     public void testSetTitleInvalidNull() {
@@ -84,32 +83,38 @@ public class BookTest {
 
     @Test
     public void testConstructorInvalidTitleNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, null, "author", "genre"));
+        assertThrows(IllegalArgumentException.class, () -> new Book(
+                1, null, "author", "genre", 200));
     }
 
     @Test
     public void testConstructorInvalidTitleEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "", "author", "genre"));
+        assertThrows(IllegalArgumentException.class, () -> new Book(
+                1, "", "author", "genre", 200));
     }
 
     @Test
     public void testConstructorInvalidAuthorNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "title", null, "genre"));
+        assertThrows(IllegalArgumentException.class, () -> new Book(
+                1, "title", null, "genre", 200));
     }
 
     @Test
     public void testConstructorInvalidAuthorEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "title", "", "genre"));
+        assertThrows(IllegalArgumentException.class, () -> new Book(
+                1, "title", "", "genre", 320));
     }
 
     @Test
     public void testConstructorInvalidGenreNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "title", "author", null));
+        assertThrows(IllegalArgumentException.class, () -> new Book(
+                1, "title", "author", null, 100));
     }
 
     @Test
     public void testConstructorInvalidGenreEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> new Book(1, "title", "author", ""));
+        assertThrows(IllegalArgumentException.class, () -> new Book(
+                1, "title", "author", "", 140));
     }
 
 }

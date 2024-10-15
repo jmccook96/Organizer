@@ -1,6 +1,7 @@
 package com.example;
 
 import com.bookclub.mao.BookProgressMAO;
+import com.bookclub.dao.UserDAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.BookProgress;
 import com.bookclub.model.User;
@@ -23,15 +24,15 @@ public class BookProgressServiceTest {
     @BeforeEach
     public void setUp() {
         bookProgressMAO = new BookProgressMAO();
-        book = new Book(1, "TestTitle", "TestAuthor", "TestGenre");
+        book = new Book(1, "TestTitle", "TestAuthor", "TestGenre", 100);
         user = new User(1, "testUser", "testPassword", "Test Name", "test@example.com");
-        BookProgressService.initialize(bookProgressMAO);
+        BookProgressService.initialize(bookProgressMAO, new UserDAO());  // Initialize with both MAO and UserDAO
         bookProgressService = BookProgressService.getInstance();
     }
 
     @Test
     void testGetBookProgress_NoProgressExists() {
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
         assertNull(actual);
     }
 
@@ -39,7 +40,7 @@ public class BookProgressServiceTest {
     void testGetBookProgress_ProgressExists() {
         bookProgressMAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 1));
 
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
 
         assertNotNull(actual);
         assertEquals(1, actual.getBookId());
@@ -50,7 +51,7 @@ public class BookProgressServiceTest {
     @Test
     void testStartBookProgress_NewProgressPermitted() {
         boolean hasNewProgress = bookProgressService.startBookProgress(book, user);
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
 
         assertTrue(hasNewProgress);
         assertNotNull(actual);
@@ -61,7 +62,7 @@ public class BookProgressServiceTest {
         bookProgressMAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 1));
 
         boolean hasNewProgress = bookProgressService.startBookProgress(book, user);
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
 
         assertFalse(hasNewProgress);
         assertNotNull(actual);
@@ -70,7 +71,7 @@ public class BookProgressServiceTest {
     @Test
     void testFinishBookProgress_FinishProgressNotPermitted() {
         boolean hasFinished = bookProgressService.finishBookProgress(book, user);
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
 
         assertFalse(hasFinished);
         assertNull(actual);
@@ -81,7 +82,7 @@ public class BookProgressServiceTest {
         bookProgressMAO.addBookProgress(new BookProgress(book.getId(), user.getId(), 1));
 
         boolean hasFinished = bookProgressService.finishBookProgress(book, user);
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
 
         assertTrue(hasFinished);
         assertNull(actual);
@@ -103,7 +104,7 @@ public class BookProgressServiceTest {
     @Test
     void testSaveBookProgress_NoProgressExists() {
         boolean hasSaved = bookProgressService.saveBookProgress(book, user, 10);
-        BookProgress actual = bookProgressService.getBookProgress(book, user);
+        BookProgress actual = bookProgressService.getBookProgress(book, user).orElse(null);
 
         assertTrue(hasSaved);
         assertNotNull(actual);
