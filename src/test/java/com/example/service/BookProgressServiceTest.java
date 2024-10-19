@@ -1,4 +1,4 @@
-package com.example;
+package com.example.service;
 
 import com.bookclub.mao.BookProgressMAO;
 import com.bookclub.model.Book;

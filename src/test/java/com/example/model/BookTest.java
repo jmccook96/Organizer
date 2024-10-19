@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 import com.bookclub.model.Book;
 import org.junit.jupiter.api.BeforeEach;
