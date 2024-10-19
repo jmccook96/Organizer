@@ -10,6 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * The AccountSettingsController class is responsible for managing the user's account settings.
+ * It allows users to view and update their account details, such as their name and email.
+ * Additionally, it provides functionality for signing out.
+ */
 public class AccountSettingsController {
     @FXML
     private Label usernameLabel;
@@ -21,7 +26,11 @@ public class AccountSettingsController {
     private Label messageLabel;
     @FXML
     private HBox navBar;
-
+    
+    /**
+     * Initializes the controller by setting the user's account information in the fields.
+     * It also highlights the account button in the navigation bar to indicate the current view.
+     */
     public void initialize() {
         Button accountButton = (Button)navBar.lookup("#accountButton");
         if (accountButton != null) {
@@ -34,6 +43,11 @@ public class AccountSettingsController {
         emailField.setText(currentUser.getEmail());
     }
 
+    /**
+     * Handles the action when the user clicks the "Update Settings" button.
+     * It updates the user's name and email with the values entered in the text fields.
+     * If the update is successful, a success message is displayed; otherwise, an error message is shown.
+     */
     @FXML
     protected void onUpdateSettings() {
         User currentUser = LoginService.getInstance().getCurrentUser();
@@ -49,6 +63,10 @@ public class AccountSettingsController {
         }
     }
 
+    /**
+     * Handles the action when the user clicks the "Sign Out" button.
+     * It logs the user out by clearing the current user session and switches the scene to the login view.
+     */
     @FXML
     protected void onSignOutButton() {
         LoginService.getInstance().dropCurrentUser();
