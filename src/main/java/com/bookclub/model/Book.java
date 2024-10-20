@@ -158,7 +158,11 @@ public class Book {
     }
 
     public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
+        if (totalPages > 0) {
+            this.totalPages = totalPages;
+        } else {
+            throw new IllegalArgumentException("Total pages must be greater than 0");
+        }
     }
 
     @Override

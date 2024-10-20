@@ -57,16 +57,18 @@ public class BookProgressService {
         }
 
         return getBookProgress(book, user)
-                .map(bookProgress -> {
-                    // Update existing progress
-                    bookProgress.setPageNumber(pageNumber);
-                    return bookProgressAO.updateBookProgress(bookProgress);
-                })
-                .orElseGet(() -> {
-                    // Create new progress
-                    BookProgress newProgress = new BookProgress(book.getId(), user.getId(), pageNumber);
-                    return bookProgressAO.addBookProgress(newProgress);
-                });
+                .map(progress -> updateExistingBookProgress(progress, pageNumber))
+                .orElseGet(() -> createNewBookProgress(book, user, pageNumber));
+    }
+
+    private boolean updateExistingBookProgress(BookProgress bookProgress, int pageNumber) {
+        bookProgress.setPageNumber(pageNumber);
+        return bookProgressAO.updateBookProgress(bookProgress);
+    }
+
+    private boolean createNewBookProgress(Book book, User user, int pageNumber) {
+        BookProgress newProgress = new BookProgress(book.getId(), user.getId(), pageNumber);
+        return bookProgressAO.addBookProgress(newProgress);
     }
 
 
@@ -78,7 +80,6 @@ public class BookProgressService {
 
         return progressList.stream()
                 .map(progress -> {
-                    // Fetch user details using cached data
                     User user = userCache.computeIfAbsent(progress.getUserId(), userAO::findUserById);
                     String userName = user.getUsername();
                     int currentPage = progress.getPageNumber();

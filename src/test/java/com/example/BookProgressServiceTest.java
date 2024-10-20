@@ -1,7 +1,7 @@
 package com.example;
 
 import com.bookclub.mao.BookProgressMAO;
-import com.bookclub.dao.UserDAO;
+import com.bookclub.mao.UserMAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.BookProgress;
 import com.bookclub.model.User;
@@ -24,9 +24,10 @@ public class BookProgressServiceTest {
     @BeforeEach
     public void setUp() {
         bookProgressMAO = new BookProgressMAO();
+        UserMAO userMAO = new UserMAO();
         book = new Book(1, "TestTitle", "TestAuthor", "TestGenre", 100);
         user = new User(1, "testUser", "testPassword", "Test Name", "test@example.com");
-        BookProgressService.initialize(bookProgressMAO, new UserDAO());  // Initialize with both MAO and UserDAO
+        BookProgressService.initialize(bookProgressMAO, userMAO);
         bookProgressService = BookProgressService.getInstance();
     }
 
