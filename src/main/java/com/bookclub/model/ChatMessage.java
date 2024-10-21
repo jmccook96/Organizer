@@ -1,5 +1,7 @@
 package com.bookclub.model;
 
+import java.util.Map;
+
 public class ChatMessage {
     private int messageId;
     private int authorId;

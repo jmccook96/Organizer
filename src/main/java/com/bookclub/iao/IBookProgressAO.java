@@ -1,7 +1,6 @@
 package com.bookclub.iao;
 
 import com.bookclub.model.BookProgress;
-
 import java.util.List;
 
 /**

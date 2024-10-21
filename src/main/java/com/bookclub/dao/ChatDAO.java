@@ -4,10 +4,7 @@ import com.bookclub.iao.IChatAO;
 import com.bookclub.model.ChatMessage;
 import com.bookclub.util.DatabaseManager;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 

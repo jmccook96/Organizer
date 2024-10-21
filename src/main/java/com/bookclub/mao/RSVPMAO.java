@@ -2,7 +2,6 @@ package com.bookclub.mao;
 
 import com.bookclub.iao.IRSVPAO;
 import com.bookclub.model.RSVP;
-
 import java.util.ArrayList;
 import java.util.List;
 

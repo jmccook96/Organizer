@@ -5,7 +5,6 @@ import com.bookclub.iao.IUserAO;
 import com.bookclub.model.Event;
 import com.bookclub.model.RSVP;
 import com.bookclub.model.User;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

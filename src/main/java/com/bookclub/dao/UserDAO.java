@@ -3,7 +3,9 @@ package com.bookclub.dao;
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
 import com.bookclub.util.DatabaseManager;
+import com.bookclub.util.PasswordHasher;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 
 public class UserDAO implements IUserAO {

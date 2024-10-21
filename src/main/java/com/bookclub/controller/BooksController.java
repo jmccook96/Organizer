@@ -1,9 +1,8 @@
 package com.bookclub.controller;
-
+import com.bookclub.model.Genre;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
 import com.bookclub.model.Book;
-import com.bookclub.model.Genre;
 import com.bookclub.service.BookService;
 import com.bookclub.service.BookService.ReviewData;
 import com.bookclub.util.StageFactory;

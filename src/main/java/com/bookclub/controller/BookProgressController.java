@@ -1,6 +1,7 @@
 package com.bookclub.controller;
 
 import com.bookclub.dao.BookProgressDAO;
+import com.bookclub.model.BookProgress;
 import com.bookclub.service.BookProgressService;
 import com.bookclub.service.BookService;
 import com.bookclub.service.LoginService;
