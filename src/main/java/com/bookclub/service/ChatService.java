@@ -4,7 +4,6 @@ import com.bookclub.dao.ChatDAO;
 import com.bookclub.dao.UserDAO;
 import com.bookclub.iao.IChatAO;
 import com.bookclub.iao.IUserAO;
-import com.bookclub.model.ChatDisplay;
 import com.bookclub.model.ChatMessage;
 import com.bookclub.model.User;
 
@@ -16,6 +15,26 @@ import java.util.Map;
 
 public class ChatService {
     private static ChatService instance;
+
+    /**
+     * Helper class for UI handling of messages.
+     */
+    public static class ChatDisplay {
+
+        // Not strictly necessary, if we want to add reporting of message etc. will make life easier.
+        public final int messageId;
+
+        public final String username;
+        public final String message;
+        public final String timestamp;
+
+        public ChatDisplay(int messageId, String username, String message, String timestamp) {
+            this.messageId = messageId;
+            this.username = username;
+            this.message = message;
+            this.timestamp = timestamp;
+        }
+    }
     
     private final IUserAO userAO;
     private final IChatAO chatAO;
