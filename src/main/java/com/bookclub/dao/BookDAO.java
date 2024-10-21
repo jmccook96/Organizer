@@ -20,8 +20,8 @@ public class BookDAO implements IBookAO {
         String bookTitle = resultSet.getString("bookTitle");
         String bookAuthor = resultSet.getString("bookAuthor");
         String bookGenre = resultSet.getString("bookGenre");
-        int totalPages = resultSet.getInt("totalPages");
-        return new Book(bookId, bookTitle, bookAuthor, bookGenre, totalPages);
+        int totalChapters = resultSet.getInt("totalChapters");
+        return new Book(bookId, bookTitle, bookAuthor, bookGenre, totalChapters);
     }
 
     private List<Book> getListFromStatement(PreparedStatement statement) {
@@ -127,11 +127,11 @@ public class BookDAO implements IBookAO {
     public boolean addBook(Book book) {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement(
-                    "INSERT INTO Books (bookTitle, bookAuthor, bookGenre, totalPages) VALUES (?, ?, ?, ?)");
+                    "INSERT INTO Books (bookTitle, bookAuthor, bookGenre, totalChapters) VALUES (?, ?, ?, ?)");
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getGenre());
-            statement.setInt(4, book.getTotalPages());
+            statement.setInt(4, book.getTotalChapters());
             statement.executeUpdate();
 
             // Set the id of the new book
@@ -154,11 +154,11 @@ public class BookDAO implements IBookAO {
     public boolean updateBook(Book book) {
         try {
             PreparedStatement statement = dbManager.getConnection().prepareStatement(
-                    "UPDATE Books SET bookTitle = ?, bookAuthor = ?, totalPages = ?, WHERE bookID = ?, ");
+                    "UPDATE Books SET bookTitle = ?, bookAuthor = ?, totalChapters = ?, WHERE bookID = ?, ");
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setInt(3, book.getId());
-            statement.setInt(4, book.getTotalPages());
+            statement.setInt(4, book.getTotalChapters());
             statement.executeUpdate();
         }
         catch (Exception e) {
@@ -191,7 +191,7 @@ public class BookDAO implements IBookAO {
                     + "bookTitle VARCHAR NOT NULL,"
                     + "bookAuthor VARCHAR NOT NULL,"
                     + "bookGenre VARCHAR NOT NULL,"
-                    + "totalPages INTEGER NOT NULL"
+                    + "totalChapters INTEGER NOT NULL"
                     + ")";
             statement.executeUpdate(createTableQuery);
         }

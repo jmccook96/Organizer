@@ -46,7 +46,7 @@ public class BookProgressServiceTest {
         assertNotNull(actual);
         assertEquals(1, actual.getBookId());
         assertEquals(1, actual.getUserId());
-        assertEquals(1, actual.getPageNumber());
+        assertEquals(1, actual.getChapterNumber());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class BookProgressServiceTest {
         assertTrue(hasSaved);
         assertEquals(1, actual.getBookId());
         assertEquals(1, actual.getUserId());
-        assertEquals(10, actual.getPageNumber());
+        assertEquals(10, actual.getChapterNumber());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class BookProgressServiceTest {
         assertNotNull(actual);
         assertEquals(1, actual.getBookId());
         assertEquals(1, actual.getUserId());
-        assertEquals(10, actual.getPageNumber());
+        assertEquals(10, actual.getChapterNumber());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class BookProgressServiceTest {
         assertEquals(1, actual.size());
         assertEquals(1, actual.get(0).getBookId());
         assertEquals(1, actual.get(0).getUserId());
-        assertEquals(1, actual.get(0).getPageNumber());
+        assertEquals(1, actual.get(0).getChapterNumber());
     }
 
     @Test
@@ -145,14 +145,14 @@ public class BookProgressServiceTest {
         assertEquals(3, actual.size());
         assertEquals(1, actual.get(0).getBookId());
         assertEquals(3, actual.get(0).getUserId());
-        assertEquals(1, actual.get(0).getPageNumber());
+        assertEquals(1, actual.get(0).getChapterNumber());
 
         assertEquals(1, actual.get(1).getBookId());
         assertEquals(2, actual.get(1).getUserId());
-        assertEquals(3, actual.get(1).getPageNumber());
+        assertEquals(3, actual.get(1).getChapterNumber());
 
         assertEquals(1, actual.get(2).getBookId());
         assertEquals(1, actual.get(2).getUserId());
-        assertEquals(10, actual.get(2).getPageNumber());
+        assertEquals(10, actual.get(2).getChapterNumber());
     }
 }

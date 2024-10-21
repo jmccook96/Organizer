@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class BookMAO implements IBookAO {
 
-    private List<Book> books;
+    private final List<Book> books;
 
     /**
      * Constructor to initialize the {@code BookMAO} with an empty list of books and
@@ -27,12 +27,12 @@ public class BookMAO implements IBookAO {
      * Adds some sample books to the list to simulate a database for testing purposes.
      */
     private void addTestData() {
-        books.add(new Book("It", "Stephen King","Horror", 659));
-        books.add(new Book("The Shining", "Stephen King","Horror", 1120));
-        books.add(new Book("testTitle", "Stephen King","Horror", 245));
-        books.add(new Book("1984", "George Orwell","Horror", 345));
-        books.add(new Book("Animal Farm", "George Orwell","Horror",530));
-        books.add(new Book("testTitle", "George Orwell","Horror", 290));
+        books.add(new Book("It", "Stephen King","Horror", 20));
+        books.add(new Book("The Shining", "Stephen King","Horror", 30));
+        books.add(new Book("testTitle", "Stephen King","Horror", 30));
+        books.add(new Book("1984", "George Orwell","Horror", 30));
+        books.add(new Book("Animal Farm", "George Orwell","Horror",30));
+        books.add(new Book("testTitle", "George Orwell","Horror", 30));
     }
 
     /**

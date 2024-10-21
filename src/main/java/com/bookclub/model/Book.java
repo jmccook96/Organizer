@@ -2,7 +2,7 @@ package com.bookclub.model;
 
 /**
  * The {@code Book} class represents a book in the book club application.
- * Each book has an id, title, author, genre, and total number of pages.
+ * Each book has an id, title, author, genre, and total number of chapters.
  * This class provides getter and setter methods for these attributes.
  * Title, author, and genre must be non-null and non-empty. The id must be greater than or equal to 1.
  */
@@ -12,7 +12,7 @@ public class Book {
     private String title;
     private String author;
     private String genre;
-    private int totalPages;
+    private int totalChapters;
 
     /**
      * Constructs a {@code Book} object with the specified title and author.
@@ -28,39 +28,39 @@ public class Book {
     }
 
     /**
-     * Constructs a {@code Book} object with the specified title, author, genre, and total number of pages.
-     * Title, author, and genre must be non-null and non-empty, and total pages must be greater than 0.
+     * Constructs a {@code Book} object with the specified title, author, genre, and total number of chapters.
+     * Title, author, and genre must be non-null and non-empty, and total chapters must be greater than 0.
      *
      * @param title      the title of the book.
      * @param author     the author of the book.
      * @param genre      the genre of the book.
-     * @param totalPages the total number of pages in the book.
-     * @throws IllegalArgumentException if the title, author, or genre is null or empty, or if total pages is less than or equal to 0.
+     * @param totalChapters the total number of chapters in the book.
+     * @throws IllegalArgumentException if the title, author, or genre is null or empty, or if total chapters is less than or equal to 0.
      */
-    public Book(String title, String author, String genre, int totalPages) {
+    public Book(String title, String author, String genre, int totalChapters) {
         setTitle(title);
         setAuthor(author);
         setGenre(genre);
-        setTotalPages(totalPages);
+        setTotalChapters(totalChapters);
     }
 
     /**
-     * Constructs a {@code Book} object with the specified id, title, author, genre, and total number of pages.
+     * Constructs a {@code Book} object with the specified id, title, author, genre, and total number of chapters.
      * Id must be greater than or equal to 1, and title, author, and genre must be non-null and non-empty.
      *
      * @param id         the id of the book.
      * @param title      the title of the book.
      * @param author     the author of the book.
      * @param genre      the genre of the book.
-     * @param totalPages the total number of pages in the book.
-     * @throws IllegalArgumentException if the id is less than 1, or if the title, author, or genre is null or empty, or if total pages is less than or equal to 0.
+     * @param totalChapters the total number of chapters in the book.
+     * @throws IllegalArgumentException if the id is less than 1, or if the title, author, or genre is null or empty, or if total chapters is less than or equal to 0.
      */
-    public Book(int id, String title, String author, String genre, int totalPages) {
+    public Book(int id, String title, String author, String genre, int totalChapters) {
         setId(id);
         setTitle(title);
         setAuthor(author);
         setGenre(genre);
-        setTotalPages(totalPages);
+        setTotalChapters(totalChapters);
     }
 
     /**
@@ -156,26 +156,26 @@ public class Book {
     }
 
     /**
-     * Returns the total number of pages in the book.
+     * Returns the total number of chapters in the book.
      *
-     * @return the total number of pages in the book.
+     * @return the total number of chapters in the book.
      */
-    public int getTotalPages() {
-        return totalPages;
+    public int getTotalChapters() {
+        return totalChapters;
     }
 
     /**
-     * Sets the total number of pages in the book.
-     * The total pages must be greater than 0.
+     * Sets the total number of chapters in the book.
+     * The total chapters must be greater than 0.
      *
-     * @param totalPages the new total number of pages in the book.
-     * @throws IllegalArgumentException if the total number of pages is less than or equal to 0.
+     * @param totalChapters the new total number of chapters in the book.
+     * @throws IllegalArgumentException if the total number of chapters is less than or equal to 0.
      */
-    public void setTotalPages(int totalPages) {
-        if (totalPages > 0) {
-            this.totalPages = totalPages;
+    public void setTotalChapters(int totalChapters) {
+        if (totalChapters > 0) {
+            this.totalChapters = totalChapters;
         } else {
-            throw new IllegalArgumentException("Total pages must be greater than 0");
+            throw new IllegalArgumentException("Total chapters must be greater than 0");
         }
     }
 

@@ -84,37 +84,37 @@ public class BookTest {
     @Test
     public void testConstructorInvalidTitleNull() {
         assertThrows(IllegalArgumentException.class, () -> new Book(
-                1, null, "author", "genre", 200));
+                1, null, "author", "genre", 20));
     }
 
     @Test
     public void testConstructorInvalidTitleEmpty() {
         assertThrows(IllegalArgumentException.class, () -> new Book(
-                1, "", "author", "genre", 200));
+                1, "", "author", "genre", 20));
     }
 
     @Test
     public void testConstructorInvalidAuthorNull() {
         assertThrows(IllegalArgumentException.class, () -> new Book(
-                1, "title", null, "genre", 200));
+                1, "title", null, "genre", 20));
     }
 
     @Test
     public void testConstructorInvalidAuthorEmpty() {
         assertThrows(IllegalArgumentException.class, () -> new Book(
-                1, "title", "", "genre", 320));
+                1, "title", "", "genre", 32));
     }
 
     @Test
     public void testConstructorInvalidGenreNull() {
         assertThrows(IllegalArgumentException.class, () -> new Book(
-                1, "title", "author", null, 100));
+                1, "title", "author", null, 10));
     }
 
     @Test
     public void testConstructorInvalidGenreEmpty() {
         assertThrows(IllegalArgumentException.class, () -> new Book(
-                1, "title", "author", "", 140));
+                1, "title", "author", "", 14));
     }
 
 }

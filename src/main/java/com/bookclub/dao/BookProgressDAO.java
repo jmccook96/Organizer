@@ -74,10 +74,10 @@ public class BookProgressDAO implements IBookProgressAO {
     @Override
     public boolean addBookProgress(BookProgress bookProgress) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO BookProgress (bookId, userId, pageNumber) VALUES (?, ?, ?)");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO BookProgress (bookId, userId, chapterNumber) VALUES (?, ?, ?)");
             statement.setInt(1, bookProgress.getBookId());
             statement.setInt(2, bookProgress.getUserId());
-            statement.setInt(3, bookProgress.getPageNumber());
+            statement.setInt(3, bookProgress.getChapterNumber());
             statement.executeUpdate();
 
             // Set the id of the new book
@@ -96,10 +96,10 @@ public class BookProgressDAO implements IBookProgressAO {
     @Override
     public boolean updateBookProgress(BookProgress bookProgress) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE BookProgress SET bookId = ?, userId = ?, pageNumber = ? WHERE id = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE BookProgress SET bookId = ?, userId = ?, chapterNumber = ? WHERE id = ?");
             statement.setInt(1, bookProgress.getBookId());
             statement.setInt(2, bookProgress.getUserId());
-            statement.setInt(3, bookProgress.getPageNumber());
+            statement.setInt(3, bookProgress.getChapterNumber());
             statement.setInt(4, bookProgress.getId());
             statement.executeUpdate();
         }
@@ -132,7 +132,7 @@ public class BookProgressDAO implements IBookProgressAO {
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "bookId INTEGER NOT NULL,"
                     + "userId INTEGER NOT NULL,"
-                    + "pageNumber INTEGER NOT NULL,"
+                    + "chapterNumber INTEGER NOT NULL,"
                     + "FOREIGN KEY (bookId) REFERENCES Books(bookID),"
                     + "FOREIGN KEY (userId) REFERENCES Users(Id)"
                     + ")";
@@ -147,6 +147,6 @@ public class BookProgressDAO implements IBookProgressAO {
         return new BookProgress(resultSet.getInt("id"),
                                 resultSet.getInt("bookId"),
                                 resultSet.getInt("userId"),
-                                resultSet.getInt("pageNumber"));
+                                resultSet.getInt("chapterNumber"));
     }
 }

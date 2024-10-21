@@ -22,15 +22,15 @@ import java.util.List;
 public class BookProgressController {
 
     @FXML
-    private Spinner<Integer> pageNumberInput;
+    private Spinner<Integer> ChapterInput;
     @FXML
     private Button startFinishButton;
     @FXML
     private HBox progressHBox;
     @FXML
-    private Label currentPageLabel;
+    private Label currentChapterLabel;
     @FXML
-    private Label totalPagesLabel;
+    private Label totalChaptersLabel;
     @FXML
     private ProgressBar progressBar;
     @FXML
@@ -42,14 +42,12 @@ public class BookProgressController {
      */
     @FXML
     public void initialize() {
-        // Initialize the BookProgressService with DAO objects
         BookProgressService.initialize(new BookProgressDAO(), new UserDAO());
 
         Book selectedBook = BookService.getInstance().getSelectedBook();
-        int totalPages = selectedBook != null ? selectedBook.getTotalPages() : 0;
+        int chapterNumber = selectedBook != null ? selectedBook.getTotalChapters() : 0;
 
-        // Set spinner's max value based on the total pages of the selected book
-        pageNumberInput.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, totalPages > 0 ? totalPages : 1000, 0));
+        ChapterInput.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, chapterNumber > 0 ? chapterNumber : 1000, 0));
 
         updateUI();
     }
@@ -73,17 +71,17 @@ public class BookProgressController {
 
     /**
      * Handles the event when the "Save Progress" button is clicked.
-     * It saves the user's progress for the selected book based on the input page number.
-     * If the input page number is invalid, an alert is shown.
+     * It saves the user's progress for the selected book based on the input chapter number.
+     * If the input chapter number is invalid, an alert is shown.
      */
     @FXML
     private void handleSaveProgress() {
         Book selectedBook = BookService.getInstance().getSelectedBook();
         User currentUser = LoginService.getCurrentUser();
-        int pageNumber = pageNumberInput.getValue();
+        int chapterNumber = ChapterInput.getValue();
 
-        if (!BookProgressService.getInstance().saveBookProgress(selectedBook, currentUser, pageNumber)) {
-            showAlert("Failed", "Invalid page number was entered.");
+        if (!BookProgressService.getInstance().saveBookProgress(selectedBook, currentUser, chapterNumber)) {
+            showAlert("Failed", "Invalid chapter number was entered.");
         } else {
             updateProgressList();
         }
@@ -114,9 +112,9 @@ public class BookProgressController {
         boolean isStarted = BookProgressService.getInstance().hasBookProgress(selectedBook, currentUser);
         BookProgress bookProgress = BookProgressService.getInstance().getBookProgress(selectedBook, currentUser).orElse(null);
 
-        int currentPage = bookProgress != null ? bookProgress.getPageNumber() : 0;
+        int currentChapter = bookProgress != null ? bookProgress.getChapterNumber() : 0;
 
-        pageNumberInput.getValueFactory().setValue(currentPage);
+        ChapterInput.getValueFactory().setValue(currentChapter);
         startFinishButton.setText(isStarted ? "Finish" : "Start");
         progressHBox.setVisible(isStarted);
 
@@ -124,11 +122,11 @@ public class BookProgressController {
         progressListView.setVisible(isStarted);
 
         // Update labels and progress bar
-        int totalPages = selectedBook != null ? selectedBook.getTotalPages() : 0;
-        currentPageLabel.setText(String.valueOf(currentPage));
-        totalPagesLabel.setText(String.valueOf(totalPages));
+        int totalChapters = selectedBook != null ? selectedBook.getTotalChapters() : 0;
+        currentChapterLabel.setText(String.valueOf(currentChapter));
+        totalChaptersLabel.setText(String.valueOf(totalChapters));
 
-        double progress = totalPages > 0 ? (double) currentPage / totalPages : 0;
+        double progress = totalChapters > 0 ? (double) currentChapter / totalChapters : 0;
         progressBar.setProgress(progress);
     }
 

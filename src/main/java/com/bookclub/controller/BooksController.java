@@ -38,7 +38,7 @@ public class BooksController {
     @FXML
     private TextField authorField;
     @FXML
-    private TextField totalPagesField;
+    private TextField totalChaptersField;
 
     @FXML
     private HBox navBar;
@@ -128,24 +128,24 @@ public class BooksController {
     /**
      * Handles the action of adding a new book to the system.
      * The book is added only if the title, author, and genre fields are filled
-     * and the total pages is a valid number.
+     * and the total chapters is a valid number.
      */
     @FXML
     private void handleAddBook() {
         String title = titleField.getText();
         String author = authorField.getText();
         String genre = genreComboBox.getValue();
-        String totalPagesText = totalPagesField.getText().trim();
+        String totalChaptersText = totalChaptersField.getText().trim();
 
         if (!title.isEmpty() && !author.isEmpty() && genre != null) {
             try {
-                int totalPages = Integer.parseInt(totalPagesText);
-                Book book = new Book(title, author, genre, totalPages);
+                int totalChapters = Integer.parseInt(totalChaptersText);
+                Book book = new Book(title, author, genre, totalChapters);
                 bookAO.addBook(book);
                 updateBooks();
                 clearFields();
             } catch (NumberFormatException e) {
-                showAlert("Error", "Total pages must be a valid number.");
+                showAlert("Error", "Total chapters must be a valid number.");
             }
         } else {
             showAlert("Failed", "Book must have a Title, Author, and Genre.");
@@ -199,7 +199,7 @@ public class BooksController {
     private void clearFields() {
         titleField.clear();
         authorField.clear();
-        totalPagesField.clear();
+        totalChaptersField.clear();
         genreComboBox.setValue(null);
     }
 
