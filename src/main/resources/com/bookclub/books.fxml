@@ -24,6 +24,7 @@
                 <TextField fx:id="authorField" promptText="Enter Author"/>
                 <Label text="Genre:"/> <!-- Label for the genre ComboBox -->
                 <ComboBox fx:id="genreComboBox" promptText="Select Genre"/> <!-- Added ComboBox for genres -->
+                <TextField fx:id="totalPagesField" promptText="Enter total pages"/>
                 <Button text="Add" onAction="#handleAddBook"/>
             </VBox>
 
