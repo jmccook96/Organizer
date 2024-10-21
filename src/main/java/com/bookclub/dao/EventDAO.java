@@ -4,7 +4,10 @@ import com.bookclub.iao.IEventAO;
 import com.bookclub.model.Event;
 import com.bookclub.util.DatabaseManager;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

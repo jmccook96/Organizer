@@ -1,11 +1,8 @@
 package com.bookclub.service;
 
-import com.bookclub.dao.BookProgressDAO;
 import com.bookclub.iao.IBookProgressAO;
-import com.bookclub.iao.IRSVPAO;
-import com.bookclub.iao.IUserAO;
-import com.bookclub.model.BookProgress;
 import com.bookclub.model.Book;
+import com.bookclub.model.BookProgress;
 import com.bookclub.model.User;
 
 import java.util.Comparator;

@@ -1,0 +1,50 @@
+@startuml
+skinparam packageStyle rectangle
+left to right direction 
+
+package DAO {
+  class BookDAO
+  class BookProgressDAO
+  class ChatDAO
+  class EventDAO
+  class ReviewDAO
+  class RSVPDAO
+  class UserDAO
+}
+
+package IAO {
+  class IBookAO
+  class IBookProgressAO
+  class IChatAO
+  class IEventAO
+  class IReviewAO
+  class IRSVPAO
+  class IUserAO
+}
+
+package MAO {
+  class BookMAO
+  class BookProgressMAO
+  class ChatMAO
+  class EventMAO
+  class ReviewMAO
+  class RSVPMAO
+  class UserMAO
+}
+' AO Dependencies
+IBookAO <|.. BookDAO
+IBookAO <|.. BookMAO
+IBookProgressAO <|.. BookProgressDAO
+IBookProgressAO <|.. BookProgressMAO
+IChatAO <|.. ChatDAO
+IChatAO <|.. ChatMAO
+IEventAO <|.. EventDAO
+IEventAO <|.. EventMAO
+IReviewAO <|.. ReviewDAO
+IReviewAO <|.. ReviewMAO
+IRSVPAO <|.. RSVPDAO
+IRSVPAO <|.. RSVPMAO
+IUserAO <|.. UserDAO
+IUserAO <|.. UserMAO
+
+@enduml

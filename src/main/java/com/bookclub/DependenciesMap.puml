@@ -1,0 +1,139 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 8
+
+class Main
+  
+package Controller {
+  class AccountSettingsController
+  class BookProgressController
+  class BooksController
+  class ChatController
+  class EventsController
+  class HomeController
+  class LoginController
+  class NavigatorBarController
+  class RegisterController
+  class ReviewController
+  class RSVPController
+}
+
+package AO {
+  class BookAO
+  class BookProgressAO
+  class ChatAO
+  class EventAO
+  class ReviewAO
+  class RSVPAO
+  class UserAO
+}
+
+package Model {
+  class Book
+  class BookProgress
+  class ChatMessage
+  class Event
+  class Genre
+  class Review
+  class RSVP
+  class User
+}
+package Service {
+  class BookProgressService
+  class BookService
+  class ChatService
+  class EventService
+  class LoginService
+  class RSVPService
+}
+package Utility {
+  class DatabaseManager
+  class PasswordHasher
+  class StageFactory
+  class StageView
+}
+
+
+' AO Dependencies on Models
+BookAO --> Book
+BookProgressAO --> BookProgress
+ChatAO --> ChatMessage
+EventAO --> Event
+ReviewAO --> Review
+RSVPAO --> RSVP
+UserAO --> User
+
+' Services Dependencies.
+BookProgressService --> BookProgressAO
+BookProgressService --> Book
+BookProgressService --> BookProgress
+BookProgressService --> User
+BookService --> BookAO
+BookService --> ReviewAO
+BookService --> Book
+BookService --> Review
+ChatService --> ChatAO
+ChatService --> UserAO
+ChatService --> ChatMessage
+ChatService --> User
+EventService --> Event
+LoginService --> UserAO
+LoginService --> User
+LoginService --> PasswordHasher
+RSVPService --> RSVPAO
+RSVPService --> UserAO
+RSVPService --> Event
+RSVPService --> RSVP
+RSVPService --> User
+
+
+AccountSettingsController --> User
+AccountSettingsController --> LoginService
+AccountSettingsController --> StageFactory
+AccountSettingsController --> StageView
+BookProgressController --> BookProgressAO
+BookProgressController --> BookProgressService
+BookProgressController --> BookService
+BookProgressController --> LoginService
+BooksController --> BookAO
+BooksController --> Book
+BooksController --> Genre
+BooksController --> BookService
+BooksController --> StageFactory
+BooksController --> StageView
+ChatController --> ChatService
+EventsController --> BookAO
+EventsController --> EventAO
+EventsController --> Book
+EventsController --> Event
+EventsController --> EventService
+EventsController --> LoginService
+EventsController --> StageFactory
+EventsController --> StageView
+LoginController --> LoginService
+NavigatorBarController --> StageFactory
+NavigatorBarController --> StageView
+RegisterController --> LoginService
+RegisterController --> StageFactory
+RegisterController --> StageView
+ReviewController --> ReviewAO
+ReviewController --> Book
+ReviewController --> Review
+ReviewController --> User
+ReviewController --> BookService
+ReviewController --> LoginService
+ReviewController --> StageFactory
+ReviewController --> StageView
+RSVPController --> RSVPAO
+RSVPController --> UserAO
+RSVPController --> Event
+RSVPController --> RSVP
+RSVPController --> EventService
+RSVPController --> LoginService
+RSVPController --> RSVPService
+
+Main --> StageFactory
+Main --> StageView
+
+@enduml
