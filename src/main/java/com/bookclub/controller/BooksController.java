@@ -81,7 +81,7 @@ public class BooksController {
             if (newValue != null) {
                 Book selectedBook = newValue; // No need to cast to HBox
                 bookService.setSelectedBook(selectedBook);
-                StageFactory.getInstance().switchScene(StageView.REVIEWS);
+                StageFactory.getInstance().switchScene(StageView.BOOK_ITEM);
             }
         });
 

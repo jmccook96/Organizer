@@ -8,14 +8,12 @@ import com.bookclub.model.User;
 import com.bookclub.service.BookService;
 import com.bookclub.service.LoginService;
 import com.bookclub.util.StageFactory;
-import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -41,15 +39,9 @@ public class ReviewController {
     @FXML
     private VBox newReviewContainer;
     @FXML
-    private ImageView backIcon;
-    @FXML
     private Rating ratingControl;
     @FXML
     private ListView<HBox> ratingsList;
-    @FXML
-    private Button backButton;
-    @FXML
-    private Label bookLabel;
 
     /**
      * Initializes a new instance of ReviewController and sets up the review access object.
@@ -69,14 +61,8 @@ public class ReviewController {
     public void initialize() {
         reviewContainer.maxWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.5));
         newReviewContainer.maxWidthProperty().bind(reviewContainer.maxWidthProperty().multiply(0.5));
-        backButton.prefHeightProperty().bind(StageFactory.getInstance().getPrimaryStage().heightProperty());
-        backIcon.fitWidthProperty().bind(StageFactory.getInstance().getPrimaryStage().widthProperty().multiply(0.1));
         selectedBook = bookService.getSelectedBook();
-        if (selectedBook != null) {
-            bookLabel.setText(selectedBook.toString());
-        }
         updateRatings();
-        ratingsList.maxHeightProperty().bind(reviewContainer.heightProperty());
         ratingControl.setUpdateOnHover(false);
     }
 
@@ -111,16 +97,6 @@ public class ReviewController {
     }
 
     /**
-     * Handles the action when the back button is clicked,
-     * switching the scene back to the book list view.
-     */
-    @FXML
-    private void handleBackButton() {
-        // Switch back to the book list view
-        StageFactory.getInstance().switchScene(StageView.BOOKS);
-    }
-
-    /**
      * Updates the displayed ratings for the selected book by retrieving reviews
      * from the review access object and populating the ratings list.
      */
@@ -136,7 +112,9 @@ public class ReviewController {
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
                     hBox.getChildren().add(spacer);
-                    hBox.getChildren().add(new Rating(5, review.getRating()));
+                    Rating rating = new Rating(5, review.getRating());
+                    rating.addEventFilter(MouseEvent.ANY, event -> event.consume());
+                    hBox.getChildren().add(rating);
                     hBox.setAlignment(Pos.CENTER);
                     ratingsList.getItems().add(hBox);
                 }

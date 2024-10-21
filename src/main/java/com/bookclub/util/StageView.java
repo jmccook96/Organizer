@@ -12,7 +12,7 @@ public enum StageView {
     EVENTS("/com/bookclub/events.fxml"),
     ACCOUNT_SETTINGS("/com/bookclub/accountSettings.fxml"),
     CHAT("/com/bookclub/chat.fxml"),
-    REVIEWS("/com/bookclub/review.fxml"),
+    BOOK_ITEM("/com/bookclub/bookItem.fxml"),
     REGISTER("/com/bookclub/register.fxml")
     ;
 

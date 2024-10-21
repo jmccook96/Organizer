@@ -1,0 +1,17 @@
+BorderPane {
+    -fx-background-color: aliceblue;
+}
+
+#bookLabel {
+    -fx-font-size: 50;
+}
+
+#backButton {
+    -fx-opacity: 50%;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+#backButton:hover {
+    -fx-opacity: 100%;
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+}
