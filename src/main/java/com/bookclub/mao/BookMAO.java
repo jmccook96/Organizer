@@ -133,7 +133,11 @@ public class BookMAO implements IBookAO {
      */
     @Override
     public boolean updateBook(Book book) {
-        return books.set(books.indexOf(findBookByTitleAndAuthor(book.getTitle(), book.getAuthor())), book) != null;
+        int bookIdx = books.indexOf(findBookByTitleAndAuthor(book.getTitle(), book.getAuthor()));
+        if (bookIdx == -1)
+            return false; // Book doesn't exist.
+        
+        return books.set(bookIdx, book) != null;
     }
 
     /**

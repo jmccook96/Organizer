@@ -1,4 +1,4 @@
-package com.example;
+package com.example.service;
 
 import com.bookclub.mao.RSVPMAO;
 import com.bookclub.mao.UserMAO;

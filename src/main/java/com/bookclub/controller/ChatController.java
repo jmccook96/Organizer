@@ -1,6 +1,5 @@
 package com.bookclub.controller;
 
-import com.bookclub.model.ChatDisplay;
 import com.bookclub.service.ChatService;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -41,14 +40,14 @@ public class ChatController {
     private void reloadChatMessages() {
         flushDisplay();
         
-        for (ChatDisplay msg : ChatService.getInstance().getDisplayMessages())
+        for (ChatService.ChatDisplay msg : ChatService.getInstance().getDisplayMessages())
             displayMessage(msg);
         
         // Scroll to bottom after loading.
         scrollToBottom();
     }
     
-    private void displayMessage(ChatDisplay message) {
+    private void displayMessage(ChatService.ChatDisplay message) {
         VBox messageContainer = new VBox();
         messageContainer.setSpacing(5); // Set some spacing between username and message
         
