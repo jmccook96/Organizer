@@ -6,6 +6,7 @@ import com.bookclub.iao.IBookAO;
 import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
+import com.sun.source.tree.InstanceOfTree;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -28,11 +29,9 @@ public class BookService {
 
     /**
      * Private constructor to initialize the {@code BookService}.
-     * This constructor initializes the DAO objects and sets up a cache for storing reviews.
+     * This constructor initializes the cache for storing reviews.
      */
     private BookService() {
-        bookAO = new BookDAO();
-        reviewAO = new ReviewDAO();
         selectedBook = new SimpleObjectProperty<>();
         reviewCache = new ConcurrentHashMap<>();
     }
@@ -51,6 +50,17 @@ public class BookService {
      */
     public static BookService getInstance() {
         return BookServiceHolder.INSTANCE;
+    }
+
+    /**
+     * Initializes the singleton instance of {@code BookService} with AOs for Books and Review
+     * @param bookAO   BookAO to be used by BookService
+     * @param reviewAO ReviewAO to be used by BookService.
+     */
+    public static void initialize(IBookAO bookAO, IReviewAO reviewAO) {
+        BookServiceHolder.INSTANCE.bookAO = bookAO;
+        BookServiceHolder.INSTANCE.reviewAO = reviewAO;
+        
     }
 
     /**

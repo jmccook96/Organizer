@@ -1,7 +1,5 @@
 package com.bookclub.service;
 
-import com.bookclub.dao.ChatDAO;
-import com.bookclub.dao.UserDAO;
 import com.bookclub.iao.IChatAO;
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.ChatMessage;
@@ -36,22 +34,28 @@ public class ChatService {
         }
     }
     
-    private final IUserAO userAO;
-    private final IChatAO chatAO;
+    private IUserAO userAO;
+    private IChatAO chatAO;
     
     private int chatId;
     
     public static ChatService getInstance() {
         if (instance == null) {
-            instance = new ChatService();
+            throw new IllegalStateException("ChatService must be initialized before instance is accessed.");
         }
         return instance;
     }
     
-    private ChatService() {
-        userAO = new UserDAO();
-        chatAO = new ChatDAO();
+    public static void initialize(IChatAO chatAO, IUserAO userAO) {
+        if (instance == null) {
+            instance = new ChatService();
+        }
+        instance.chatAO = chatAO;
+        instance.userAO = userAO;
         
+    }
+    
+    private ChatService() {
         setChatId(1);
         // TODO: Investigate thread spool for reloading messages in background
     }

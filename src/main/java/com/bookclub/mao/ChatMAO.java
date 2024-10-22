@@ -16,8 +16,6 @@ public class ChatMAO implements IChatAO  {
     }
 
     private void addTestData() {
-        chats.add(new ChatMessage(1, 1, "Test Message"));
-        chats.add(new ChatMessage(2, 1, "Another test message"));
     }
     
     @Override
