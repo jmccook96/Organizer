@@ -4,19 +4,19 @@ public class BookProgress {
     private int id;
     private int bookId;
     private int userId;
-    private int pageNumber;
+    private int chapterNumber;
 
-    public BookProgress(int id, int bookId, int userId, int pageNumber) {
+    public BookProgress(int id, int bookId, int userId, int ChapterNumber) {
         setId(id);
         setBookId(bookId);
         setUserId(userId);
-        setPageNumber(pageNumber);
+        setChapterNumber(ChapterNumber);
     }
 
-    public BookProgress(int bookId, int userId, int pageNumber) {
+    public BookProgress(int bookId, int userId, int ChapterNumber) {
         setBookId(bookId);
         setUserId(userId);
-        setPageNumber(pageNumber);
+        setChapterNumber(ChapterNumber);
     }
 
     public int getId() {
@@ -52,8 +52,8 @@ public class BookProgress {
         this.userId = userId;
     }
 
-    public int getPageNumber() {
-        return pageNumber;
+    public int getChapterNumber() {
+        return chapterNumber;
     }
 
     public void setPageNumber(int pageNumber) {
