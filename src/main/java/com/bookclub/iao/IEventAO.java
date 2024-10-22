@@ -27,6 +27,13 @@ public interface IEventAO {
     Event findEventByBookIdNameOrganizerDateTimeAndLocation(int bookId, String name, String organizer, LocalDateTime dateTime, String location);
 
     /**
+     * Retrieves an event based on the events ID
+     * @param id The eventID to retrieve
+     * @return The event with the given eventID, or null if not found.
+     */
+    Event findEventById(int id);    
+    
+    /**
      * Retrieves a list of events from the database based on the bookId
      * @param bookId The bookId of the events to retrieve
      * @return A list of events with the given bookId
