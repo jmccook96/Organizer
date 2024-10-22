@@ -6,24 +6,22 @@ import com.bookclub.util.DatabaseManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO implements IBookAO {
 
-    private Book buildBookFromResultSet(ResultSet resultSet) {
-        try {
-            int bookId = resultSet.getInt("bookId");
-            String bookTitle = resultSet.getString("bookTitle");
-            String bookAuthor = resultSet.getString("bookAuthor");
-            String bookGenre = resultSet.getString("bookGenre");
-            return new Book(bookId, bookTitle, bookAuthor, bookGenre);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-            return null;
+
+    // Helper method to construct a Book object from the ResultSet
+    private Book buildBookFromResultSet(ResultSet resultSet) throws SQLException {
+        int bookId = resultSet.getInt("bookId");
+        String bookTitle = resultSet.getString("bookTitle");
+        String bookAuthor = resultSet.getString("bookAuthor");
+        String bookGenre = resultSet.getString("bookGenre");
+        int totalChapters = resultSet.getInt("totalChapters");
+        return new Book(bookId, bookTitle, bookAuthor, bookGenre, totalChapters);
     }
 
     private List<Book> getListFromStatement(PreparedStatement statement) {
@@ -46,6 +44,7 @@ public class BookDAO implements IBookAO {
         createTable();
     }
 
+
     @Override
     public List<Book> findAllBooks() {
         List<Book> books = new ArrayList<>();
@@ -63,7 +62,8 @@ public class BookDAO implements IBookAO {
     @Override
     public Book findBookByTitleAndAuthor(String title, String author) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookTitle = ? AND bookAuthor = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "SELECT * FROM Books WHERE bookTitle = ? AND bookAuthor = ?");
             statement.setString(1, title);
             statement.setString(2, author);
             ResultSet resultSet = statement.executeQuery();
@@ -82,7 +82,8 @@ public class BookDAO implements IBookAO {
     public List<Book> findBooksByTitle(String title) {
         List<Book> books = new ArrayList<>();
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookTitle = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "SELECT * FROM Books WHERE bookTitle = ?");
             statement.setString(1, title);
             return getListFromStatement(statement);
         }
@@ -96,7 +97,8 @@ public class BookDAO implements IBookAO {
     public List<Book> findBooksByGenre(String genre) {
         List<Book> books = new ArrayList<>();
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookGenre = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "SELECT * FROM Books WHERE bookGenre = ?");
             statement.setString(1, genre);
             return getListFromStatement(statement);
         }
@@ -110,7 +112,8 @@ public class BookDAO implements IBookAO {
     public List<Book> findBooksByAuthor(String author) {
         List<Book> books = new ArrayList<>();
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Books WHERE bookAuthor = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "SELECT * FROM Books WHERE bookAuthor = ?");
             statement.setString(1, author);
             return getListFromStatement(statement);
         }
@@ -123,10 +126,12 @@ public class BookDAO implements IBookAO {
     @Override
     public boolean addBook(Book book) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Books (bookTitle, bookAuthor, bookGenre) VALUES (?, ?, ?)");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "INSERT INTO Books (bookTitle, bookAuthor, bookGenre, totalChapters) VALUES (?, ?, ?, ?)");
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getGenre());
+            statement.setInt(4, book.getTotalChapters());
             statement.executeUpdate();
 
             // Set the id of the new book
@@ -148,10 +153,12 @@ public class BookDAO implements IBookAO {
     @Override
     public boolean updateBook(Book book) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Books SET bookTitle = ?, bookAuthor = ? WHERE bookID = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "UPDATE Books SET bookTitle = ?, bookAuthor = ?, totalChapters = ?, WHERE bookID = ?, ");
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setInt(3, book.getId());
+            statement.setInt(4, book.getTotalChapters());
             statement.executeUpdate();
         }
         catch (Exception e) {
@@ -163,7 +170,8 @@ public class BookDAO implements IBookAO {
     @Override
     public boolean deleteBook(Book book) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("DELETE FROM Books WHERE bookID = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "DELETE FROM Books WHERE bookID = ?");
             statement.setInt(1, book.getId());
             statement.executeUpdate();
         }
@@ -176,14 +184,14 @@ public class BookDAO implements IBookAO {
 
 
     private void createTable() {
-        // Create table if not exists
         try {
             Statement statement = dbManager.getConnection().createStatement();
             String createTableQuery = "CREATE TABLE IF NOT EXISTS Books ("
                     + "bookID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "bookTitle VARCHAR NOT NULL,"
                     + "bookAuthor VARCHAR NOT NULL,"
-                    + "bookGenre VARCHAR NOT NULL"
+                    + "bookGenre VARCHAR NOT NULL,"
+                    + "totalChapters INTEGER NOT NULL"
                     + ")";
             statement.executeUpdate(createTableQuery);
         }

@@ -32,8 +32,8 @@ public class ReviewMAO implements IReviewAO {
         User user1 = new User("User1", "Password1");
         User user2 = new User("User2", "Password2");
         User user3 = new User("User3", "Password3");
-        Book book1 = new Book("It", "Stephen King","Horror");
-        Book book2 = new Book("The Shining", "Stephen King","Horror");
+        Book book1 = new Book("It", "Stephen King","Horror", 659);
+        Book book2 = new Book("The Shining", "Stephen King","Horror",1129);
 
         reviews.add(new Review(user1, book1, 1));
         reviews.add(new Review(user2, book1, 3));
