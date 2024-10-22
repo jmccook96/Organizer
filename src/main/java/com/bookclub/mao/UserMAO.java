@@ -2,6 +2,7 @@ package com.bookclub.mao;
 
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
+import com.bookclub.util.PasswordHasher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,6 @@ public class UserMAO implements IUserAO {
             // We want to imbue our own ID before proceeding.
             user.setId(++idIndex);
         }
-        
         return users.put(user.getId(), user) == null;
     }
 

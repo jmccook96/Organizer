@@ -18,6 +18,8 @@ public class ChatMAOTest {
     @BeforeEach
     public void setUp() {
         chatMAO = new ChatMAO();
+        //chats.add(new ChatMessage(1, 1, "Test Message"));
+        //chats.add(new ChatMessage(2, 1, "Another test message"));
     }
 
     // Test InsertMessage
@@ -28,7 +30,7 @@ public class ChatMAOTest {
         assertTrue(result);
 
         List<ChatMessage> messages = chatMAO.GetMessagesByChatId(1);
-        assertEquals(3, messages.size());
+        assertEquals(1, messages.size());
     }
 
     // Test GetMessagesByChatId
@@ -36,7 +38,12 @@ public class ChatMAOTest {
     public void testGetMessagesByChatIdSuccess() throws SQLException {
         List<ChatMessage> messages = chatMAO.GetMessagesByChatId(1);
         assertNotNull(messages);
-        assertEquals(2, messages.size());  // Expecting 2 messages from the test data
+        assertEquals(0, messages.size());
+
+        chatMAO.InsertMessage(new ChatMessage(1, 1, "Test Message"));
+        chatMAO.InsertMessage(new ChatMessage(2, 1, "Another test message"));
+
+        messages = chatMAO.GetMessagesByChatId(1);
         assertEquals("Test Message", messages.get(0).getMessage());
         assertEquals("Another test message", messages.get(1).getMessage());
     }
@@ -60,7 +67,7 @@ public class ChatMAOTest {
         assertTrue(result);
 
         List<ChatMessage> messages = chatMAO.GetMessagesByChatId(1);
-        assertEquals(3, messages.size());  // The new empty message should still be added
+        assertEquals(1, messages.size());  // The new empty message should still be added
     }
 
     @Test
