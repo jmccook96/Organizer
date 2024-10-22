@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
@@ -19,7 +19,7 @@ public class ReviewTest {
     @BeforeEach
     public void setUp() {
         user = new User("testUser", "testPassword");
-        book = new Book(1, "testTitle", "testAuthor", "testGenre");
+        book = new Book(1, "testTitle", "testAuthor", "testGenre", 100);
         review = new Review(user, book, 5);
     }
 
