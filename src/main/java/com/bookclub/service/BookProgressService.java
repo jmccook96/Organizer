@@ -1,6 +1,7 @@
 package com.bookclub.service;
 
 import com.bookclub.iao.IBookProgressAO;
+import com.bookclub.iao.IUserAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.BookProgress;
 import com.bookclub.model.User;

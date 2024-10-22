@@ -1,6 +1,10 @@
 package com.bookclub.controller;
 
+import com.bookclub.model.Book;
 import com.bookclub.dao.BookProgressDAO;
+import com.bookclub.dao.UserDAO;
+import com.bookclub.model.BookProgress;
+import com.bookclub.model.User;
 import com.bookclub.service.BookProgressService;
 import com.bookclub.service.BookService;
 import com.bookclub.service.LoginService;
