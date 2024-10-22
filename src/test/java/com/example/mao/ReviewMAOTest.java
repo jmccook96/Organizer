@@ -72,6 +72,18 @@ public class ReviewMAOTest {
     // Test findReviewsByBook
     @Test
     public void testFindReviewsByBook() {
+        User user1 = new User("User1", "Password1");
+        User user2 = new User("User2", "Password2");
+        User user3 = new User("User3", "Password3");
+        Book book1 = new Book("It", "Stephen King","Horror", 659);
+        Book book2 = new Book("The Shining", "Stephen King","Horror",1129);
+
+        reviewMAO.addReview(new Review(user1, book1, 1));
+        reviewMAO.addReview(new Review(user2, book1, 3));
+        reviewMAO.addReview(new Review(user3, book1, 5));
+        reviewMAO.addReview(new Review(user1, book2, 2));
+        reviewMAO.addReview(new Review(user2, book2, 4));
+        
         List<Review> reviews = reviewMAO.findReviewsByBook(book1);
         assertNotNull(reviews);
         assertEquals(3, reviews.size()); // book1 has 3 reviews

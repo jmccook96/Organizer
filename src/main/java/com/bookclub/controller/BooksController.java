@@ -1,5 +1,6 @@
 package com.bookclub.controller;
 
+import com.bookclub.dao.ReviewDAO;
 import com.bookclub.model.Genre;
 import com.bookclub.dao.BookDAO;
 import com.bookclub.iao.IBookAO;
@@ -54,6 +55,7 @@ public class BooksController {
      */
     public BooksController() {
         bookAO = new BookDAO();
+        BookService.initialize(bookAO, new ReviewDAO());
         bookService = BookService.getInstance();
     }
 
