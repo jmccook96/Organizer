@@ -81,6 +81,9 @@ public class RSVP {
      * @param eventId the unique identifier for the event
      */
     public void setEventId(int eventId) {
+        if (eventId <= 0) {
+            throw new IllegalArgumentException("Event ID must be greater than zero.");
+        }
         this.eventId = eventId;
     }
 
@@ -99,6 +102,9 @@ public class RSVP {
      * @param userId the unique identifier for the user
      */
     public void setUserId(int userId) {
+        if (userId <= 0) {
+            throw new IllegalArgumentException("User ID must be a valid number.");
+        }
         this.userId = userId;
     }
 
@@ -117,6 +123,9 @@ public class RSVP {
      * @param status the status of the RSVP
      */
     public void setStatus(RSVPStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("RSVP status cannot be null.");
+        }
         this.status = status;
     }
 }

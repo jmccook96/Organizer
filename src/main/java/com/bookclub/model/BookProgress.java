@@ -24,6 +24,9 @@ public class BookProgress {
     }
 
     public void setId(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID must be greater than zero.");
+        }
         this.id = id;
     }
 
@@ -32,6 +35,9 @@ public class BookProgress {
     }
 
     public void setBookId(int bookId) {
+        if (bookId <= 0) {
+            throw new IllegalArgumentException("Book ID must be a valid number.");
+        }
         this.bookId = bookId;
     }
 
@@ -40,6 +46,9 @@ public class BookProgress {
     }
 
     public void setUserId(int userId) {
+        if (userId <= 0) {
+            throw new IllegalArgumentException("User ID must be a valid number.");
+        }
         this.userId = userId;
     }
 
@@ -48,6 +57,9 @@ public class BookProgress {
     }
 
     public void setPageNumber(int pageNumber) {
+        if (pageNumber <= 0) {
+            throw new IllegalArgumentException("User ID must be a valid number.");
+        }
         this.pageNumber = pageNumber;
     }
 }
