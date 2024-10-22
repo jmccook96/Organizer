@@ -30,12 +30,18 @@ public class UserMAO implements IUserAO {
     
     @Override
     public boolean addUser(User user) {
-        if (user == null || user.getId() != -1) {
+        if (user == null) {
             return false;
         }
         
-        // We want to imbue our own ID before proceeding.
-        user.setId(++idIndex);
+        // If we get passed an id in user, need to ensure it isn't occupied.
+        if (findUserById(user.getId()) != null) {
+            return false;
+        } else {
+            // We want to imbue our own ID before proceeding.
+            user.setId(++idIndex);
+        }
+        
         return users.put(user.getId(), user) == null;
     }
 
