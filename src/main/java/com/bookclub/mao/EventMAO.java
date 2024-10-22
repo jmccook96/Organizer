@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class EventMAO implements IEventAO {
     private List<Event> events;
+    private int eventId = 1;
 
     /**
      * Constructs a new {@code EventMAO} instance with a predefined list of test events.
@@ -30,12 +31,12 @@ public class EventMAO implements IEventAO {
     private void addTestData() {
         Book book1 = new Book(1, "It", "Stephen King", "Horror", 659);
         Book book2 = new Book(2, "The Shining", "Stephen King", "Horror", 1120);
-        events.add(new Event(book1.getId(), "It bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 1, 30), "1234 library court"));
-        events.add(new Event(book2.getId(), "The Shining bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 3, 2, 30), "1234 library court"));
-        events.add(new Event(book1.getId(), "testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 4, 3, 30), "1234 library court"));
-        events.add(new Event(book1.getId(), "1994 bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 13, 30), "1234 library court"));
-        events.add(new Event(book2.getId(), "Animal Farm bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 6, 14, 30), "1234 library court"));
-        events.add(new Event(book2.getId(), "testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 7, 15, 30), "1234 library court"));
+        events.add(new Event(eventId++, book1.getId(), "It bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 1, 30), "1234 library court"));
+        events.add(new Event(eventId++, book2.getId(), "The Shining bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 3, 2, 30), "1234 library court"));
+        events.add(new Event(eventId++, book1.getId(), "testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 4, 3, 30), "1234 library court"));
+        events.add(new Event(eventId++, book1.getId(), "1994 bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 2, 13, 30), "1234 library court"));
+        events.add(new Event(eventId++, book2.getId(), "Animal Farm bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 6, 14, 30), "1234 library court"));
+        events.add(new Event(eventId++, book2.getId(), "testTitle bookclub meeting", "Bob Jane", LocalDateTime.of(2024, 10, 7, 15, 30), "1234 library court"));
     }
 
     /**
@@ -63,6 +64,21 @@ public class EventMAO implements IEventAO {
         for (Event event : events) {
             if (event.getBookId() == bookId && event.getName().equals(name) && event.getOrganizer().equals(organizer)
                     && event.getDateTime().equals(dateTime) && event.getLocation().equals(location)) {
+                return event;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves an event based on the events ID
+     * @param id The eventID to retrieve
+     * @return The event with the given eventID, or null if not found.
+     */
+    @Override
+    public Event findEventById(int id) {
+        for (Event event : events) {
+            if (event.getId() == id) {
                 return event;
             }
         }
@@ -167,15 +183,18 @@ public class EventMAO implements IEventAO {
 
     /**
      * Updates an existing event in the system.
-     * The event is located based on its book ID, name, organizer, date/time, and location.
+     * The event is located based on its ID.
      *
      * @param event the {@link Event} object containing updated information.
      * @return {@code true} if the event was updated successfully, {@code false} otherwise.
      */
     @Override
     public boolean updateEvent(Event event) {
-        return events.set(events.indexOf(findEventByBookIdNameOrganizerDateTimeAndLocation(
-                event.getBookId(), event.getName(), event.getOrganizer(), event.getDateTime(), event.getLocation())), event) != null;
+        int eventIdx = events.indexOf(findEventById(event.getId()));
+        if (eventIdx == -1) {
+            return false;
+        }
+        return events.set(eventIdx, event) != null;
     }
 
     /**

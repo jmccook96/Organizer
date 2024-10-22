@@ -94,6 +94,23 @@ public class EventDAO implements IEventAO {
     }
 
     /**
+     * Retrieves an event based on the events ID
+     * @param id The eventID to retrieve
+     * @return The event with the given eventID, or null if not found.
+     */
+    @Override
+    public Event findEventById(int id) {
+        String sqlQuery = "SELECT * FROM Events WHERE eventId = ?";
+        try {
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(sqlQuery);
+            return populateEvent(statement.executeQuery());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Retrieves a list of events associated with a specific book ID.
      *
      * @param bookId the ID of the book.
@@ -338,5 +355,16 @@ public class EventDAO implements IEventAO {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private Event populateEvent(ResultSet resultSet) throws SQLException {
+        int eventId = resultSet.getInt("eventId");
+        int bookId = resultSet.getInt("bookId");
+        String eventName = resultSet.getString("eventName");
+        String eventOrganizer = resultSet.getString("eventOrganizer");
+        LocalDateTime eventDateTime = resultSet.getTimestamp("eventDateTime").toLocalDateTime();
+        String eventLocation = resultSet.getString("eventLocation");
+        Event event = new Event(eventId, bookId, eventName, eventOrganizer, eventDateTime, eventLocation);
+        return event;
     }
 }
