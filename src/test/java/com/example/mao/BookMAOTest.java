@@ -68,7 +68,7 @@ public class BookMAOTest {
 
     @Test
     public void testAddBook_Successful() {
-        Book newBook = new Book("New Book", "New Author", "New Genre");
+        Book newBook = new Book("New Book", "New Author", "New Genre", 20);
         boolean isAdded = bookMAO.addBook(newBook);
         assertTrue(isAdded);
         List<Book> allBooks = bookMAO.findAllBooks();
@@ -78,7 +78,7 @@ public class BookMAOTest {
 
     @Test
     public void testUpdateBook_Successful() {
-        Book updatedBook = new Book("It", "Stephen King", "Thriller");  // Change genre
+        Book updatedBook = new Book("It", "Stephen King", "Thriller", 20);  // Change genre
         boolean isUpdated = bookMAO.updateBook(updatedBook);
         assertTrue(isUpdated);
 
@@ -88,14 +88,14 @@ public class BookMAOTest {
 
     @Test
     public void testUpdateBook_NotFound() {
-        Book nonExistentBook = new Book("Non-existent Book", "Unknown Author", "Unknown Genre");
+        Book nonExistentBook = new Book("Non-existent Book", "Unknown Author", "Unknown Genre", 20);
         boolean isUpdated = bookMAO.updateBook(nonExistentBook);
         assertFalse(isUpdated, "Updating a non-existent book should return false.");
     }
 
     @Test
     public void testDeleteBook_Successful() {
-        Book bookToDelete = new Book("It", "Stephen King", "Horror");
+        Book bookToDelete = new Book("It", "Stephen King", "Horror", 20);
         boolean isDeleted = bookMAO.deleteBook(bookToDelete);
         assertTrue(isDeleted);
 
@@ -106,7 +106,7 @@ public class BookMAOTest {
 
     @Test
     public void testDeleteBook_NotFound() {
-        Book nonExistentBook = new Book("Non-existent Book", "Unknown Author", "Unknown Genre");
+        Book nonExistentBook = new Book("Non-existent Book", "Unknown Author", "Unknown Genre", 20);
         boolean isDeleted = bookMAO.deleteBook(nonExistentBook);
         assertFalse(isDeleted, "Deleting a non-existent book should return false.");
     }
