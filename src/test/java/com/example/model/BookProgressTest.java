@@ -14,7 +14,7 @@ public class BookProgressTest {
 
     @BeforeEach
     public void setUp() {
-        bookProgress = new BookProgress(1, 101, 201, 150);
+        bookProgress = new BookProgress(1, 101, 201, 5);
     }
 
     // Basic functionality tests
@@ -52,32 +52,32 @@ public class BookProgressTest {
     }
 
     @Test
-    public void testGetPageNumber() {
-        assertEquals(150, bookProgress.getPageNumber());
+    public void testGetChapterNumber() {
+        assertEquals(5, bookProgress.getChapterNumber());
     }
 
     @Test
-    public void testSetPageNumber() {
-        bookProgress.setPageNumber(160);
-        assertEquals(160, bookProgress.getPageNumber());
+    public void testSetChapterNumber() {
+        bookProgress.setChapterNumber(6);
+        assertEquals(6, bookProgress.getChapterNumber());
     }
 
     // Constructor tests
     @Test
     public void testConstructorWithId() {
-        BookProgress progressWithId = new BookProgress(2, 102, 202, 160);
+        BookProgress progressWithId = new BookProgress(2, 102, 202, 3);
         assertEquals(2, progressWithId.getId());
         assertEquals(102, progressWithId.getBookId());
         assertEquals(202, progressWithId.getUserId());
-        assertEquals(160, progressWithId.getPageNumber());
+        assertEquals(3, progressWithId.getChapterNumber());
     }
 
     @Test
     public void testConstructorWithoutId() {
-        BookProgress progressWithoutId = new BookProgress(103, 203, 170);
+        BookProgress progressWithoutId = new BookProgress(103, 203, 4);
         assertEquals(103, progressWithoutId.getBookId());
         assertEquals(203, progressWithoutId.getUserId());
-        assertEquals(170, progressWithoutId.getPageNumber());
+        assertEquals(4, progressWithoutId.getChapterNumber());
     }
 
     // Edge case tests
@@ -93,22 +93,22 @@ public class BookProgressTest {
     }
 
     @Test
-    public void testSetPageNumberNegative() {
-        assertThrows(IllegalArgumentException.class, () -> bookProgress.setPageNumber(-150));
+    public void testSetChapterNumberNegative() {
+        assertThrows(IllegalArgumentException.class, () -> bookProgress.setChapterNumber(-5));
     }
 
     @Test
     public void testConstructorInvalidBookId() {
-        assertThrows(IllegalArgumentException.class, () -> new BookProgress(-102, 202, 150));
+        assertThrows(IllegalArgumentException.class, () -> new BookProgress(-102, 202, 5));
     }
 
     @Test
     public void testConstructorInvalidUserId() {
-        assertThrows(IllegalArgumentException.class, () -> new BookProgress(102, -202, 150));
+        assertThrows(IllegalArgumentException.class, () -> new BookProgress(102, -202, 5));
     }
 
     @Test
-    public void testConstructorInvalidPageNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new BookProgress(102, 202, -150));
+    public void testConstructorInvalidChapterNumber() {
+        assertThrows(IllegalArgumentException.class, () -> new BookProgress(102, 202, -5));
     }
 }

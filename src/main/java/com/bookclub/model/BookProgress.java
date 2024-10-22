@@ -56,10 +56,10 @@ public class BookProgress {
         return chapterNumber;
     }
 
-    public void setPageNumber(int pageNumber) {
-        if (pageNumber <= 0) {
-            throw new IllegalArgumentException("User ID must be a valid number.");
+    public void setChapterNumber(int chapterNumber) {
+        if (chapterNumber < 0) {
+            throw new IllegalArgumentException("Chapter Number must be a valid number.");
         }
-        this.pageNumber = pageNumber;
+        this.chapterNumber = chapterNumber;
     }
 }
