@@ -4,7 +4,6 @@ import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.model.User;
-import org.sonatype.guice.bean.containers.InjectedTestCase;
 
 import java.util.ArrayList;
 import java.util.List;

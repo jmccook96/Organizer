@@ -2,7 +2,6 @@ package com.bookclub.mao;
 
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
-import org.apache.commons.collections.functors.NullIsFalsePredicate;
 
 import java.util.HashMap;
 import java.util.Map;
