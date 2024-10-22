@@ -10,6 +10,7 @@ public class Review {
     private static int MAX_RATING = 5;
     private static int MIN_RATING = 0;
     
+    // TODO: Use IDENTIFIERS instead of copies of user and book.
     private User user;
     private Book book;
     private int rating;
@@ -26,7 +27,7 @@ public class Review {
         this.book = book;
         this.rating = rating;
     }
-
+    
     /**
      * Returns the user who wrote the review.
      *

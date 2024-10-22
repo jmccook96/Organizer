@@ -58,7 +58,7 @@ public class RSVPMAO implements IRSVPAO {
     public List<RSVP> findRSVPsByUser(int userId) {
         List<RSVP> userRsvps = new ArrayList<>();
         for (RSVP rsvp : rsvps) {
-            if (rsvp.getEventId() == userId) {
+            if (rsvp.getUserId() == userId) {
                 userRsvps.add(rsvp);
             }
         }
@@ -80,7 +80,8 @@ public class RSVPMAO implements IRSVPAO {
      * @return True if the RSVP was updated successfully, false otherwise.
      */
     public boolean updateRSVP(RSVP rsvp) {
-        return rsvps.set(rsvps.indexOf(findRSVPByEventAndUser(rsvp.getEventId(), rsvp.getUserId())), rsvp) != null;
+        int rsvpIdx = rsvps.indexOf(findRSVPByEventAndUser(rsvp.getEventId(), rsvp.getUserId()));
+        return rsvpIdx != -1 && rsvps.set(rsvpIdx, rsvp) != null;
     }
 
     /**

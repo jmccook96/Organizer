@@ -107,7 +107,8 @@ public class ReviewMAO implements IReviewAO {
      * @return true if the review was updated successfully
      */
     public boolean updateReview(Review review) {
-        return reviews.set(reviews.indexOf(findReviewByUserAndBook(review.getUser(), review.getBook())), review) != null;
+        int reviewIdx = reviews.indexOf(findReviewByUserAndBook(review.getUser(), review.getBook()));
+        return reviewIdx >= 0 && reviews.set(reviewIdx, review) != null;
     }
 
     /**

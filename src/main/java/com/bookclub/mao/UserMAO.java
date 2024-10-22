@@ -30,10 +30,19 @@ public class UserMAO implements IUserAO {
     
     @Override
     public boolean addUser(User user) {
-        if (!users.containsKey(user.getId()))
-            return users.put(user.getId(), user) == null;
+        if (user == null) {
+            return false;
+        }
         
-        return users.put(idIndex++, user) == null;
+        // If we get passed an id in user, need to ensure it isn't occupied.
+        if (findUserById(user.getId()) != null) {
+            return false;
+        } else {
+            // We want to imbue our own ID before proceeding.
+            user.setId(++idIndex);
+        }
+        
+        return users.put(user.getId(), user) == null;
     }
 
     @Override
@@ -59,6 +68,6 @@ public class UserMAO implements IUserAO {
 
     @Override
     public boolean deleteUser(User user) {
-        return user != null && users.remove(user) != null;
+        return user != null && users.remove(user.getId()) != null;
     }
 }
