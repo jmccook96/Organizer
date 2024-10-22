@@ -2,6 +2,7 @@ package com.bookclub.mao;
 
 import com.bookclub.iao.IUserAO;
 import com.bookclub.model.User;
+import org.apache.commons.collections.functors.NullIsFalsePredicate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +31,13 @@ public class UserMAO implements IUserAO {
     
     @Override
     public boolean addUser(User user) {
-        if (!users.containsKey(user.getId()))
-            return users.put(user.getId(), user) == null;
+        if (user == null || user.getId() != -1) {
+            return false;
+        }
         
-        return users.put(idIndex++, user) == null;
+        // We want to imbue our own ID before proceeding.
+        user.setId(++idIndex);
+        return users.put(user.getId(), user) == null;
     }
 
     @Override
@@ -59,6 +63,6 @@ public class UserMAO implements IUserAO {
 
     @Override
     public boolean deleteUser(User user) {
-        return user != null && users.remove(user) != null;
+        return user != null && users.remove(user.getId()) != null;
     }
 }

@@ -4,6 +4,7 @@ import com.bookclub.iao.IReviewAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.model.User;
+import org.sonatype.guice.bean.containers.InjectedTestCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,8 @@ public class ReviewMAO implements IReviewAO {
      * @return true if the review was updated successfully
      */
     public boolean updateReview(Review review) {
-        return reviews.set(reviews.indexOf(findReviewByUserAndBook(review.getUser(), review.getBook())), review) != null;
+        int reviewIdx = reviews.indexOf(findReviewByUserAndBook(review.getUser(), review.getBook()));
+        return reviewIdx >= 0 && reviews.set(reviewIdx, review) != null;
     }
 
     /**
