@@ -22,24 +22,18 @@ public class ReviewMAO implements IReviewAO {
      */
     public ReviewMAO() {
         reviews = new ArrayList<>();
-        addTestData();
+        // addTestData();
     }
 
     /**
      * Adds test data to the reviews list for demonstration purposes.
      */
     private void addTestData() {
-        User user1 = new User("User1", "Password1");
-        User user2 = new User("User2", "Password2");
-        User user3 = new User("User3", "Password3");
-        Book book1 = new Book("It", "Stephen King","Horror", 659);
-        Book book2 = new Book("The Shining", "Stephen King","Horror",1129);
-
-        reviews.add(new Review(user1, book1, 1));
-        reviews.add(new Review(user2, book1, 3));
-        reviews.add(new Review(user3, book1, 5));
-        reviews.add(new Review(user1, book2, 2));
-        reviews.add(new Review(user2, book2, 4));
+        reviews.add(new Review(1, 1, 1));
+        reviews.add(new Review(2, 1, 3));
+        reviews.add(new Review(3, 1, 5));
+        reviews.add(new Review(1, 2, 2));
+        reviews.add(new Review(2, 2, 4));
     }
 
     /**
@@ -50,8 +44,12 @@ public class ReviewMAO implements IReviewAO {
      * @return the Review object if found, otherwise null
      */
     public Review findReviewByUserAndBook(User user, Book book) {
+        return findReviewByUserAndBook(user.getId(), book.getId());
+    }
+    
+    public Review findReviewByUserAndBook(int userId, int bookId) {
         for (Review review : reviews) {
-            if (review.getUser().equals(user) && review.getBook().equals(book)) {
+            if (review.getUserId() == userId && review.getBookId() == bookId) {
                 return review;
             }
         }
@@ -67,7 +65,7 @@ public class ReviewMAO implements IReviewAO {
     public List<Review> findReviewsByUser(User user) {
         List<Review> reviewsByUser = new ArrayList<>();
         for (Review review : reviews) {
-            if (review.getUser().equals(user)) {
+            if (review.getUserId() == user.getId()) {
                 reviewsByUser.add(review);
             }
         }
@@ -83,7 +81,7 @@ public class ReviewMAO implements IReviewAO {
     public List<Review> findReviewsByBook(Book book) {
         List<Review> reviewsByBook = new ArrayList<>();
         for (Review review : reviews) {
-            if (review.getBook().equals(book)) {
+            if (review.getBookId() == book.getId()) {
                 reviewsByBook.add(review);
             }
         }
@@ -107,7 +105,7 @@ public class ReviewMAO implements IReviewAO {
      * @return true if the review was updated successfully
      */
     public boolean updateReview(Review review) {
-        int reviewIdx = reviews.indexOf(findReviewByUserAndBook(review.getUser(), review.getBook()));
+        int reviewIdx = reviews.indexOf(findReviewByUserAndBook(review.getUserId(), review.getBookId()));
         return reviewIdx >= 0 && reviews.set(reviewIdx, review) != null;
     }
 
@@ -129,7 +127,7 @@ public class ReviewMAO implements IReviewAO {
      */
     @Override
     public void saveOrUpdateReview(Review review) {
-        Review existingReview = findReviewByUserAndBook(review.getUser(), review.getBook());
+        Review existingReview = findReviewByUserAndBook(review.getUserId(), review.getBookId());
         if (existingReview != null) {
             updateReview(review);
         } else {

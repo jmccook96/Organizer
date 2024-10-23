@@ -14,69 +14,70 @@ public class ReviewTest {
 
     private User user;
     private Book book;
-    private Review review;
+    private Review review1;
+    private Review review2;
 
     @BeforeEach
     public void setUp() {
         user = new User("testUser", "testPassword");
         book = new Book(1, "testTitle", "testAuthor", "testGenre", 100);
-        review = new Review(user, book, 5);
+        review1 = new Review(user, book, 5);
+        
+        review2 = new Review(2, 2, 2);
     }
 
     // Basic functionality
     @Test
-    public void testGetUser() {
-        assertEquals(user, review.getUser());
+    public void testGetUserId() {
+        assertEquals(user.getId(), review1.getUserId());
     }
 
     @Test
-    public void testGetBook() {
-        assertEquals(book, review.getBook());
+    public void testGetBookId() {
+        assertEquals(2, review2.getBookId());
     }
 
     @Test
     public void testGetRating() {
-        assertEquals(5, review.getRating());
+        assertEquals(5, review1.getRating());
     }
 
     @Test
     public void testSetRating() {
-        review.setRating(1);
-        assertEquals(1, review.getRating());
+        review1.setRating(1);
+        assertEquals(1, review1.getRating());
     }
 
     // Edge cases
     @Test
     public void testSetRatingInvalidLowValue() {
-        assertThrows(IllegalArgumentException.class, () -> review.setRating(-1));
+        assertThrows(IllegalArgumentException.class, () -> review2.setRating(-1));
     }
 
     @Test
     public void testSetRatingInvalidHighValue() {
-        assertThrows(IllegalArgumentException.class, () -> review.setRating(11));
+        assertThrows(IllegalArgumentException.class, () -> review1.setRating(11));
     }
 
     @Test
     public void testNullUser() {
-        Review nullUserReview = new Review(null, book, 3);
-        assertNull(nullUserReview.getUser());
+        assertThrows(IllegalArgumentException.class, () -> new Review(null, book, 3));
     }
 
     @Test
     public void testNullBook() {
-        Review nullBookReview = new Review(user, null, 3);
-        assertNull(nullBookReview.getBook());
+        assertThrows(IllegalArgumentException.class, () -> new Review(user, null, 3));
     }
 
     @Test
     public void testZeroRating() {
-        review.setRating(0);
-        assertEquals(0, review.getRating());
+        review1.setRating(0);
+        assertEquals(0, review1.getRating());
     }
 
     @Test
     public void testMaxRating() {
-        review.setRating(5);
-        assertEquals(5, review.getRating());
+        review1.setRating(5);
+        assertEquals(5, review1.getRating());
     }
 }

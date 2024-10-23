@@ -20,6 +20,14 @@ public interface IReviewAO {
     Review findReviewByUserAndBook(User user, Book book);
 
     /**
+     * Retrieves a review from the database based on the userId and bookId
+     * @param userId The userID to retrieve the review for
+     * @param bookId The book to retrieve the review for
+     * @return The review by the given userId for the given book, or null if not found.
+     */
+    Review findReviewByUserAndBook(int userId, int bookId);
+
+    /**
      * Retrieves a list of reviews from the database based on the user
      * @param user The user to retrieve reviews for
      * @return A list of reviews by the given user.
