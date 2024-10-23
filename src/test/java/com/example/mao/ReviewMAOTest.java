@@ -13,8 +13,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReviewMAOTest {
-    // TODO: FIX THE ERRORS WITH THE COMMENTED OUT TESTS.
-    // TODO: NEEDS TO BE REVISITED ONCE WE PIVOT OUT OF REVIEWS HOLDING A COPY OF THE BOOK AND USER.
     private ReviewMAO reviewMAO;
     private User user1;
     private User user2;
@@ -41,11 +39,12 @@ public class ReviewMAOTest {
     }
 
     // Test findReviewByUserAndBook
-    //@Test
+    @Test
     public void testFindReviewByUserAndBookFound() {
-        Review foundReview = reviewMAO.findReviewByUserAndBook(user1, book1);
+        reviewMAO.addReview(new Review(user1, book1, 4));
+        Review foundReview = reviewMAO.findReviewByUserAndBook(user1.getId(), book1.getId());
         assertNotNull(foundReview);
-        assertEquals(1, foundReview.getRating());
+        assertEquals(4, foundReview.getRating());
     }
 
     @Test
@@ -55,8 +54,11 @@ public class ReviewMAOTest {
     }
 
     // Test findReviewsByUser
-    //@Test
+    @Test
     public void testFindReviewsByUser() {
+        reviewMAO.addReview(new Review(user1, book1, 4));
+        reviewMAO.addReview(new Review(user1.getId(), 6, 5));
+        
         List<Review> reviews = reviewMAO.findReviewsByUser(user1);
         assertNotNull(reviews);
         assertEquals(2, reviews.size()); // user1 has reviews for 2 books
@@ -72,9 +74,13 @@ public class ReviewMAOTest {
     // Test findReviewsByBook
     @Test
     public void testFindReviewsByBook() {
+        reviewMAO.addReview(new Review(user1, book1, 4));
+        reviewMAO.addReview(new Review(3, book1.getId(), 8));
+        reviewMAO.addReview(new Review(user1.getId(), 6, 5));
+
         List<Review> reviews = reviewMAO.findReviewsByBook(book1);
         assertNotNull(reviews);
-        assertEquals(3, reviews.size()); // book1 has 3 reviews
+        assertEquals(2, reviews.size()); // book1 has 3 reviews
     }
 
     @Test
@@ -85,8 +91,9 @@ public class ReviewMAOTest {
     }
 
     // Test updateReview
-    //@Test
+    @Test
     public void testUpdateReviewSuccess() {
+        reviewMAO.addReview(new Review(user1, book1, 4));
         Review existingReview = reviewMAO.findReviewByUserAndBook(user1, book1);
         Review updatedReview = new Review(user1, book1, 5); // Change rating to 5
 
@@ -106,8 +113,9 @@ public class ReviewMAOTest {
     }
 
     // Test deleteReview
-    //@Test
+    @Test
     public void testDeleteReviewSuccess() {
+        reviewMAO.addReview(new Review(user1, book1, 4));
         Review existingReview = reviewMAO.findReviewByUserAndBook(user1, book1);
 
         boolean result = reviewMAO.deleteReview(existingReview);
@@ -142,7 +150,7 @@ public class ReviewMAOTest {
         Review newReview = new Review(user1, new Book("New Book", "New Author", "New Genre", 300), 4);
         reviewMAO.saveOrUpdateReview(newReview);
 
-        Review foundReview = reviewMAO.findReviewByUserAndBook(user1, newReview.getBook());
+        Review foundReview = reviewMAO.findReviewByUserAndBook(user1.getId(), newReview.getBookId());
         assertNotNull(foundReview);
         assertEquals(4, foundReview.getRating());
     }

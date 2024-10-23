@@ -10,9 +10,8 @@ public class Review {
     private static int MAX_RATING = 5;
     private static int MIN_RATING = 0;
     
-    // TODO: Use IDENTIFIERS instead of copies of user and book.
-    private User user;
-    private Book book;
+    private int userId;
+    private int bookId;
     private int rating;
 
     /**
@@ -23,29 +22,41 @@ public class Review {
      * @param rating the rating given to the book
      */
     public Review(User user, Book book, int rating) {
-        this.user = user;
-        this.book = book;
+        if (user == null || book == null) {
+            throw new IllegalArgumentException("User and book cannot be null.");
+        }
+        
+        this.userId = user.getId();
+        this.bookId = book.getId();
         this.rating = rating;
     }
+
+    /**
+     * Constructs a {@code Review} object with the specified userId, bookId and rating.
+     * @param userId users id who wrote the review
+     * @param bookId books id being reviewed
+     * @param rating the rating given to the book.
+     */
+    public Review(int userId, int bookId, int rating) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.rating = rating;
+    }
+
+    /**
+     * Returns the userId that owns the review
+     * 
+     * @return the userId of the review
+     */
+    public int getUserId() { return userId; }
+
+    /**
+     * Returns the bookId that the review is about
+     * 
+     * @return the bookId of the review
+     */
+    public int getBookId() { return bookId; }
     
-    /**
-     * Returns the user who wrote the review.
-     *
-     * @return the user who wrote the review
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Returns the book being reviewed.
-     *
-     * @return the book being reviewed
-     */
-    public Book getBook() {
-        return book;
-    }
-
     /**
      * Returns the rating given to the book.
      *
