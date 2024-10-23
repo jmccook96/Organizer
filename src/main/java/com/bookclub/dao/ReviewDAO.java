@@ -134,15 +134,29 @@ public class ReviewDAO implements IReviewAO {
                 // Review already exists for this user and book
                 return false;
             }
+
             // Proceed to add the review
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Reviews (bookId, username, rating, topic, description) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "INSERT INTO Reviews (bookId, username, rating, topic, description) VALUES (?, ?, ?, ?, ?)"
+            );
             statement.setInt(1, review.getBook().getId());
             statement.setString(2, review.getUser().getUsername());
             statement.setInt(3, review.getRating());
-            statement.setString(4, review.getTopic());
-            statement.setString(5, review.getDescription());
-            statement.executeUpdate();
 
+            // Check for optional topic and description
+            if (review.getTopic() != null) {
+                statement.setString(4, review.getTopic());
+            } else {
+                statement.setNull(4, java.sql.Types.VARCHAR);
+            }
+
+            if (review.getDescription() != null) {
+                statement.setString(5, review.getDescription());
+            } else {
+                statement.setNull(5, java.sql.Types.VARCHAR);
+            }
+
+            statement.executeUpdate();
         }
         catch (Exception e) {
             e.printStackTrace();
