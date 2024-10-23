@@ -14,6 +14,8 @@ public class Review {
     private User user;
     private Book book;
     private int rating;
+    private String topic;
+    private String description;
 
     /**
      * Constructs a {@code Review} object with the specified user, book, and rating.
@@ -21,13 +23,33 @@ public class Review {
      * @param user   the user who wrote the review
      * @param book   the book being reviewed
      * @param rating the rating given to the book
+     * @param topic  the topic of the review
+     * @param description the description of the review
      */
-    public Review(User user, Book book, int rating) {
+    public Review(User user, Book book, int rating, String topic, String description) {
         this.user = user;
         this.book = book;
         this.rating = rating;
+        this.topic = topic;
+        this.description = description;
     }
-    
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     /**
      * Returns the user who wrote the review.
      *

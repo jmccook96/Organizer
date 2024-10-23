@@ -35,11 +35,11 @@ public class ReviewMAO implements IReviewAO {
         Book book1 = new Book("It", "Stephen King","Horror", 659);
         Book book2 = new Book("The Shining", "Stephen King","Horror",1129);
 
-        reviews.add(new Review(user1, book1, 1));
-        reviews.add(new Review(user2, book1, 3));
-        reviews.add(new Review(user3, book1, 5));
-        reviews.add(new Review(user1, book2, 2));
-        reviews.add(new Review(user2, book2, 4));
+        reviews.add(new Review(user1, book1, 1, "Review topic 1", "Description for review 1"));
+        reviews.add(new Review(user2, book1, 3, "Review topic 2", "Description for review 2"));
+        reviews.add(new Review(user3, book1, 5, "Review topic 3", "Description for review 3"));
+        reviews.add(new Review(user1, book2, 2, "Review topic 4", "Description for review 4"));
+        reviews.add(new Review(user2, book2, 4, "Review topic 5", "Description for review 5"));
     }
 
     /**

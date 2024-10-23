@@ -31,7 +31,7 @@ public class ReviewMAOTest {
     // Test addReview
     @Test
     public void testAddReview() {
-        Review newReview = new Review(user1, book1, 4);
+        Review newReview = new Review(user1, book1, 4, "Review topic 1", "Description for review 1");
         boolean result = reviewMAO.addReview(newReview);
         assertTrue(result);
 
@@ -88,7 +88,7 @@ public class ReviewMAOTest {
     //@Test
     public void testUpdateReviewSuccess() {
         Review existingReview = reviewMAO.findReviewByUserAndBook(user1, book1);
-        Review updatedReview = new Review(user1, book1, 5); // Change rating to 5
+        Review updatedReview = new Review(user1, book1, 5, "Review topic", "Description for review"); // Change rating to 5
 
         boolean result = reviewMAO.updateReview(updatedReview);
         assertTrue(result);
@@ -100,7 +100,7 @@ public class ReviewMAOTest {
 
     @Test
     public void testUpdateReviewFailure() {
-        Review nonExistentReview = new Review(user1, new Book("Unknown Book", "Unknown Author", "Unknown Genre", 200), 3);
+        Review nonExistentReview = new Review(user1, new Book("Unknown Book", "Unknown Author", "Unknown Genre", 200), 3, "Review topic", "Description for review");
         boolean result = reviewMAO.updateReview(nonExistentReview);
         assertFalse(result);
     }
@@ -119,7 +119,7 @@ public class ReviewMAOTest {
 
     @Test
     public void testDeleteReviewFailure() {
-        Review nonExistentReview = new Review(user1, new Book("Unknown Book", "Unknown Author", "Unknown Genre", 200), 3);
+        Review nonExistentReview = new Review(user1, new Book("Unknown Book", "Unknown Author", "Unknown Genre", 200), 3, "Review topic", "Description for review");
         boolean result = reviewMAO.deleteReview(nonExistentReview);
         assertFalse(result);
     }
@@ -128,7 +128,7 @@ public class ReviewMAOTest {
     @Test
     public void testSaveOrUpdateReviewUpdateExisting() {
         Review existingReview = reviewMAO.findReviewByUserAndBook(user1, book1);
-        Review updatedReview = new Review(user1, book1, 4);
+        Review updatedReview = new Review(user1, book1, 4, "Review topic 1", "Description for review 1");
 
         reviewMAO.saveOrUpdateReview(updatedReview);
 
@@ -139,7 +139,7 @@ public class ReviewMAOTest {
 
     @Test
     public void testSaveOrUpdateReviewAddNew() {
-        Review newReview = new Review(user1, new Book("New Book", "New Author", "New Genre", 300), 4);
+        Review newReview = new Review(user1, new Book("New Book", "New Author", "New Genre", 300), 4, "New Review topic", "New Description for review");
         reviewMAO.saveOrUpdateReview(newReview);
 
         Review foundReview = reviewMAO.findReviewByUserAndBook(user1, newReview.getBook());
