@@ -8,6 +8,7 @@ import com.bookclub.util.DatabaseManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +40,19 @@ public class ReviewDAO implements IReviewAO {
      */
     @Override
     public Review findReviewByUserAndBook(User user, Book book) {
+        return findReviewByUserAndBook(user.getId(), book.getId());
+        
+    }
+
+    @Override
+    public Review findReviewByUserAndBook(int userId, int bookId) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Reviews WHERE bookId = ? AND username = ?");
-            statement.setInt(1, book.getId());
-            statement.setString(2, user.getUsername());
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT * FROM Reviews WHERE bookId = ? AND userId = ?");
+            statement.setInt(1, bookId);
+            statement.setInt(2, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int rating = resultSet.getInt("rating");
-                Review review = new Review(user, book, rating);
-                return review;
+                return createReview(resultSet);
             }
         }
         catch (Exception e) {
@@ -70,15 +75,7 @@ public class ReviewDAO implements IReviewAO {
             statement.setString(1, user.getUsername());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int bookId = resultSet.getInt("bookId");
-                String bookTitle = resultSet.getString("bookTitle");
-                String bookAuthor = resultSet.getString("bookAuthor");
-                String bookGenre = resultSet.getString("bookGenre");
-                int totalChapters = resultSet.getInt("totalChapters");
-                int rating = resultSet.getInt("rating");
-                Book book = new Book(bookId, bookTitle, bookAuthor, bookGenre, totalChapters);
-                Review review = new Review(user, book, rating);
-                reviews.add(review);
+                reviews.add(createReview(resultSet));
             }
         }
         catch (Exception e) {
@@ -101,12 +98,7 @@ public class ReviewDAO implements IReviewAO {
             statement.setInt(1, book.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String username = resultSet.getString("username");
-                int rating = resultSet.getInt("rating");
-                // TODO: Change Review implementation so we don't have to do this
-                User user = new User(username, "somePassword");
-                Review review = new Review(user, book, rating);
-                reviews.add(review);
+                reviews.add(createReview(resultSet));
             }
         }
         catch (Exception e) {
@@ -124,9 +116,9 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean addReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Reviews (bookId, username, rating) VALUES (?, ?, ?)");
-            statement.setInt(1, review.getBook().getId());
-            statement.setString(2, review.getUser().getUsername());
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Reviews (bookId, userId, rating) VALUES (?, ?, ?)");
+            statement.setInt(1, review.getBookId());
+            statement.setInt(2, review.getUserId());
             statement.setInt(3, review.getRating());
             statement.executeUpdate();
         }
@@ -146,12 +138,12 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean updateReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Reviews SET bookId = ?, username = ?, rating = ? WHERE bookID = ? AND username = ?");
-            statement.setInt(1, review.getBook().getId());
-            statement.setString(2, review.getUser().getUsername());
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Reviews SET bookId = ?, userId = ?, rating = ? WHERE bookID = ? AND userId = ?");
+            statement.setInt(1, review.getBookId());
+            statement.setInt(2, review.getUserId());
             statement.setInt(3, review.getRating());
-            statement.setInt(4, review.getBook().getId());
-            statement.setString(5, review.getUser().getUsername());
+            statement.setInt(4, review.getBookId());
+            statement.setInt(5, review.getUserId());
             statement.executeUpdate();
         }
         catch (Exception e) {
@@ -169,9 +161,9 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean deleteReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("DELETE FROM Reviews WHERE bookId = ? AND username = ? AND rating = ?");
-            statement.setInt(1, review.getBook().getId());
-            statement.setString(2, review.getUser().getUsername());
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("DELETE FROM Reviews WHERE bookId = ? AND userId = ? AND rating = ?");
+            statement.setInt(1, review.getBookId());
+            statement.setInt(2, review.getUserId());
             statement.setInt(3, review.getRating());
             statement.executeUpdate();
         }
@@ -189,7 +181,7 @@ public class ReviewDAO implements IReviewAO {
      */
     @Override
     public void saveOrUpdateReview(Review review) {
-        Review existingReview = findReviewByUserAndBook(review.getUser(), review.getBook());
+        Review existingReview = findReviewByUserAndBook(review.getUserId(), review.getBookId());
 
         if (existingReview != null) {
             updateReview(review);
@@ -197,20 +189,34 @@ public class ReviewDAO implements IReviewAO {
             addReview(review);
         }
     }
+    
+    private Review createReview(ResultSet resultSet) {
+        try {
+            return new Review(
+                    resultSet.getInt("userId"),
+                    resultSet.getInt("bookId"),
+                    resultSet.getInt("rating")
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
 
     /**
      * Creates the Reviews table in the database if it does not already exist.
      */
     private void createTable() {
         // Create table if not exists
+        String query = "CREATE TABLE IF NOT EXISTS Reviews ("
+                + "reviewId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "bookId INTEGER NOT NULL,"
+                + "userId INTEGER NOT NULL,"
+                + "rating INTEGER NOT NULL"
+                + ")";
         try {
             Statement statement = dbManager.getConnection().createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS Reviews ("
-                    + "reviewId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "bookId INTEGER NOT NULL,"
-                    + "username VARCHAR NOT NULL,"
-                    + "rating INTEGER NOT NULL" // Required rating for now
-                    + ")";
             statement.execute(query);
         }
         catch (Exception e) {

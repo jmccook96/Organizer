@@ -1,7 +1,9 @@
 package com.bookclub.controller;
 
 import com.bookclub.dao.ReviewDAO;
+import com.bookclub.dao.UserDAO;
 import com.bookclub.iao.IReviewAO;
+import com.bookclub.iao.IUserAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.model.User;
@@ -31,7 +33,9 @@ import java.util.List;
  */
 public class ReviewController {
 
+    // TODO: Migrate out of controller into a service.
     private IReviewAO reviewAO;
+    private IUserAO userAO;
     private Book selectedBook;
     private User currentUser;
     private BookService bookService;
@@ -57,6 +61,7 @@ public class ReviewController {
      */
     public ReviewController() {
         reviewAO = new ReviewDAO();
+        userAO = new UserDAO();
         bookService = BookService.getInstance();
         currentUser = LoginService.getInstance().getCurrentUser(); // TODO: Remove this, is dangerous
     }
@@ -132,7 +137,7 @@ public class ReviewController {
                 Collections.reverse(reviews); // Latest rating at the top
                 for (Review review : reviews) {
                     HBox hBox = new HBox();
-                    hBox.getChildren().add(new Label(review.getUser().getUsername()));
+                    hBox.getChildren().add(new Label(getUsername(review)));
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
                     hBox.getChildren().add(spacer);
@@ -144,6 +149,21 @@ public class ReviewController {
         }
         else {
             showAlert("No Book Selected", "No book was selected to show reviews for.");
+        }
+    }
+
+    /**
+     * Fetches the username from the given review.
+     * @param review The review to fetch the username from
+     * @return The username
+     */
+    private String getUsername(Review review) {
+        User user = userAO.findUserById(review.getUserId());
+        if (user != null) {
+            return user.getUsername();
+        }
+        else {
+            return "Unknown";
         }
     }
 
