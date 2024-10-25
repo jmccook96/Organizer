@@ -75,7 +75,6 @@ public class ChatServiceTest {
     }
 
     // Test isActiveUsername
-    // TODO: Figure out how to implement.
     @Test
     public void testIsActiveUsername() {
         boolean isActive = chatService.isActiveUsername("User1");
