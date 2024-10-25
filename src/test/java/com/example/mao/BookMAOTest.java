@@ -93,7 +93,7 @@ public class BookMAOTest {
         boolean isAdded = bookMAO.addBook(newBook);
         assertTrue(isAdded);
         List<Book> allBooks = bookMAO.findAllBooks();
-        assertEquals(1, allBooks.size(), "There should be 7 books after adding a new one.");
+        assertEquals(1, allBooks.size(), "There should be 1 book after adding a new one.");
         assertTrue(allBooks.contains(newBook));
     }
 

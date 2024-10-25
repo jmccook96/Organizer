@@ -42,7 +42,6 @@ public class ChatMAOTest {
     public void testGetMessagesByChatIdSuccess() throws SQLException {
         List<ChatMessage> messages = chatMAO.GetMessagesByChatId(1);
         assertNotNull(messages);
-        messages = chatMAO.GetMessagesByChatId(1);
         assertEquals("Test Message", messages.get(0).getMessage());
         assertEquals("Another test message", messages.get(1).getMessage());
     }
