@@ -130,11 +130,6 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean addReview(Review review) {
         try {
-            if (findReviewByUserAndBook(review.getUser(), review.getBook()) != null) {
-                // Review already exists for this user and book
-                return false;
-            }
-
             // Proceed to add the review
             PreparedStatement statement = dbManager.getConnection().prepareStatement(
                     "INSERT INTO Reviews (bookId, username, rating, topic, description) VALUES (?, ?, ?, ?, ?)"
