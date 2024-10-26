@@ -116,10 +116,26 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean addReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Reviews (bookId, userId, rating) VALUES (?, ?, ?)");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "INSERT INTO Reviews (bookId, username, rating, topic, description) VALUES (?, ?, ?, ?, ?)"
+            );
             statement.setInt(1, review.getBookId());
             statement.setInt(2, review.getUserId());
             statement.setInt(3, review.getRating());
+
+            // Check for optional topic and description
+            if (review.getTopic() != null) {
+                statement.setString(4, review.getTopic());
+            } else {
+                statement.setNull(4, java.sql.Types.VARCHAR);
+            }
+
+            if (review.getDescription() != null) {
+                statement.setString(5, review.getDescription());
+            } else {
+                statement.setNull(5, java.sql.Types.VARCHAR);
+            }
+
             statement.executeUpdate();
         }
         catch (Exception e) {
@@ -138,16 +154,19 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean updateReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Reviews SET bookId = ?, userId = ?, rating = ? WHERE bookID = ? AND userId = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Reviews SET bookId = ?, username = ?, rating = ?, topic = ?, description = ? WHERE bookID = ? AND username = ?");
             statement.setInt(1, review.getBookId());
             statement.setInt(2, review.getUserId());
             statement.setInt(3, review.getRating());
+            statement.setString(4, review.getTopic());
+            statement.setString(5, review.getDescription());
             statement.setInt(4, review.getBookId());
             statement.setInt(5, review.getUserId());
             statement.executeUpdate();
         }
         catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }

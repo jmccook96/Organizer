@@ -22,8 +22,8 @@ public class ReviewTest {
         user = new User("testUser", "testPassword");
         book = new Book(1, "testTitle", "testAuthor", "testGenre", 100);
         review1 = new Review(user, book, 5);
-        
         review2 = new Review(2, 2, 2);
+        
     }
 
     // Basic functionality
@@ -79,5 +79,17 @@ public class ReviewTest {
     public void testMaxRating() {
         review1.setRating(5);
         assertEquals(5, review1.getRating());
+    }
+
+    @Test
+    public void testNullReviewTopic() {
+        Review nullTopicReview = new Review(user, book, 3, null, "Description for review");
+        assertNull(nullTopicReview.getTopic());
+    }
+
+    @Test
+    public void testNullReviewDescription() {
+        Review nullDescriptionReview = new Review(user, book, 3, "Review topic", null);
+        assertNull(nullDescriptionReview.getDescription());
     }
 }

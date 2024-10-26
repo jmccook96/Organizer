@@ -21,7 +21,7 @@ public class BookMAO implements IBookAO {
      */
     public BookMAO() {
         books = new ArrayList<>();
-        addTestData();
+        // addTestData();
     }
 
     /**

@@ -13,10 +13,7 @@ import com.bookclub.util.StageFactory;
 import com.bookclub.util.StageView;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -54,6 +51,10 @@ public class ReviewController {
     private Button backButton;
     @FXML
     private Label bookLabel;
+    @FXML
+    private TextField reviewTopicField;
+    @FXML
+    private TextArea reviewDescriptionField;
 
     /**
      * Initializes a new instance of ReviewController and sets up the review access object.
@@ -92,14 +93,19 @@ public class ReviewController {
     @FXML
     private void handleSubmitReview() {
         int rating = getSelectedRating();
+        String topic = reviewTopicField.getText();
+        String description = reviewDescriptionField.getText();
+
         Book book = bookService.getSelectedBook();
         Review existingReview = reviewAO.findReviewByUserAndBook(currentUser, book);
 
         if (existingReview != null) {
             existingReview.setRating(rating);
+            existingReview.setTopic(topic);
+            existingReview.setDescription(description);
             bookService.addOrUpdateReview(existingReview, book);
         } else {
-            Review newReview = new Review(currentUser, book, rating);
+            Review newReview = new Review(currentUser, book, rating, topic, description);
             bookService.addOrUpdateReview(newReview, book);
         }
 
@@ -132,22 +138,63 @@ public class ReviewController {
     private void updateRatings() {
         if (selectedBook != null) {
             List<Review> reviews = reviewAO.findReviewsByBook(selectedBook);
+            ratingsList.getItems().clear(); // Clear current ratings
+
             if (!reviews.isEmpty()) {
-                ratingsList.getItems().clear(); // Clear current ratings
-                Collections.reverse(reviews); // Latest rating at the top
+                Collections.reverse(reviews); // Show latest rating at the top
+
                 for (Review review : reviews) {
-                    HBox hBox = new HBox();
+                    // Horizontal box for layout (spacing of 10 between elements)
+                    HBox hBox = new HBox(10);
+
+                    // Vertical box for stacking user's details, review topic, and description
+                    VBox reviewDetails = new VBox(5);
+
+                    // Add the reviewer's username and rating in a horizontal layout
+                    HBox userRatingBox = new HBox(10); // New HBox for user and rating
+
                     hBox.getChildren().add(new Label(getUsername(review)));
+                    userLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+                    userRatingBox.getChildren().add(userLabel); // Add username to the HBox
+                    // Push the rating to the right
                     Region spacer = new Region();
-                    HBox.setHgrow(spacer, Priority.ALWAYS);
-                    hBox.getChildren().add(spacer);
-                    hBox.getChildren().add(new Rating(5, review.getRating()));
-                    hBox.setAlignment(Pos.CENTER);
+                    HBox.setHgrow(spacer, Priority.ALWAYS); // Allow the spacer to grow horizontally
+                    userRatingBox.getChildren().add(spacer); // Add spacer between username and rating
+
+                    Rating userRating = new Rating(5, review.getRating());
+                    userRating.setDisable(true); // Disable interaction
+                    userRatingBox.getChildren().add(userRating); // Add rating to the right of the spacer
+                    reviewDetails.getChildren().add(userRatingBox); // Add user and rating to the details VBox
+
+                    // Conditionally add the review topic and description if they are not empty
+                    if (review.getTopic() != null && !review.getTopic().isEmpty()) {
+                        Label topicLabel = new Label("Topic: " + review.getTopic());
+                        topicLabel.setStyle("-fx-font-weight: bold;");
+                        reviewDetails.getChildren().add(topicLabel);
+                    }
+
+                    if (review.getDescription() != null && !review.getDescription().isEmpty()) {
+                        Label descriptionLabel = new Label("Description: " + review.getDescription());
+                        descriptionLabel.setWrapText(true); // Enable wrapping for long descriptions
+                        reviewDetails.getChildren().add(descriptionLabel);
+                    }
+                    // Set VBox for the review details to expand to fill available space
+                    HBox.setHgrow(reviewDetails, Priority.ALWAYS);
+                    // Add the review details to the main HBox
+                    hBox.getChildren().add(reviewDetails);
+                    hBox.setAlignment(Pos.CENTER_LEFT); // Align elements to the left
+                    // Add the constructed HBox to the ListView
                     ratingsList.getItems().add(hBox);
                 }
+            } else {
+                // Show "No reviews available" message in an HBox
+                HBox noReviewsBox = new HBox();
+                Label noReviewsLabel = new Label("No reviews available for this book.");
+                noReviewsBox.getChildren().add(noReviewsLabel);
+                noReviewsBox.setAlignment(Pos.CENTER); // Center the message
+                ratingsList.getItems().add(noReviewsBox); // Add the HBox to the ListView
             }
-        }
-        else {
+        } else {
             showAlert("No Book Selected", "No book was selected to show reviews for.");
         }
     }
