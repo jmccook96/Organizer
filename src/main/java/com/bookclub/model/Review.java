@@ -9,6 +9,8 @@ public class Review {
 
     private static int MAX_RATING = 5;
     private static int MIN_RATING = 0;
+    private int userId;
+    private int bookId;
 
     // TODO: Use IDENTIFIERS instead of copies of user and book.
     private User user;
@@ -25,23 +27,39 @@ public class Review {
      * @param rating the rating given to the book
      */
     public Review(User user, Book book, int rating) {
-        this.user = user;
-        this.book = book;
+        if (user == null || book == null) {
+            throw new IllegalArgumentException("User and book cannot be null.");
+        }
+        
+        this.userId = user.getId();
+        this.bookId = book.getId();
+        this.rating = rating;
+    }
+
+    /**
+     * Constructs a {@code Review} object with the specified userId, bookId and rating.
+     * @param userId users id who wrote the review
+     * @param bookId books id being reviewed
+     * @param rating the rating given to the book.
+     */
+    public Review(int userId, int bookId, int rating) {
+        this.userId = userId;
+        this.bookId = bookId;
         this.rating = rating;
     }
 
     /**
      * Constructs a {@code Review} object with the specified user, book, and rating.
      *
-     * @param user   the user who wrote the review
-     * @param book   the book being reviewed
+     * @param userId users id who wrote the review
+     * @param bookId books id being reviewed
      * @param rating the rating given to the book
      * @param topic  the topic of the review
      * @param description the description of the review
      */
-    public Review(User user, Book book, int rating, String topic, String description) {
-        this.user = user;
-        this.book = book;
+    public Review(int userId, int bookId, int rating, String topic, String description) {
+        this.userId = userId;
+        this.bookId = bookId;
         this.rating = rating;
         this.topic = topic;
         this.description = description;
@@ -84,23 +102,19 @@ public class Review {
     }
 
     /**
-     * Returns the user who wrote the review.
-     *
-     * @return the user who wrote the review
+     * Returns the userId that owns the review
+     * 
+     * @return the userId of the review
      */
-    public User getUser() {
-        return user;
-    }
+    public int getUserId() { return userId; }
 
     /**
-     * Returns the book being reviewed.
-     *
-     * @return the book being reviewed
+     * Returns the bookId that the review is about
+     * 
+     * @return the bookId of the review
      */
-    public Book getBook() {
-        return book;
-    }
-
+    public int getBookId() { return bookId; }
+    
     /**
      * Returns the rating given to the book.
      *

@@ -1,7 +1,9 @@
 package com.bookclub.controller;
 
 import com.bookclub.dao.ReviewDAO;
+import com.bookclub.dao.UserDAO;
 import com.bookclub.iao.IReviewAO;
+import com.bookclub.iao.IUserAO;
 import com.bookclub.model.Book;
 import com.bookclub.model.Review;
 import com.bookclub.model.User;
@@ -28,7 +30,9 @@ import java.util.List;
  */
 public class ReviewController {
 
+    // TODO: Migrate out of controller into a service.
     private IReviewAO reviewAO;
+    private IUserAO userAO;
     private Book selectedBook;
     private User currentUser;
     private BookService bookService;
@@ -58,6 +62,7 @@ public class ReviewController {
      */
     public ReviewController() {
         reviewAO = new ReviewDAO();
+        userAO = new UserDAO();
         bookService = BookService.getInstance();
         currentUser = LoginService.getInstance().getCurrentUser(); // TODO: Remove this, is dangerous
     }
@@ -100,7 +105,7 @@ public class ReviewController {
             existingReview.setDescription(description);
             bookService.addOrUpdateReview(existingReview, book);
         } else {
-            Review newReview = new Review(currentUser, book, rating, topic, description);
+            Review newReview = new Review(currentUser.getId(), book.getId(), rating, topic, description);
             bookService.addOrUpdateReview(newReview, book);
         }
 
@@ -148,7 +153,7 @@ public class ReviewController {
                     // Add the reviewer's username and rating in a horizontal layout
                     HBox userRatingBox = new HBox(10); // New HBox for user and rating
 
-                    Label userLabel = new Label(review.getUser().getUsername());
+                    Label userLabel = new Label(getUsername(review));
                     userLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
                     userRatingBox.getChildren().add(userLabel); // Add username to the HBox
                     // Push the rating to the right
@@ -191,6 +196,21 @@ public class ReviewController {
             }
         } else {
             showAlert("No Book Selected", "No book was selected to show reviews for.");
+        }
+    }
+
+    /**
+     * Fetches the username from the given review.
+     * @param review The review to fetch the username from
+     * @return The username
+     */
+    private String getUsername(Review review) {
+        User user = userAO.findUserById(review.getUserId());
+        if (user != null) {
+            return user.getUsername();
+        }
+        else {
+            return "Unknown";
         }
     }
 
