@@ -41,17 +41,25 @@ public class Review {
      * @param userId users id who wrote the review
      * @param bookId books id being reviewed
      * @param rating the rating given to the book.
+     */
+    public Review(int userId, int bookId, int rating) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.rating = rating;
+    }
+
+    /**
      * Constructs a {@code Review} object with the specified user, book, and rating.
      *
-     * @param user   the user who wrote the review
-     * @param book   the book being reviewed
+     * @param userId users id who wrote the review
+     * @param bookId books id being reviewed
      * @param rating the rating given to the book
      * @param topic  the topic of the review
      * @param description the description of the review
      */
-    public Review(User user, Book book, int rating, String topic, String description) {
-        this.user = user;
-        this.book = book;
+    public Review(int userId, int bookId, int rating, String topic, String description) {
+        this.userId = userId;
+        this.bookId = bookId;
         this.rating = rating;
         this.topic = topic;
         this.description = description;
@@ -91,17 +99,6 @@ public class Review {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Returns the user who wrote the review.
-     *
-     * @return the user who wrote the review
-     */
-    public Review(int userId, int bookId, int rating) {
-        this.userId = userId;
-        this.bookId = bookId;
-        this.rating = rating;
     }
 
     /**

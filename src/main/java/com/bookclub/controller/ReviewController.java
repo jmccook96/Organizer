@@ -105,7 +105,7 @@ public class ReviewController {
             existingReview.setDescription(description);
             bookService.addOrUpdateReview(existingReview, book);
         } else {
-            Review newReview = new Review(currentUser, book, rating, topic, description);
+            Review newReview = new Review(currentUser.getId(), book.getId(), rating, topic, description);
             bookService.addOrUpdateReview(newReview, book);
         }
 
@@ -153,7 +153,7 @@ public class ReviewController {
                     // Add the reviewer's username and rating in a horizontal layout
                     HBox userRatingBox = new HBox(10); // New HBox for user and rating
 
-                    hBox.getChildren().add(new Label(getUsername(review)));
+                    Label userLabel = new Label(getUsername(review));
                     userLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
                     userRatingBox.getChildren().add(userLabel); // Add username to the HBox
                     // Push the rating to the right

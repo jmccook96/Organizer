@@ -41,7 +41,6 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public Review findReviewByUserAndBook(User user, Book book) {
         return findReviewByUserAndBook(user.getId(), book.getId());
-        
     }
 
     @Override
@@ -214,7 +213,9 @@ public class ReviewDAO implements IReviewAO {
             return new Review(
                     resultSet.getInt("userId"),
                     resultSet.getInt("bookId"),
-                    resultSet.getInt("rating")
+                    resultSet.getInt("rating"),
+                    resultSet.getString("topic"),
+                    resultSet.getString("description")
             );
         } catch (SQLException e) {
             e.printStackTrace();
@@ -232,7 +233,9 @@ public class ReviewDAO implements IReviewAO {
                 + "reviewId INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "bookId INTEGER NOT NULL,"
                 + "userId INTEGER NOT NULL,"
-                + "rating INTEGER NOT NULL"
+                + "rating INTEGER NOT NULL,"
+                + "topic VARCHAR,"
+                + "description TEXT"
                 + ")";
         try {
             Statement statement = dbManager.getConnection().createStatement();
