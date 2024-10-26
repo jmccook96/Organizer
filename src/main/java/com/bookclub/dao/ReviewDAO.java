@@ -46,7 +46,9 @@ public class ReviewDAO implements IReviewAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int rating = resultSet.getInt("rating");
-                Review review = new Review(user, book, rating);
+                String topic = resultSet.getString("topic");
+                String description = resultSet.getString("description");
+                Review review = new Review(user, book, rating, topic, description);
                 return review;
             }
         }
@@ -76,8 +78,10 @@ public class ReviewDAO implements IReviewAO {
                 String bookGenre = resultSet.getString("bookGenre");
                 int totalChapters = resultSet.getInt("totalChapters");
                 int rating = resultSet.getInt("rating");
+                String topic = resultSet.getString("topic");
+                String description = resultSet.getString("description");
                 Book book = new Book(bookId, bookTitle, bookAuthor, bookGenre, totalChapters);
-                Review review = new Review(user, book, rating);
+                Review review = new Review(user, book, rating, topic, description);
                 reviews.add(review);
             }
         }
@@ -103,9 +107,11 @@ public class ReviewDAO implements IReviewAO {
             while (resultSet.next()) {
                 String username = resultSet.getString("username");
                 int rating = resultSet.getInt("rating");
+                String topic = resultSet.getString("topic");
+                String description = resultSet.getString("description");
                 // TODO: Change Review implementation so we don't have to do this
                 User user = new User(username, "somePassword");
-                Review review = new Review(user, book, rating);
+                Review review = new Review(user, book, rating, topic, description);
                 reviews.add(review);
             }
         }
@@ -124,10 +130,27 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean addReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("INSERT INTO Reviews (bookId, username, rating) VALUES (?, ?, ?)");
+            // Proceed to add the review
+            PreparedStatement statement = dbManager.getConnection().prepareStatement(
+                    "INSERT INTO Reviews (bookId, username, rating, topic, description) VALUES (?, ?, ?, ?, ?)"
+            );
             statement.setInt(1, review.getBook().getId());
             statement.setString(2, review.getUser().getUsername());
             statement.setInt(3, review.getRating());
+
+            // Check for optional topic and description
+            if (review.getTopic() != null) {
+                statement.setString(4, review.getTopic());
+            } else {
+                statement.setNull(4, java.sql.Types.VARCHAR);
+            }
+
+            if (review.getDescription() != null) {
+                statement.setString(5, review.getDescription());
+            } else {
+                statement.setNull(5, java.sql.Types.VARCHAR);
+            }
+
             statement.executeUpdate();
         }
         catch (Exception e) {
@@ -146,16 +169,19 @@ public class ReviewDAO implements IReviewAO {
     @Override
     public boolean updateReview(Review review) {
         try {
-            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Reviews SET bookId = ?, username = ?, rating = ? WHERE bookID = ? AND username = ?");
+            PreparedStatement statement = dbManager.getConnection().prepareStatement("UPDATE Reviews SET bookId = ?, username = ?, rating = ?, topic = ?, description = ? WHERE bookID = ? AND username = ?");
             statement.setInt(1, review.getBook().getId());
             statement.setString(2, review.getUser().getUsername());
             statement.setInt(3, review.getRating());
-            statement.setInt(4, review.getBook().getId());
-            statement.setString(5, review.getUser().getUsername());
+            statement.setString(4, review.getTopic());
+            statement.setString(5, review.getDescription());
+            statement.setInt(6, review.getBook().getId());
+            statement.setString(7, review.getUser().getUsername());
             statement.executeUpdate();
         }
         catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -209,7 +235,9 @@ public class ReviewDAO implements IReviewAO {
                     + "reviewId INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "bookId INTEGER NOT NULL,"
                     + "username VARCHAR NOT NULL,"
-                    + "rating INTEGER NOT NULL" // Required rating for now
+                    + "rating INTEGER NOT NULL,"
+                    + "topic VARCHAR,"
+                    + "description TEXT"
                     + ")";
             statement.execute(query);
         }
