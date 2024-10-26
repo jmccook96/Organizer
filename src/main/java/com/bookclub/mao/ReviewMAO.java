@@ -22,7 +22,7 @@ public class ReviewMAO implements IReviewAO {
      */
     public ReviewMAO() {
         reviews = new ArrayList<>();
-        addTestData();
+        // addTestData();
     }
 
     /**

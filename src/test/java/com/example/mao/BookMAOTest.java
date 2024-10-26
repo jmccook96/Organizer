@@ -15,18 +15,29 @@ public class BookMAOTest {
 
     @BeforeEach
     public void setUp() {
-        bookMAO = new BookMAO();  // Set up the MAO with test data.
+        bookMAO = new BookMAO();
+    }
+
+    @Test
+    public void testFindNoBooks() {
+        List<Book> allBooks = bookMAO.findAllBooks();
+        assertNotNull(allBooks);
+        assertEquals(0, allBooks.size(), "There should be no books in the test data.");
     }
 
     @Test
     public void testFindAllBooks() {
+        bookMAO.addBook(new Book("It", "Stephen King", "Horror", 20));
+        bookMAO.addBook(new Book("The Shining", "Stephen King", "Horror", 447));
+        
         List<Book> allBooks = bookMAO.findAllBooks();
         assertNotNull(allBooks);
-        assertEquals(6, allBooks.size(), "There should be 6 books in the test data.");
+        assertEquals(2, allBooks.size(), "There should be 2 books in the test data.");
     }
 
     @Test
     public void testFindBookByTitleAndAuthor_Found() {
+        bookMAO.addBook(new Book("It", "Stephen King", "Horror", 20));
         Book foundBook = bookMAO.findBookByTitleAndAuthor("It", "Stephen King");
         assertNotNull(foundBook);
         assertEquals("It", foundBook.getTitle());
@@ -41,6 +52,8 @@ public class BookMAOTest {
 
     @Test
     public void testFindBooksByTitle() {
+        bookMAO.addBook(new Book("testTitle", "Stephen King","Horror", 30));
+        bookMAO.addBook(new Book("testTitle", "George Orwell","Horror", 30));
         List<Book> booksByTitle = bookMAO.findBooksByTitle("testTitle");
         assertNotNull(booksByTitle);
         assertEquals(2, booksByTitle.size(), "There should be 2 books with the title 'testTitle'.");
@@ -48,16 +61,24 @@ public class BookMAOTest {
 
     @Test
     public void testFindBooksByGenre() {
+        bookMAO.addBook(new Book("testTitle", "Stephen King","Horror", 30));
+        bookMAO.addBook(new Book("testTitle", "George Orwell","Horror", 30));
+        bookMAO.addBook(new Book("testTitle", "Test King","Test", 30));
+        bookMAO.addBook(new Book("testTitle", "George Test","NotHor", 30));
+        
         List<Book> horrorBooks = bookMAO.findBooksByGenre("Horror");
         assertNotNull(horrorBooks);
-        assertEquals(6, horrorBooks.size(), "There should be 6 horror books in the test data.");
+        assertEquals(2, horrorBooks.size(), "There should be 2 horror books in the test data.");
     }
 
     @Test
     public void testFindBooksByAuthor_Found() {
+        bookMAO.addBook(new Book("testTitle", "Stephen King","Horror", 30));
+        bookMAO.addBook(new Book("testTitle", "George Orwell","Horror", 30));
+        
         List<Book> booksByAuthor = bookMAO.findBooksByAuthor("Stephen King");
         assertNotNull(booksByAuthor);
-        assertEquals(3, booksByAuthor.size(), "There should be 3 books by Stephen King.");
+        assertEquals(1, booksByAuthor.size(), "There should be 1 book by Stephen King.");
     }
 
     @Test
@@ -72,12 +93,13 @@ public class BookMAOTest {
         boolean isAdded = bookMAO.addBook(newBook);
         assertTrue(isAdded);
         List<Book> allBooks = bookMAO.findAllBooks();
-        assertEquals(7, allBooks.size(), "There should be 7 books after adding a new one.");
+        assertEquals(1, allBooks.size(), "There should be 1 book after adding a new one.");
         assertTrue(allBooks.contains(newBook));
     }
 
     @Test
     public void testUpdateBook_Successful() {
+        bookMAO.addBook(new Book("It", "Stephen King", "Horror", 20));
         Book updatedBook = new Book("It", "Stephen King", "Thriller", 20);  // Change genre
         boolean isUpdated = bookMAO.updateBook(updatedBook);
         assertTrue(isUpdated);
@@ -96,11 +118,15 @@ public class BookMAOTest {
     @Test
     public void testDeleteBook_Successful() {
         Book bookToDelete = new Book("It", "Stephen King", "Horror", 20);
+        bookMAO.addBook(new Book("testTitle", "Stephen King","Horror", 30));
+        bookMAO.addBook(new Book("testTitle", "George Orwell","Horror", 30));
+        bookMAO.addBook(bookToDelete);
+        
         boolean isDeleted = bookMAO.deleteBook(bookToDelete);
         assertTrue(isDeleted);
 
         List<Book> allBooks = bookMAO.findAllBooks();
-        assertEquals(5, allBooks.size(), "There should be 5 books after deletion.");
+        assertEquals(2, allBooks.size(), "There should be 2 books after deletion.");
         assertFalse(allBooks.contains(bookToDelete));
     }
 

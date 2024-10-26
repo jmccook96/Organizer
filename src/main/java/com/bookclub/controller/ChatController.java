@@ -1,5 +1,7 @@
 package com.bookclub.controller;
 
+import com.bookclub.dao.ChatDAO;
+import com.bookclub.dao.UserDAO;
 import com.bookclub.service.ChatService;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -18,6 +20,10 @@ public class ChatController {
     static private final String messageFormattingStyle = 
             "-fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: ";
 
+    public ChatController() {
+        ChatService.initialize(new ChatDAO(), new UserDAO());
+    }
+    
     @FXML public void initialize() {
         setChatTitleLabel("Default Chat Title");
         reloadChatMessages();
